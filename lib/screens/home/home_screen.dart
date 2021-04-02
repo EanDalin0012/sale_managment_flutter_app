@@ -4,6 +4,7 @@ import 'package:sale_managment/screens/home/home_container_screen.dart';
 import 'package:sale_managment/screens/notification/notification_screen.dart';
 import 'package:sale_managment/screens/sale/sale_screen.dart';
 import 'package:sale_managment/screens/sign_in/sign_in_screen.dart';
+import 'package:sale_managment/screens/widgets/simple_bar_chart.dart';
 import 'package:sale_managment/share/constant/constantcolor.dart';
 
 class HomeScreen extends StatefulWidget {

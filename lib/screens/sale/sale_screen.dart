@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:sale_managment/share/constant/icon/custome_icon.dart';
 
 class SaleScreen extends StatefulWidget {
   @override
@@ -9,104 +12,165 @@ class SaleScreen extends StatefulWidget {
 class _SaleScreenState extends State<SaleScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).buttonColor,
-      body: _buildBody(context),
+    return SingleChildScrollView(
+        child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          ProfileCategories(),
+        ])
     );
   }
+}
 
-  SliverPadding _buildActivities(BuildContext context) {
-    return SliverPadding(
-      padding: const EdgeInsets.all(16.0),
-      sliver: SliverToBoxAdapter(
-        child: _buildTitledContainer(
-          "Activities",
-          height: 280,
-          child: Expanded(
-            child: GridView.count(
-              physics: NeverScrollableScrollPhysics(),
-              crossAxisCount: 3,
-              children: activities
-                  .map(
-                    (activity) => Column(
-                  children: <Widget>[
-                    CircleAvatar(
-                      radius: 20,
-                      backgroundColor: Theme.of(context).buttonColor,
-                      child: activity.icon != null
-                          ? Icon(
-                        activity.icon,
-                        size: 18.0,
-                      )
-                          : null,
-                    ),
-                    const SizedBox(height: 5.0),
-                    Text(
-                      activity.title,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 14.0),
-                    ),
-                  ],
-                ),
-              )
-                  .toList(),
+class Catg {
+  String name;
+  IconData icon;
+  int number;
+  Catg({this.icon, this.name, this.number});
+}
+
+
+List<Catg> listProfileCategories = [
+  Catg(name: 'Wallet', icon: CustomIcon.account_balance_wallet, number: 0),
+  Catg(name: 'Delivery', icon: CustomIcon.truck, number: 0),
+  Catg(name: 'Message', icon: CustomIcon.chat, number: 2),
+  Catg(name: 'Service', icon: CustomIcon.money, number: 0),
+];
+
+class FurnitureCategory extends StatelessWidget {
+  final FurnitureCatg item;
+  FurnitureCategory({@required this.item});
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.center,
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 25.0),
+        child: Transform.rotate(
+          angle: pi / 4,
+          child: Container(
+            padding: EdgeInsets.all(10.0),
+            decoration: BoxDecoration(
+              boxShadow: [
+                if (item.elivation)
+                  BoxShadow(
+                    color: Color(0xFFD1DCFF),
+                    blurRadius: 5.0, // has the effect of softening the shadow
+                    spreadRadius:
+                    -1.0, // has the effect of extending the shadow
+                    offset: Offset(10.0, 10.0),
+                  )
+              ],
+              color: item.elivation ? profile_info_background : profile_info_categories_background,
+              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+            ),
+            child: Transform.rotate(
+              angle: -pi / 4,
+              child: Icon(
+                item.icon,
+                size: 30.0,
+                color:
+                item.elivation ? Colors.white : furnitureCateDisableColor,
+              ),
             ),
           ),
         ),
       ),
     );
   }
+}
 
-  Container _buildTitledContainer(String title, {Widget child, double height}) {
-    return Container(
-      padding: const EdgeInsets.all(16.0),
-      width: double.infinity,
-      height: height,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20.0),
-        color: Colors.white,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+class FurnitureCatg {
+  IconData icon;
+  bool elivation;
+  FurnitureCatg({this.icon, this.elivation});
+}
+
+//COLORS
+const Color profile_info_background = Color(0xFF3775FD);
+const Color profile_info_categories_background = Color(0xFF939BA9);
+const Color furnitureCateDisableColor = Color(0xCD939BA9);
+
+// da
+class ProfileCategories extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 5.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Text(
-            title,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 28.0),
-          ),
-          if (child != null) ...[const SizedBox(height: 10.0), child]
+          for (Catg catg in listProfileCategories)
+            Category(
+              catg: catg,
+            )
         ],
       ),
     );
   }
+}
 
-  _buildBody(BuildContext context) {
-    return CustomScrollView(
-      slivers: <Widget>[
-        // _buildStats(),
-        // SliverToBoxAdapter(
-        //   child: Padding(
-        //     padding: const EdgeInsets.all(16.0),
-        //     child: _buildTitledContainer("Sales",
-        //         child: Container(height: 200, child: DonutPieChart.withSampleData())),
-        //   ),
-        // ),
-        _buildActivities(context),
+
+
+class Category extends StatelessWidget {
+  final Catg catg;
+  Category({this.catg});
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        Stack(
+          overflow: Overflow.visible,
+          children: <Widget>[
+            GestureDetector(
+              onTap: () {
+                if (catg.name == listProfileCategories[0].name)
+                  Navigator.pushNamed(context, '/furniture');
+              },
+              child: Container(
+                padding: EdgeInsets.all(10.0),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: profile_info_categories_background,
+                ),
+                child: Icon(
+                  catg.icon,
+                  // size: 20.0,
+                ),
+              ),
+            ),
+            catg.number > 0
+                ? Positioned(
+              right: -5.0,
+              child: Container(
+                padding: EdgeInsets.all(5.0),
+                decoration: BoxDecoration(
+                  color: profile_info_background,
+                  shape: BoxShape.circle,
+                ),
+                child: Text(
+                  catg.number.toString(),
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 10.0,
+                  ),
+                ),
+              ),
+            )
+                : SizedBox(),
+          ],
+        ),
+        SizedBox(
+          height: 10.0,
+        ),
+        Text(
+          catg.name,
+          style: TextStyle(
+            fontSize: 13.0,
+          ),
+        )
       ],
     );
   }
-}
-
-final List<Activity> activities = [
-  Activity(title: "Results", icon: FontAwesomeIcons.listOl),
-  Activity(title: "Messages", icon: FontAwesomeIcons.sms),
-  Activity(title: "Appointments", icon: FontAwesomeIcons.calendarDay),
-  Activity(title: "Video Consultation", icon: FontAwesomeIcons.video),
-  Activity(title: "Summary", icon: FontAwesomeIcons.fileAlt),
-  Activity(title: "Billing", icon: FontAwesomeIcons.dollarSign),
-];
-class Activity {
-  final String title;
-  final IconData icon;
-  Activity({this.title, this.icon});
 }
