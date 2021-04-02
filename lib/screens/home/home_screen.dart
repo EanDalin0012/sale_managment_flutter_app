@@ -27,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         child: Scaffold(
           appBar: appBar(),
-          backgroundColor: Colors.white,
+          backgroundColor: Theme.of(context).buttonColor,
           bottomNavigationBar: _bottomNavigationBar(),
           body: _widgetOptions.elementAt(_selectedIndex),
         )
@@ -158,10 +158,10 @@ class _HomeScreenState extends State<HomeScreen> {
           if(index >= 2) {
             // _showModelSheet();
           } else {
-            // _selectedIndex = index;
+            _selectedIndex = index;
           }
         });
-        _selectedIndex = index;
+        // _selectedIndex = index;
       },
     );
   }
