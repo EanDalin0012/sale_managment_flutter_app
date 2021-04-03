@@ -26,6 +26,8 @@ const kGoodLightGray = Color(0xFFCDCDCD);
 const kGoodLightGray2 = Color(0xFFC9C9C9);
 const kGoodMidGray = Color(0xFFEEEEEE);
 
+const kGoodMidGray1 = Color.fromARGB(210, 241, 241, 239);
+
 const Color primaryColor = Colors.deepPurpleAccent;
 const Color secondaryColor = Colors.deepOrangeAccent;
 

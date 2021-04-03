@@ -1,197 +1,53 @@
 import 'package:flutter/material.dart';
-import 'dart:math';
 import 'package:charts_flutter/flutter.dart' as charts;
-class SimpleBarChart1 extends StatelessWidget {
-  List<charts.Series> seriesList;
-  static List<charts.Series<Sales, String>> _createRandomData() {
-    final random = Random();
+class SimpleBarChart extends StatelessWidget {
+  final List<charts.Series> seriesList;
+  final bool animate;
 
-    final desktopSalesData = [
-      Sales('2015', random.nextInt(100)),
-      Sales('2016', random.nextInt(100)),
-      Sales('2017', random.nextInt(100)),
-      Sales('2018', random.nextInt(100)),
-      Sales('2019', random.nextInt(100)),
-    ];
+  SimpleBarChart(this.seriesList, {this.animate});
 
-    final tabletSalesData = [
-      Sales('2015', random.nextInt(100)),
-      Sales('2016', random.nextInt(100)),
-      Sales('2017', random.nextInt(100)),
-      Sales('2018', random.nextInt(100)),
-      Sales('2019', random.nextInt(100)),
-    ];
+  /// Create one series with sample hard coded data.
+  static List<charts.Series<OrdinalSales, String>> _createSampleData() {
+    final data = [
+      new OrdinalSales('2014', 5),
+      new OrdinalSales('2015', 25),
+      new OrdinalSales('2016', 100),
 
-    final mobileSalesData = [
-      Sales('2015', random.nextInt(100)),
-      Sales('2016', random.nextInt(100)),
-      Sales('2017', random.nextInt(100)),
-      Sales('2018', random.nextInt(100)),
-      Sales('2019', random.nextInt(100)),
+      new OrdinalSales('2017', 75),
     ];
 
     return [
-      charts.Series<Sales, String>(
+      new charts.Series<OrdinalSales, String>(
         id: 'Sales',
-        domainFn: (Sales sales, _) => sales.year,
-        measureFn: (Sales sales, _) => sales.sales,
-        data: desktopSalesData,
-        fillColorFn: (Sales sales, _) {
-          return charts.MaterialPalette.blue.shadeDefault;
-        },
-      ),
-      charts.Series<Sales, String>(
-        id: 'Sales',
-        domainFn: (Sales sales, _) => sales.year,
-        measureFn: (Sales sales, _) => sales.sales,
-        data: tabletSalesData,
-        fillColorFn: (Sales sales, _) {
-          return charts.MaterialPalette.green.shadeDefault;
-        },
-      ),
-      charts.Series<Sales, String>(
-        id: 'Sales',
-        domainFn: (Sales sales, _) => sales.year,
-        measureFn: (Sales sales, _) => sales.sales,
-        data: mobileSalesData,
-        fillColorFn: (Sales sales, _) {
-          return charts.MaterialPalette.teal.shadeDefault;
-        },
+        colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
+        domainFn: (OrdinalSales sales, _) => sales.year,
+        measureFn: (OrdinalSales sales, _) => sales.sales,
+        data: data,
       )
     ];
   }
-  @override
-  void initState() {
-    seriesList = _createRandomData();
-  }
-  barChart() {
-    return charts.BarChart(
-      seriesList,
-      animate: true,
-      vertical: false,
-      barGroupingType: charts.BarGroupingType.grouped,
-      defaultRenderer: charts.BarRendererConfig(
-        groupingType: charts.BarGroupingType.grouped,
-        strokeWidthPx: 1.0,
-      ),
-      domainAxis: charts.OrdinalAxisSpec(
-        renderSpec: charts.NoneRenderSpec(),
-      ),
-    );
-  }
+  // /// Creates a [BarChart] with sample data and no transition.
+  // factory SimpleBarChart.withSampleData() {
+  //   return new SimpleBarChart(
+  //     _createSampleData(),
+  //     // Disable animations for image tests.
+  //     animate: false,
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 200,
-      height: 100,
-      child: barChart(),
-    );
-  }
-}
-
-class SimpleBarChart extends StatefulWidget {
-  @override
-  _SimpleBarChartState createState() => _SimpleBarChartState();
-}
-
-class _SimpleBarChartState extends State<SimpleBarChart> {
-  List<charts.Series> seriesList;
-  static List<charts.Series<Sales, String>> _createRandomData() {
-    final random = Random();
-
-    final desktopSalesData = [
-      Sales('2015', random.nextInt(100)),
-      Sales('2016', random.nextInt(100)),
-      Sales('2017', random.nextInt(100)),
-      Sales('2018', random.nextInt(100)),
-      Sales('2019', random.nextInt(100)),
-    ];
-
-    final tabletSalesData = [
-      Sales('2015', random.nextInt(100)),
-      Sales('2016', random.nextInt(100)),
-      Sales('2017', random.nextInt(100)),
-      Sales('2018', random.nextInt(100)),
-      Sales('2019', random.nextInt(100)),
-    ];
-
-    final mobileSalesData = [
-      Sales('2015', random.nextInt(100)),
-      Sales('2016', random.nextInt(100)),
-      Sales('2017', random.nextInt(100)),
-      Sales('2018', random.nextInt(100)),
-      Sales('2019', random.nextInt(100)),
-    ];
-
-    return [
-      charts.Series<Sales, String>(
-        id: 'Sales',
-        domainFn: (Sales sales, _) => sales.year,
-        measureFn: (Sales sales, _) => sales.sales,
-        data: desktopSalesData,
-        fillColorFn: (Sales sales, _) {
-          return charts.MaterialPalette.blue.shadeDefault;
-        },
-      ),
-      charts.Series<Sales, String>(
-        id: 'Sales',
-        domainFn: (Sales sales, _) => sales.year,
-        measureFn: (Sales sales, _) => sales.sales,
-        data: tabletSalesData,
-        fillColorFn: (Sales sales, _) {
-          return charts.MaterialPalette.green.shadeDefault;
-        },
-      ),
-      charts.Series<Sales, String>(
-        id: 'Sales',
-        domainFn: (Sales sales, _) => sales.year,
-        measureFn: (Sales sales, _) => sales.sales,
-        data: mobileSalesData,
-        fillColorFn: (Sales sales, _) {
-          return charts.MaterialPalette.teal.shadeDefault;
-        },
-      )
-    ];
-  }
-
-  barChart() {
-    return charts.BarChart(
+    return new charts.BarChart(
       seriesList,
-      animate: true,
-      vertical: false,
-      barGroupingType: charts.BarGroupingType.grouped,
-      defaultRenderer: charts.BarRendererConfig(
-        groupingType: charts.BarGroupingType.grouped,
-        strokeWidthPx: 1.0,
-      ),
-      domainAxis: charts.OrdinalAxisSpec(
-        renderSpec: charts.NoneRenderSpec(),
-      ),
-    );
-  }
-  @override
-  void initState() {
-    super.initState();
-    seriesList = _createRandomData();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        padding: EdgeInsets.all(20.0),
-        child: barChart(),
-      ),
+      animate: animate,
     );
   }
 }
 
-class Sales {
+/// Sample ordinal data type.
+class OrdinalSales {
   final String year;
   final int sales;
 
-  Sales(this.year, this.sales);
+  OrdinalSales(this.year, this.sales);
 }
-
-

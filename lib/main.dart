@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:sale_managment/screens/home/Home.dart';
 import 'package:sale_managment/screens/home/home_screen.dart';
+import 'package:sale_managment/screens/widgets/simple_bar_chart.dart';
+import 'package:charts_flutter/flutter.dart' as charts;
 
 void main() {
   runApp(MyApp());
@@ -31,7 +34,6 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
-
   void _incrementCounter() {
     setState(() {
       // This call to setState tells the Flutter framework that something has
@@ -45,6 +47,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    /// Create one series with sample hard coded data.
+
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -52,7 +56,8 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
-      body: HomeScreen()
+      // body: SimpleBarChart(_createSampleData(), animate: false)
+        body: Home()
     );
   }
 }
