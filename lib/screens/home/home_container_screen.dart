@@ -111,8 +111,32 @@ class _HomeContainerScreenState extends State<HomeContainerScreen> {
         _buildStats(),
         // _buildStats1(),
         SliverToBoxAdapter(
-            child: StockDetailsScreen(stockDetailData[0].products)
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: stockDetailData.map((activity) =>
+                  Container(
+                  padding: EdgeInsets.all(10),
+                  margin: EdgeInsets.all(15),
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                  color: Color(0xfff1f1f1),
+                  border: Border.all(color: Colors.grey[300], width: 4)
+                  ),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(activity.stockName,style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0)),
+                        StockDetailsScreen(activity.products)
+                      ]
+                  )
+                  )).toList()
+            )
         ),
+        // SliverToBoxAdapter(
+        //     child: StockDetailsScreen(stockDetailData[0].products)
+        // ),
         SliverToBoxAdapter(
           child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -184,16 +208,6 @@ class _HomeContainerScreenState extends State<HomeContainerScreen> {
       vertical: true,
     );
   }
-  // _buildBody(BuildContext context) {
-  //   return SingleChildScrollView(
-  //       child: Row(
-  //         children: <Widget>[
-  //           _buildActivities(context)
-  //         ],
-  //       )
-  //
-  //   );
-  // }
 
   SliverPadding _buildActivities(BuildContext context) {
     return SliverPadding(
