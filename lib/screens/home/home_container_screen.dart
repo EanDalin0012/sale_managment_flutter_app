@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'dart:math';
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:sale_managment/screens/home/widgets/stock_details.dart';
 import 'package:sale_managment/screens/widgets/simple_bar_chart.dart';
+import 'package:sale_managment/share/model/data/stock_details_data.dart';
+import 'package:sale_managment/share/model/stock_details_model.dart';
 
 class HomeContainerScreen extends StatefulWidget {
   @override
@@ -11,6 +14,9 @@ class HomeContainerScreen extends StatefulWidget {
 
 class _HomeContainerScreenState extends State<HomeContainerScreen> {
   List<charts.Series> seriesList;
+  Color  _primaryColor = Colors.deepPurpleAccent;
+  Color _secondaryColor = Colors.deepOrangeAccent;
+  static List<StockDetails> stockDetailData = stockDetailsData;
 
   static List<charts.Series<OrdinalSales, String>> _createSampleData1() {
     final data = [
@@ -105,6 +111,37 @@ class _HomeContainerScreenState extends State<HomeContainerScreen> {
         _buildStats(),
         // _buildStats1(),
         SliverToBoxAdapter(
+            child: StockDetailsScreen(stockDetailData[0].products)
+        ),
+        SliverToBoxAdapter(
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: stockDetailData.map((activity) => (
+              Container(
+              padding: EdgeInsets.only(top: 10),
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                  color: Color(0xfff1f1f1)
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(activity.stockName,style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0)),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: activity.products.map((product) => (
+                        production(product)
+                    )).toList(),
+                  )
+                ],
+              ) )
+
+              )).toList(),
+          )
+        ),
+        SliverToBoxAdapter(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: _buildTitledContainer("Sales1",
@@ -120,7 +157,7 @@ class _HomeContainerScreenState extends State<HomeContainerScreen> {
                     height: 200, child: _barChart(size))),
           ),
         ),
-        _buildActivities(context),
+        // _buildActivities(context),
       ],
     );
     // return SingleChildScrollView(
@@ -147,16 +184,16 @@ class _HomeContainerScreenState extends State<HomeContainerScreen> {
       vertical: true,
     );
   }
-  _buildBody(BuildContext context) {
-    return SingleChildScrollView(
-        child: Row(
-          children: <Widget>[
-            _buildActivities(context)
-          ],
-        )
-
-    );
-  }
+  // _buildBody(BuildContext context) {
+  //   return SingleChildScrollView(
+  //       child: Row(
+  //         children: <Widget>[
+  //           _buildActivities(context)
+  //         ],
+  //       )
+  //
+  //   );
+  // }
 
   SliverPadding _buildActivities(BuildContext context) {
     return SliverPadding(
@@ -319,6 +356,143 @@ class _HomeContainerScreenState extends State<HomeContainerScreen> {
           ),
         ],
       ),
+    );
+  }
+
+
+  Expanded _mainBody() {
+    return Expanded(
+      child: SingleChildScrollView(
+        padding: EdgeInsets.symmetric(horizontal: 5, vertical: 20),
+        physics: ClampingScrollPhysics(),
+        child: Column(
+          children: <Widget>[
+            _container(
+                isSaving: true,
+                title: 'Saving Account',
+                deposit: '\$5,000',
+                rate: '+3,50%',
+                progress: 25
+            ),
+            SizedBox(height: 16,),
+            // _container(
+            //     isSaving: false,
+            //     title: 'Financial Customer',
+            //     deposit: '\$12,000',
+            //     rate: '+3,50%',
+            //     progress: 25
+            // ),
+          ],
+        ),
+      ),
+    );
+  }
+
+
+
+  Container production(ProductStockDetails productStockDetails) {
+    final TextStyle stats = TextStyle(
+        fontWeight: FontWeight.bold, fontSize: 20.0, color: Colors.white);
+    return Container(
+      padding: const EdgeInsets.all(8.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10.0),
+        color: Colors.blue,
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text(
+            "+500",
+            style: stats,
+          ),
+          const SizedBox(height: 5.0),
+          Text(productStockDetails.productName.toString())
+        ],
+      ),
+    );
+  }
+
+  Container _container({
+    bool isSaving,
+    String title,
+    String deposit,
+    String rate,
+    int progress
+  }) {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 16, horizontal: 30),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        color: isSaving ? Colors.white : _secondaryColor,
+        border: isSaving ? Border.all(color: _primaryColor.withOpacity(0.1), width: 2) : null,
+        boxShadow: isSaving ? [] : [BoxShadow(color: _secondaryColor.withOpacity(0.4),offset: Offset(0,8), blurRadius: 10)],
+      ),
+      child: Row(
+        children: <Widget>[
+          Stack(
+            children: <Widget>[
+              SizedBox(
+                height: 60,
+                width: 60,
+                child: CircularProgressIndicator(
+                  value: progress / 100,
+                  strokeWidth: 5,
+                  backgroundColor: isSaving ? _primaryColor.withOpacity(0.2) : _primaryColor.withOpacity(0.1),
+                  valueColor: AlwaysStoppedAnimation<Color>(isSaving ? _secondaryColor: Colors.white),
+                ),
+              ),
+              Container(
+                width: 60,
+                height: 60,
+                alignment: Alignment.center,
+                child: Text(progress.toString() + '%', style: TextStyle(color: isSaving ? _primaryColor : Colors.white, fontSize: 16, fontWeight: FontWeight.w600)),
+              )
+            ],
+          ),
+          SizedBox(width: 30,),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(title, style: TextStyle(color: isSaving ? _primaryColor : Colors.white,fontSize: 18,fontWeight: FontWeight.w500)),
+              SizedBox(height: 12,),
+              Row(
+                children: <Widget>[
+                  _reportInnerCell(
+                      isSaving: isSaving,
+                      title: 'Deposit',
+                      value: deposit
+                  ),
+                  SizedBox(
+                    width: 24,
+                  ),
+                  _reportInnerCell(
+                      isSaving: isSaving,
+                      title: 'Rate',
+                      value: rate
+                  ),
+                ],
+              )
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  Column _reportInnerCell({
+    bool isSaving,
+    String title,
+    String value
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(title, style: TextStyle(color: isSaving ? _primaryColor.withOpacity(0.5): Colors.white,fontSize:  14,fontWeight: FontWeight.w500),),
+        SizedBox(height: 4,),
+        Text(value, style: TextStyle(color: isSaving ? Colors.black87: Colors.white,fontSize:  14,fontWeight: FontWeight.w500),),
+      ],
     );
   }
 
