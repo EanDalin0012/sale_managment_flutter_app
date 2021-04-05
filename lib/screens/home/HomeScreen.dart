@@ -33,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           slivers: [
                             SliverToBoxAdapter(
                               child: Padding(
-                                padding: EdgeInsets.only(top: 10, left: 10),
+                                padding: EdgeInsets.only(top: 5, left: 10),
                                 child: Text(e.stockName.toString(),),
                               ),
                             ),
@@ -41,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 child: Container(
                                   width: MediaQuery.of(context).size.width,
                                   height: 100,
-                                  margin: EdgeInsets.only(top: 16),
+                                  margin: EdgeInsets.only(top: 5),
                                   child: PageView(
                                     controller: PageController(viewportFraction: 0.8,initialPage: 2),
                                     children: e.products.map((item) =>

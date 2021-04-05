@@ -27,9 +27,12 @@ class _ProductCardState extends State<ProductCard> {
             )
           ]),
       child: Container(
-        margin: EdgeInsets.only(left: 24),
+        margin: EdgeInsets.only(left: 2),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
+            Text(widget.productStockDetails.productName),
             Text(widget.productStockDetails.productName)
           ],
         )
