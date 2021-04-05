@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'dart:math';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:sale_managment/screens/home/widgets/stock_details.dart';
+import 'package:sale_managment/screens/home/widgets/stock_details1.dart';
 import 'package:sale_managment/screens/widgets/simple_bar_chart.dart';
 import 'package:sale_managment/share/model/data/stock_details_data.dart';
 import 'package:sale_managment/share/model/stock_details_model.dart';
@@ -134,37 +135,17 @@ class _HomeContainerScreenState extends State<HomeContainerScreen> {
                   )).toList()
             )
         ),
+        SliverToBoxAdapter(
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: stockDetailData.map((activity) =>
+                    StockDetailsScreen1(activity.products)).toList()
+            )
+        ),
         // SliverToBoxAdapter(
         //     child: StockDetailsScreen(stockDetailData[0].products)
         // ),
-        SliverToBoxAdapter(
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: stockDetailData.map((activity) => (
-              Container(
-              padding: EdgeInsets.only(top: 10),
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-                  color: Color(0xfff1f1f1)
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(activity.stockName,style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0)),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: activity.products.map((product) => (
-                        production(product)
-                    )).toList(),
-                  )
-                ],
-              ) )
-
-              )).toList(),
-          )
-        ),
         SliverToBoxAdapter(
           child: Padding(
             padding: const EdgeInsets.all(16.0),

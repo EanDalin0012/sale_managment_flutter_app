@@ -7,12 +7,12 @@ import 'package:sale_managment/screens/sign_in/sign_in_screen.dart';
 import 'package:sale_managment/screens/widgets/simple_bar_chart.dart';
 import 'package:sale_managment/share/constant/constantcolor.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen1 extends StatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen1> {
   int _selectedIndex = 0;
   String _titleBar = 'Home';
 

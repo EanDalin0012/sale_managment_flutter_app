@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sale_managment/share/model/stock_details_model.dart';
 
 class StockDetailsScreen extends StatefulWidget {
@@ -35,8 +36,7 @@ class _StockDetailsState extends State<StockDetailsScreen> {
   }
 
   Container production(ProductStockDetails productStockDetails, Size size) {
-    final TextStyle stats = TextStyle(
-        fontWeight: FontWeight.bold, fontSize: 20.0, color: Colors.white);
+    final TextStyle stats = TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0, color: Colors.white);
     return Container(
       width: size.width * 0.85,
       padding: const EdgeInsets.all(8.0),
@@ -48,12 +48,65 @@ class _StockDetailsState extends State<StockDetailsScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          Text(
-            "+500",
-            style: stats,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text(
+                productStockDetails.productName.toString(),
+                style: stats,
+              ),
+              Text(
+                productStockDetails.totalQuantity.toString(),
+                style: stats,
+              ),
+             ]
           ),
-          const SizedBox(height: 5.0),
-          Text(productStockDetails.productName.toString())
+          Padding(
+            padding:EdgeInsets.only(left: 10),
+            child: Row(
+              children: <Widget>[
+                Text(
+                  'Quantity: - '+productStockDetails.soldQuantity.toString(),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17.0, color: Colors.black54),
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding:EdgeInsets.only(left: 10),
+            child: Row(
+              children: <Widget>[
+                Text(
+                  'Price: '+productStockDetails.price.toString(),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17.0, color: Colors.black54),
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding:EdgeInsets.only(left: 10),
+            child: Row(
+              children: <Widget>[
+                Text(
+                  'Total: '+productStockDetails.totalQuantity.toString() + ' USD',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17.0, color: Colors.black54),
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding:EdgeInsets.only(left: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  'Net Income: '+productStockDetails.totalQuantity.toString() + ' USD',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17.0, color: Colors.black54),
+                ),
+                FaIcon(FontAwesomeIcons.ellipsisV,size: 20 , color: Colors.white,)
+              ],
+            ),
+          ),
         ],
       ),
     );

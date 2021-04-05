@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:sale_managment/screens/home/HomeScreen.dart';
 import 'package:sale_managment/screens/home/home_container_screen.dart';
 import 'package:sale_managment/screens/home/widgets/sheet_container.dart';
 import 'package:sale_managment/screens/notification/notification_screen.dart';
@@ -22,7 +23,7 @@ class _HomeState extends State<Home> {
     GlobalKey<NavigatorState>()
   ];
   List<Widget> _widgetOptions = <Widget>[
-    HomeContainerScreen(),
+    HomeScreen(),
     SaleScreen(),
   ];
 
