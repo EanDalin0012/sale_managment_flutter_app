@@ -10,13 +10,13 @@ class SheetContainer extends StatefulWidget {
 }
 
 class _SheetContainerState extends State<SheetContainer> {
-  var colorContain = Color(0xffd9dbdb).withOpacity(0.5);
+  var colorContain = Color(0xffd9dbdb).withOpacity(0.9);
   Color _textColor= Colors.purple[900];
   Color _iconColor = Colors.purple[900];
   double _iconSize = 25;
   double wContainer = 60;
   double hContainer = 50;
-
+  BoxBorder border = Border.all(color: Colors.blueGrey[100], width: 5);
 
   @override
   Widget build(BuildContext context) {
@@ -84,12 +84,12 @@ class _SheetContainerState extends State<SheetContainer> {
                   decoration: BoxDecoration(
                     color: colorContain,
                     borderRadius: BorderRadius.circular(50),
-                      border: Border.all(color: Colors.grey[200], width: 2)
+                      border: border
                   ),
-                  child: Center(child: FaIcon(FontAwesomeIcons.vimeo,size: _iconSize , color: _iconColor,)),
+                  child: Center(child: FaIcon(FontAwesomeIcons.cuttlefish,size: _iconSize , color: _iconColor,)),
                 ),
                 SizedBox(height: 5,),
-                Text('Vendor',style: TextStyle(fontWeight: FontWeight.w900, color: Colors.purple[900])),
+                Text('Category',style: TextStyle(fontWeight: FontWeight.w900, color: Colors.purple[900])),
               ],
             ),
           ),
@@ -114,7 +114,7 @@ class _SheetContainerState extends State<SheetContainer> {
                   decoration: BoxDecoration(
                       color: colorContain,
                     borderRadius: BorderRadius.circular(50),
-                    border: Border.all(color: Colors.grey[200], width: 2)
+                    border: border
                   ),
                   child: Center(child: FaIcon(FontAwesomeIcons.productHunt,size: _iconSize,color: _iconColor)),
                 ),
@@ -141,12 +141,12 @@ class _SheetContainerState extends State<SheetContainer> {
                   decoration: BoxDecoration(
                       color: colorContain,
                     borderRadius: BorderRadius.circular(50),
-                    border: Border.all(color: Colors.grey[200], width: 2)
+                    border: border
                   ),
-                  child: Center(child: FaIcon(FontAwesomeIcons.plusCircle,size: _iconSize,color: _iconColor)),
+                  child: Center(child: FaIcon(FontAwesomeIcons.vimeo,size: _iconSize,color: _iconColor)),
                 ),
                 SizedBox(height: 5,),
-                Text('Import',style: TextStyle(fontWeight: FontWeight.w900, fontSize: 15,color: Colors.purple[900])),
+                Text('Vendor',style: TextStyle(fontWeight: FontWeight.w900, fontSize: 15,color: Colors.purple[900])),
               ],
             ),
           ),
@@ -179,12 +179,12 @@ class _SheetContainerState extends State<SheetContainer> {
                   decoration: BoxDecoration(
                     color: colorContain,
                     borderRadius: BorderRadius.circular(50),
-                    border: Border.all(color: Colors.grey[200], width: 2)
+                    border: border
                   ),
                   child:Center(child: FaIcon(FontAwesomeIcons.users,size: _iconSize,color: _iconColor)),
                 ),
                 SizedBox(height: 5,),
-                Text('Customer',style: TextStyle(fontWeight: FontWeight.w900, fontSize: 15,color: Colors.purple[900])),
+                Text('Member',style: TextStyle(fontWeight: FontWeight.w900, fontSize: 15,color: Colors.purple[900])),
               ],
             ),
           ),
@@ -206,12 +206,12 @@ class _SheetContainerState extends State<SheetContainer> {
                   decoration: BoxDecoration(
                     color: colorContain,
                     borderRadius: BorderRadius.circular(50),
-                    border: Border.all(color: Colors.grey[200], width: 2)
+                    border: border
                   ),
-                  child: Center(child: FaIcon(FontAwesomeIcons.database,size: _iconSize,color: _iconColor)),
+                  child: Center(child: FaIcon(FontAwesomeIcons.layerGroup,size: _iconSize,color: _iconColor)),
                 ),
                 SizedBox(height: 5,),
-                Text('Stock',style: TextStyle(fontWeight: FontWeight.w900, color: Colors.purple[900]),),
+                Text('Import',style: TextStyle(fontWeight: FontWeight.w900, color: Colors.purple[900]),),
               ],
             ),
           ),
@@ -233,13 +233,13 @@ class _SheetContainerState extends State<SheetContainer> {
                   decoration: BoxDecoration(
                     color: colorContain,
                     borderRadius: BorderRadius.circular(50),
-                    border: Border.all(color: Colors.grey[200], width: 2)
+                    border: border
 
                   ),
-                  child: Center(child: FaIcon(FontAwesomeIcons.poll,size: _iconSize, color: _iconColor,)),
+                  child: Center(child: FaIcon(FontAwesomeIcons.database,size: _iconSize, color: _iconColor,)),
                 ),
                 SizedBox(height: 5,),
-                Text('Report',style: TextStyle(fontWeight: FontWeight.w900, color: Colors.purple[900])),
+                Text('Stock',style: TextStyle(fontWeight: FontWeight.w900, color: Colors.purple[900])),
               ],
             ),
           ),

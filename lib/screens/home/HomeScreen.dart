@@ -23,9 +23,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 Column(
                   children: stockDetailData.map((e) =>
                     Container(
-                      height: 160,
+                      height: 200,
                       width: size.width,
-                      margin: EdgeInsets.all(10),
+                      margin: EdgeInsets.all(5),
                       decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.all(Radius.circular(20))),
@@ -40,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             SliverToBoxAdapter(
                                 child: Container(
                                   width: MediaQuery.of(context).size.width,
-                                  height: 100,
+                                  height: 160,
                                   margin: EdgeInsets.only(top: 5),
                                   child: PageView(
                                     controller: PageController(viewportFraction: 0.8,initialPage: 2),

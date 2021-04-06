@@ -25,21 +25,21 @@ class _NotificationScreenState extends State<NotificationScreen> {
           padding: EdgeInsets.only(
               top: 5
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              IconButton(
-                icon: const Icon(Icons.navigate_before,size: 30),
-                tooltip: 'Show Snackbar',
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => HomeScreen()),
-                  );
-                },
-              ),
-            ],
-          ),
+          // child: Column(
+          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //   children: <Widget>[
+          //     IconButton(
+          //       icon: const Icon(Icons.navigate_before,size: 30),
+          //       tooltip: 'Show Snackbar',
+          //       onPressed: () {
+          //         Navigator.push(
+          //           context,
+          //           MaterialPageRoute(builder: (context) => HomeScreen()),
+          //         );
+          //       },
+          //     ),
+          //   ],
+          // ),
         )
     );
   }

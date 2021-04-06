@@ -9,6 +9,7 @@ class ProductStockDetails {
   final int totalQuantity;
   final int soldQuantity;
   final num price;
+  final num total;
   final num netIncome;
-  ProductStockDetails(this.productName, this.totalQuantity, this.soldQuantity, this.price,this.netIncome);
+  ProductStockDetails(this.productName, this.totalQuantity, this.soldQuantity, this.price,this.total, this.netIncome);
 }
