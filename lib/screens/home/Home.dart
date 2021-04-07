@@ -6,6 +6,7 @@ import 'package:sale_managment/screens/home/widgets/sheet_container.dart';
 import 'package:sale_managment/screens/notification/notification_screen.dart';
 import 'package:sale_managment/screens/sale/sale_screen.dart';
 import 'package:sale_managment/screens/sign_in/sign_in_screen.dart';
+import 'package:sale_managment/share/components/show_dialog/show_dialog.dart';
 import 'package:sale_managment/share/constant/constantcolor.dart';
 
 class Home extends StatefulWidget {
@@ -182,16 +183,28 @@ class _HomeState extends State<Home> {
     );
   }
 
+
+  Future<bool> _onBackPressed() {
+    ShowDialog.showDialogYesNo(
+        buildContext: context,
+        title: Text('Are you sure'),
+        content: Text('Do you want exit application?'),
+        btnRight: 'Yes',
+        onPressedBntRight: () {
+          Navigator.of(context).pop(true);
+          return true;
+        },
+        btnLeft: 'No',
+        onPressedBntLeft: () {
+          Navigator.of(context).pop(false);
+          return false;
+        }
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () async {
-        final isFirstRouteInCurrentTab = !await _navigatorKeys[_selectedIndex].currentState.maybePop();
-        print(
-            'isFirstRouteInCurrentTab: ' + isFirstRouteInCurrentTab.toString());
-        // let system handle back button if we're on the first route
-        return isFirstRouteInCurrentTab;
-      },
+      onWillPop: _onBackPressed,
       child: Scaffold(
         appBar: _appBar(),
         backgroundColor: Colors.black12.withOpacity(0.1),
