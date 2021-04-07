@@ -184,7 +184,6 @@ class _HomeState extends State<Home> {
     );
   }
 
-
   Future<bool> _onBackPressed() {
     var padding = EdgeInsets.all(10);
     return showDialog(
@@ -241,7 +240,7 @@ class _HomeState extends State<Home> {
                     )
                 ),
                 onPressed: () {
-                  Navigator.of(context).pop(true);
+                  Navigator.of(context, rootNavigator: true).pop(true);
                 },
               ),
             ],
