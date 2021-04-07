@@ -13,6 +13,7 @@ class ProductCard extends StatefulWidget {
 class _ProductCardState extends State<ProductCard> {
   final TextStyle stats = TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0, color: Colors.black54);
   final TextStyle stats1 = TextStyle(fontWeight: FontWeight.normal, fontSize: 18.0, color: Colors.black54);
+  var textStyle = TextStyle(color: Colors.black54,fontSize: 18.0,fontWeight: FontWeight.w700, fontFamily: 'roboto, khmer siemreap');
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -35,32 +36,32 @@ class _ProductCardState extends State<ProductCard> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(widget.productStockDetails.productName , style: stats),
+                Text(widget.productStockDetails.productName , style: textStyle),
                 Text(widget.productStockDetails.totalQuantity.toString(),style: stats),
               ],
             ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text('Quantity: - '+widget.productStockDetails.soldQuantity.toString() , style: stats1)
+                Text('Quantity: - '+widget.productStockDetails.soldQuantity.toString() , style: textStyle)
               ],
             ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text('Price: '+widget.productStockDetails.price.toString()+' USD' , style: stats1)
+                Text('Price: '+widget.productStockDetails.price.toString()+' USD' , style: textStyle)
               ],
             ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text('Total: '+widget.productStockDetails.total.toString() +' USD' , style: stats1)
+                Text('Total: '+widget.productStockDetails.total.toString() +' USD' , style: textStyle)
               ],
             ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text('Net Income: '+widget.productStockDetails.netIncome.toString() +' USD' , style: stats1)
+                Text('Net Income: '+widget.productStockDetails.netIncome.toString() +' USD' , style: textStyle)
               ],
             ),
           ],

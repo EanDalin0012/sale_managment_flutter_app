@@ -66,7 +66,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         topLeft: Radius.circular(48),
                         topRight: Radius.circular(48),
                       )),
-                  child: Text('Data'),
+                  child: IconButton(
+                    tooltip: 'Hello',
+                    icon: Icon(Icons.send),
+                    color: Theme.of(context).primaryColor,
+                  ),
                 ),
               ]
           )

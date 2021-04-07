@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:sale_managment/screens/category/Category.dart';
 import 'package:sale_managment/screens/customer/Customer.dart';
 import 'package:sale_managment/screens/product/Product.dart';
 import 'package:sale_managment/screens/vendor/Vendor.dart';
+import 'package:sale_managment/share/constant/constantcolor.dart';
 
 class SheetContainer extends StatefulWidget {
+  final BuildContext context;
+  SheetContainer(this.context);
   @override
   _SheetContainerState createState() => _SheetContainerState();
 }
@@ -16,7 +20,8 @@ class _SheetContainerState extends State<SheetContainer> {
   double _iconSize = 25;
   double wContainer = 60;
   double hContainer = 50;
-  BoxBorder border = Border.all(color: Colors.blueGrey[100], width: 5);
+  BoxBorder border = Border.all(color: Colors.blueGrey[100].withOpacity(0.2), width: 4);
+  var textStyle = TextStyle(color: Colors.purple[900],fontSize: 15,fontWeight: FontWeight.w700, fontFamily: 'roboto');
 
   @override
   Widget build(BuildContext context) {
@@ -66,10 +71,14 @@ class _SheetContainerState extends State<SheetContainer> {
       children: <Widget>[
         InkWell(
           onTap: () {
+            Navigator.pop(widget.context);
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => Vendor()),
+              MaterialPageRoute(builder: (context) =>
+                  CategoryScreen()
+              ),
             );
+
           },
           child: Container(
             width: w,
@@ -89,7 +98,7 @@ class _SheetContainerState extends State<SheetContainer> {
                   child: Center(child: FaIcon(FontAwesomeIcons.cuttlefish,size: _iconSize , color: _iconColor,)),
                 ),
                 SizedBox(height: 5,),
-                Text('Category',style: TextStyle(fontWeight: FontWeight.w900, color: Colors.purple[900])),
+                Text('Category',style: textStyle),
               ],
             ),
           ),
@@ -119,7 +128,7 @@ class _SheetContainerState extends State<SheetContainer> {
                   child: Center(child: FaIcon(FontAwesomeIcons.productHunt,size: _iconSize,color: _iconColor)),
                 ),
                 SizedBox(height: 5,),
-                Text('Product',style: TextStyle(fontWeight: FontWeight.w900, fontSize: 15,color: Colors.purple[900])),
+                Text('Product',style: textStyle),
               ],
             ),
           ),
@@ -146,7 +155,7 @@ class _SheetContainerState extends State<SheetContainer> {
                   child: Center(child: FaIcon(FontAwesomeIcons.vimeo,size: _iconSize,color: _iconColor)),
                 ),
                 SizedBox(height: 5,),
-                Text('Vendor',style: TextStyle(fontWeight: FontWeight.w900, fontSize: 15,color: Colors.purple[900])),
+                Text('Vendor',style: textStyle),
               ],
             ),
           ),
@@ -184,7 +193,7 @@ class _SheetContainerState extends State<SheetContainer> {
                   child:Center(child: FaIcon(FontAwesomeIcons.users,size: _iconSize,color: _iconColor)),
                 ),
                 SizedBox(height: 5,),
-                Text('Member',style: TextStyle(fontWeight: FontWeight.w900, fontSize: 15,color: Colors.purple[900])),
+                Text('Member',style: textStyle),
               ],
             ),
           ),
@@ -211,7 +220,7 @@ class _SheetContainerState extends State<SheetContainer> {
                   child: Center(child: FaIcon(FontAwesomeIcons.layerGroup,size: _iconSize,color: _iconColor)),
                 ),
                 SizedBox(height: 5,),
-                Text('Import',style: TextStyle(fontWeight: FontWeight.w900, color: Colors.purple[900]),),
+                Text('Import',style: textStyle),
               ],
             ),
           ),
@@ -239,7 +248,7 @@ class _SheetContainerState extends State<SheetContainer> {
                   child: Center(child: FaIcon(FontAwesomeIcons.database,size: _iconSize, color: _iconColor,)),
                 ),
                 SizedBox(height: 5,),
-                Text('Stock',style: TextStyle(fontWeight: FontWeight.w900, color: Colors.purple[900])),
+                Text('Stock',style: textStyle),
               ],
             ),
           ),
