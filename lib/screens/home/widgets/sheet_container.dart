@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:sale_managment/screens/category/Category.dart';
+import 'package:sale_managment/screens/category/category.dart';
 import 'package:sale_managment/screens/customer/Customer.dart';
 import 'package:sale_managment/screens/product/Product.dart';
 import 'package:sale_managment/screens/vendor/Vendor.dart';

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sale_managment/screens/category/add_category.dart';
+import 'package:sale_managment/screens/category/edit_category.dart';
 import 'package:sale_managment/share/components/show_dialog/show_dialog.dart';
 import 'package:sale_managment/share/constant/constantcolor.dart';
 import 'package:sale_managment/share/constant/text_style.dart';
@@ -17,6 +18,7 @@ class _CategoryState extends State<CategoryScreen> {
   TextEditingController _controller;
   List<CategoryModel> categories = categoriesData;
   var menuStyle = TextStyle( color: Colors.purple[900], fontWeight: FontWeight.w500, fontFamily: fontFamilyDefault);
+
 
   @override
   Widget build(BuildContext context) {
@@ -204,10 +206,10 @@ class _CategoryState extends State<CategoryScreen> {
         //   MaterialPageRoute(builder: (context) => VendorViewScreen(vendorModel)),
         // );
       } else if(value == 2) {
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(builder: (context) => VendorEditScreen(vendorModel)),
-        // );
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => EditCategoryScreen(categoryModel)),
+        );
       } else if (value == 3) {
         _showDialog(categoryModel);
       }

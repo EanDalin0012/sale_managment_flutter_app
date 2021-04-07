@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:sale_managment/share/constant/text_style.dart';
 import 'package:sale_managment/share/model/catgory.dart';
 
-class AddNewCategoryScreen extends StatefulWidget {
+class EditCategoryScreen extends StatefulWidget {
+  final CategoryModel categoryModel;
+  EditCategoryScreen(this.categoryModel);
   @override
   _AddNewCategoryScreenState createState() => _AddNewCategoryScreenState();
 }
 
-class _AddNewCategoryScreenState extends State<AddNewCategoryScreen> {
+class _AddNewCategoryScreenState extends State<EditCategoryScreen> {
   var borderColorsTextField = Colors.deepPurple;
   var labelStyle = TextStyle(fontSize: 20, color: Colors.deepPurple, fontFamily: 'roboto');
   var hintStyle = TextStyle(fontFamily: 'roboto');
@@ -17,11 +19,14 @@ class _AddNewCategoryScreenState extends State<AddNewCategoryScreen> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    print(widget.categoryModel.toString());
+    this.nameValueController.text = widget.categoryModel.name;
+    this.remarkValueController.text = widget.categoryModel.remark;
     return Scaffold(
       appBar: _appBar(),
       body: Column(
         children: <Widget>[
-         _container(),
+          _container(),
           _body(),
           Stack(
             children: <Widget>[
@@ -37,7 +42,7 @@ class _AddNewCategoryScreenState extends State<AddNewCategoryScreen> {
                   //   left: 5,
                   //   right: 5
                   // ),
-                  child: Center(child: Text('SAVE', style: TextStyle(fontWeight: FontWeight.w700, color: Colors.white, fontFamily: 'roboto', fontSize: 18))),
+                  child: Center(child: Text('EDIT', style: TextStyle(fontWeight: FontWeight.w700, color: Colors.white, fontFamily: 'roboto', fontSize: 18))),
                 ),
               ),
             ],
@@ -49,8 +54,8 @@ class _AddNewCategoryScreenState extends State<AddNewCategoryScreen> {
 
   AppBar _appBar() {
     return AppBar(
-      title: Text('Category', style: TextStyle(fontFamily: 'roboto', fontWeight: FontWeight.w700)),
-      backgroundColor: Colors.purple[900]
+        title: Text('Category', style: TextStyle(fontFamily: 'roboto', fontWeight: FontWeight.w700)),
+        backgroundColor: Colors.purple[900]
     );
   }
 
@@ -67,8 +72,8 @@ class _AddNewCategoryScreenState extends State<AddNewCategoryScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Text(
-            'Add New Category',
-            style: containStyle
+              'Edit Category',
+              style: containStyle
           ),
         ],
       ),
@@ -78,13 +83,13 @@ class _AddNewCategoryScreenState extends State<AddNewCategoryScreen> {
   Expanded _body() {
     return Expanded(
         child: SingleChildScrollView(
-          padding: EdgeInsets.only(left: 10),
-          physics: ClampingScrollPhysics(),
-          child: Column(
-            children: <Widget>[
-              _categoryNameField(),
-              _categoryRemarkField()
-            ])
+            padding: EdgeInsets.only(left: 10),
+            physics: ClampingScrollPhysics(),
+            child: Column(
+                children: <Widget>[
+                  _categoryNameField(),
+                  _categoryRemarkField()
+                ])
         )
     );
   }
