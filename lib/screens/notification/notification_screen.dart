@@ -21,10 +21,10 @@ class _NotificationScreenState extends State<NotificationScreen> {
         centerTitle: true,
         title: Text('Notification'),
         backgroundColor: Colors.purple[900],
-        leading: Container(
-          padding: EdgeInsets.only(
-              top: 5
-          ),
+        // leading: Container(
+        //   padding: EdgeInsets.only(
+        //       top: 5
+        //   ),
           // child: Column(
           //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
           //   children: <Widget>[
@@ -40,7 +40,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
           //     ),
           //   ],
           // ),
-        )
+        // )
     );
   }
 }

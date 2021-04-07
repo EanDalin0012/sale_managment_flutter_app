@@ -7,6 +7,7 @@ import 'package:sale_managment/screens/home/widgets/sheet_container.dart';
 import 'package:sale_managment/screens/notification/notification_screen.dart';
 import 'package:sale_managment/screens/sale/sale_screen.dart';
 import 'package:sale_managment/screens/sign_in/sign_in_screen.dart';
+import 'package:sale_managment/screens/widgets/side_nav.dart';
 import 'package:sale_managment/share/constant/constantcolor.dart';
 
 class Home extends StatefulWidget {
@@ -18,6 +19,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int _selectedIndex = 0;
   String _titleBar = 'Home';
+  var isSelectMenu = false;
 
   List<GlobalKey<NavigatorState>> _navigatorKeys = [
     GlobalKey<NavigatorState>(),
@@ -117,68 +119,43 @@ class _HomeState extends State<Home> {
   AppBar _appBar() {
     return AppBar(
       title: Text(_titleBar),
-      centerTitle: true,
       backgroundColor: Colors.purple[900],
       elevation: 0,
-      leading: new Container(),
+      leading: Builder(builder: (context) {
+        return IconButton(
+            icon: Icon(Icons.sort_rounded),
+            onPressed: () => Scaffold.of(context).openDrawer());
+      },),
       actions: <Widget>[
-        Stack(
-          children: <Widget>[
-            InkWell(
-              onTap: () {
+        InkWell(
+          onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => NotificationScreen()),
                 );
-              },
-              child: Container(
-                height: 80,
-                padding: EdgeInsets.only(
-                    top: 5,
-                    right: 10,
-                    left: 10
-                ),
-                child: Icon(Icons.notifications),
-              ),
-            ),
-            Container(
-              width: 20,
-              height: 20,
-              decoration: BoxDecoration(
-                color: Colors.purple.withOpacity(0.5),
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-              ),
-              padding: EdgeInsets.only(
-                  left: 6,
-                  top: 1
-              ),
-              margin: EdgeInsets.only(
-                  top: 7,
-                  left: 20
-              ),
-              child: Text('2', style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w800)),
-            ),
-          ],
-        ),
-        InkWell(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => SignInScreen()),
-            );
           },
           child: Container(
-            height: 40,
-            padding: EdgeInsets.only(
-                top: 7,
-                right: 5,
-                left: 5
-            ),
-            margin: EdgeInsets.only(
-                right: 5
-            ),
-            child: Icon(Icons.logout),
-          ),
+                  height: 80,
+                  width: 55,
+                  child: Stack(
+                    children: <Widget>[
+                      Center(child:  Icon(Icons.notifications)),
+                      Container(
+                          width: 20,
+                          height: 20,
+                          margin: EdgeInsets.only(
+                            top: 5,
+                            left: 30
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.purple.withOpacity(0.5),
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                          ),
+                          child: Center(child: Text('2', style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w800))),
+                        ),
+                    ],
+                  ),
+                ),
         ),
       ],
     );
@@ -252,6 +229,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: _appBar(),
+        drawer: SideNave(),
         backgroundColor: Colors.black12.withOpacity(0.1),
         bottomNavigationBar: _bottomNavigationBar(),
         body: WillPopScope(
