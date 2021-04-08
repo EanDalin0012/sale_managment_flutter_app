@@ -158,19 +158,6 @@ class _CategoryState extends State<CategoryScreen> {
   Widget _offsetPopup(CategoryModel categoryModel) => PopupMenuButton<int>(
     itemBuilder: (context) => [
       PopupMenuItem(
-          value: 1,
-          child: Row(
-            children: <Widget>[
-              FaIcon(FontAwesomeIcons.infoCircle,size: 20,color: Colors.purple[900]),
-              SizedBox(width: 10,),
-              Text(
-                "View",
-                style: menuStyle,
-              ),
-            ],
-          )
-      ),
-      PopupMenuItem(
           value: 2,
           child: Row(
             children: <Widget>[

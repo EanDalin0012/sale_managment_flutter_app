@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -217,7 +220,8 @@ class _HomeState extends State<Home> {
                     )
                 ),
                 onPressed: () {
-                  Navigator.of(context, rootNavigator: true).pop(true);
+                  exit(0);
+                  // SystemNavigator.pop();
                 },
               ),
             ],
