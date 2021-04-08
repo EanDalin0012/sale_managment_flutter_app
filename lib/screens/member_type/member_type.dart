@@ -1,24 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:sale_managment/screens/category/add_category.dart';
-import 'package:sale_managment/screens/category/edit_category.dart';
 import 'package:sale_managment/share/components/show_dialog/show_dialog.dart';
 import 'package:sale_managment/share/constant/constantcolor.dart';
 import 'package:sale_managment/share/constant/text_style.dart';
 import 'package:sale_managment/share/model/catgory.dart';
 import 'package:sale_managment/share/model/data/category.dart';
 
-class CategoryScreen extends StatefulWidget {
+class MemberType extends StatefulWidget {
   @override
-  _CategoryState createState() => _CategoryState();
+  _MemberTypeState createState() => _MemberTypeState();
 }
 
-class _CategoryState extends State<CategoryScreen> {
+class _MemberTypeState extends State<MemberType> {
   bool isSearch = false;
   TextEditingController _controller;
   List<CategoryModel> categories = categoriesData;
   var menuStyle = TextStyle( color: Colors.purple[900], fontWeight: FontWeight.w500, fontFamily: fontFamilyDefault);
-
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +27,17 @@ class _CategoryState extends State<CategoryScreen> {
             _mainTransactionBody()
           ],
         ),
-      floatingActionButton: _floatingActionButton()
+        floatingActionButton: _floatingActionButton()
     );
+  }
+
+  _save() async {
+    // if (_controller.text.isEmpty) return;
+    // FocusScope.of(context).requestFocus(FocusNode());
+    // setState(() {
+    //   messages.insert(0, Message(rand.nextInt(2), _controller.text));
+    //   _controller.clear();
+    // });
   }
 
   AppBar _appBar() {
@@ -49,7 +55,7 @@ class _CategoryState extends State<CategoryScreen> {
       //   horizontal: 16.0,
       // ),
       decoration: BoxDecoration(
-        color: Colors.grey.shade200
+          color: Colors.grey.shade200
       ),
       padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 20.0),
       child: Row(
@@ -102,56 +108,47 @@ class _CategoryState extends State<CategoryScreen> {
     );
   }
 
-  _save() async {
-    // if (_controller.text.isEmpty) return;
-    // FocusScope.of(context).requestFocus(FocusNode());
-    // setState(() {
-    //   messages.insert(0, Message(rand.nextInt(2), _controller.text));
-    //   _controller.clear();
-    // });
-  }
-
   Expanded _mainTransactionBody() {
     return Expanded(
         child: SingleChildScrollView(
-          padding: EdgeInsets.only(left: 10),
-          physics: ClampingScrollPhysics(),
-          child: InkWell(
-            splashColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-            onTap: () {
-              print(this.isSearch);
-              setState(() {
-                this.isSearch = false;
-              });
-            },
-            child: ListView.separated(
-                  primary: false,
-                  shrinkWrap: true,
-                  separatorBuilder: (context, index) => Divider(),
-                  itemCount: categories.length,
-                  itemBuilder: (context, index) => ListTile(
-                    title: Text( categories[index].name,
-                      style: TextStyle(
-                        color: Colors.black87,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        fontFamily: fontFamilyDefault
-                      ),
-                    ),
-                    subtitle: Text(
-                      'Remark: '+categories[index].remark,
-                      style: TextStyle( color: primaryColor.withOpacity(0.8),fontSize: 12,fontWeight: FontWeight.w500, fontFamily: fontFamilyDefault),
-                    ),
-                      trailing: Column(
-                        children: <Widget>[
-                          _offsetPopup(categories[index]),
-                        ],
-                      )
-                  )
+            padding: EdgeInsets.only(left: 10),
+            physics: ClampingScrollPhysics(),
+            child: InkWell(
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                onTap: () {
+                  print(this.isSearch);
+                  setState(() {
+                    this.isSearch = false;
+                  });
+                },
+                child: ListView.separated(
+                    primary: false,
+                    shrinkWrap: true,
+                    separatorBuilder: (context, index) => Divider(),
+                    itemCount: categories.length,
+                    itemBuilder: (context, index) => ListTile(
+                        title: Text( categories[index].name,
+                          style: TextStyle(
+                              color: Colors.black87,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              fontFamily: fontFamilyDefault
+                          ),
+                        ),
+                        subtitle: Text(
+                          'Remark: '+categories[index].remark,
+                          style: TextStyle( color: primaryColor.withOpacity(0.8),fontSize: 12,fontWeight: FontWeight.w500, fontFamily: fontFamilyDefault),
+                        ),
+                        trailing: Column(
+                          children: <Widget>[
+                            _offsetPopup(categories[index]),
+                          ],
+                        )
+                    )
                 )
 
-          )
+            )
         )
     );
   }
@@ -194,10 +191,10 @@ class _CategoryState extends State<CategoryScreen> {
         //   MaterialPageRoute(builder: (context) => VendorViewScreen(vendorModel)),
         // );
       } else if(value == 2) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => EditCategoryScreen(categoryModel)),
-        );
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(builder: (context) => EditCategoryScreen(categoryModel)),
+        // );
       } else if (value == 3) {
         _showDialog(categoryModel);
       }
@@ -219,15 +216,14 @@ class _CategoryState extends State<CategoryScreen> {
         }
     );
   }
-
   FloatingActionButton _floatingActionButton() {
     return FloatingActionButton(
       backgroundColor: Colors.purple[900],
       onPressed: (){
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => AddNewCategoryScreen()),
-        );
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(builder: (context) => AddNewCategoryScreen()),
+        // );
       },
       tooltip: 'Increment',
       elevation: 5,

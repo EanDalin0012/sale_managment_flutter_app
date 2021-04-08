@@ -97,14 +97,14 @@ class _HomeState extends State<Home> {
 
   Container _showModelSheet() {
     var orientation = MediaQuery.of(context).orientation;
-    double height = (MediaQuery.of(context).copyWith().size.height / 2.5);
+    double height = (MediaQuery.of(context).copyWith().size.height * 0.5);
     // double height1 = MediaQuery.of(context).copyWith().size.height;
     // if( (height1/1.5) < 395) {
     //   height = height1/1.8;
     // }
     setState(() {
       if(orientation != Orientation.portrait){
-        height = MediaQuery.of(context).copyWith().size.height * 0.67;
+        height = MediaQuery.of(context).copyWith().size.height * 0.5;
       }
     });
     showModalBottomSheet(
