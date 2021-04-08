@@ -12,58 +12,48 @@ class SideNave extends StatelessWidget {
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
     return Drawer(
-            child: Column(
-                children: <Widget>[
-                  _container(context),
-                  ListTile(title: Text("KYC Form"), leading: Icon(Icons.info),),
-                  ListTile(title: Text("My Bookings"), leading: Icon(FontAwesomeIcons.calendarDay),),
-                  ListTile(title: Text("My Purchases"), leading: Icon(FontAwesomeIcons.listOl),),
-                  ListTile(title: Text("Transaction Limits"), leading: Icon(FontAwesomeIcons.chartLine),),
-                  ListTile(title: Text("Coupan"), leading: Icon(Icons.card_giftcard),),
-                  Divider(),
-                  ListTile(title: Text("Play Khalti Quiz"), leading: Icon(FontAwesomeIcons.brain),),
-                  ListTile(title: Text("Khalti Points"), leading: Icon(FontAwesomeIcons.coins),),
-                  Divider(),
-                  ListTile(title: Text("Settings"), leading: Icon(Icons.settings),),
-                  ExpansionTile(
-                    backgroundColor: Colors.grey.shade100,
-                    title: Text("Help & Support"),
-                    leading: Icon(Icons.headset_mic),
-                    children: <Widget>[
-                      ListTile(title: Text("FAQ"),),
-                      ListTile(title: Text("Contact Us"),),
-                      ListTile(title: Text("Feedback"),),
-                    ],
-                  ),
-                  ListTile(title: Text("About"), leading: Icon(Icons.info),),
-                  ListTile(title: Text("Logout"), leading: Icon(Icons.exit_to_app),),
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 60.0,),
-                    color: Colors.grey.shade200,
-                    child: Text("2.20.00"),
-                  )
-                ]
+            child: Scaffold(
+              body: Column(
+                  children: <Widget>[
+                    _container(context),
+                    // ListTile(title: Text("KYC Form"), leading: Icon(Icons.info),),
+                    // ListTile(title: Text("My Bookings"), leading: Icon(FontAwesomeIcons.calendarDay),),
+                    // ListTile(title: Text("My Purchases"), leading: Icon(FontAwesomeIcons.listOl),),
+                    ListTile(title: Text("Transaction Limits"), leading: Icon(FontAwesomeIcons.chartLine),),
+                    ListTile(title: Text("Coupan"), leading: Icon(Icons.card_giftcard),),
+                    Divider(),
+                    ListTile(title: Text("Play Khalti Quiz"), leading: Icon(FontAwesomeIcons.brain),),
+                    ListTile(title: Text("Khalti Points"), leading: Icon(FontAwesomeIcons.coins),),
+                    Divider(),
+                    ListTile(title: Text("Settings"), leading: Icon(Icons.settings),),
+                    ExpansionTile(
+                      backgroundColor: Colors.grey.shade100,
+                      title: Text("Help & Support"),
+                      leading: Icon(Icons.headset_mic),
+                      children: <Widget>[
+                        ListTile(title: Text("FAQ"),),
+                        ListTile(title: Text("Contact Us"),),
+                        ListTile(title: Text("Feedback"),),
+                      ],
+                    ),
+                    ListTile(title: Text("About"), leading: Icon(Icons.info),),
+                    ListTile(title: Text("Logout"), leading: Icon(Icons.exit_to_app),),
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 60.0,),
+                      color: Colors.grey.shade200,
+                      child: Text("2.20.00"),
+                    )
+                  ]
+              ),
             )
     );
   }
 
   AppBar _appBar(){
     return AppBar(
-      centerTitle: true,
-      // leading: Builder(
-      //   builder: (BuildContext context) {
-      //     return IconButton(
-      //       icon: const Icon(Icons.arrow_back, color: Colors.red,),
-      //       onPressed: () {
-      //         Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
-      //       },
-      //       tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-      //     );
-      //   },
-      // ),
-      title: Text('Product', style: TextStyle(color: Color(0xff324558))),
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.transparent,
+      leading: new Container()
     );
   }
 

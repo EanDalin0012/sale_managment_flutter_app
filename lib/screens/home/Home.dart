@@ -165,7 +165,7 @@ class _HomeState extends State<Home> {
   }
 
   Future<bool> _onBackPressed() {
-    var padding = EdgeInsets.all(10);
+    var padding = EdgeInsets.all(5);
     return showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -176,7 +176,6 @@ class _HomeState extends State<Home> {
               FlatButton(
                 child: Container(
                     padding: padding,
-                    width: 125,
                     decoration: BoxDecoration(
                       color: Colors.red[700].withOpacity(0.2),//Color(0xffd9dbdb).withOpacity(0.4),
                       borderRadius: BorderRadius.circular(50),
@@ -185,10 +184,10 @@ class _HomeState extends State<Home> {
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
-                            SizedBox(width: 5,),
                             FaIcon(FontAwesomeIcons.timesCircle,size: 25,color: Colors.red),
-                            SizedBox(width: 15,),
-                            Text('No',style: GoogleFonts.merriweather(fontSize: 20, fontWeight: FontWeight.w500, color: Colors.black),)
+                            SizedBox(width: 5,),
+                            Center(child: Text('No',style: GoogleFonts.merriweather(fontSize: 20, fontWeight: FontWeight.w500, color: Colors.black),)),
+                            SizedBox(width: 5,),
                           ],
 
                         )
@@ -201,7 +200,6 @@ class _HomeState extends State<Home> {
               FlatButton(
                 child: Container(
                     padding: padding,
-                    width: 125,
                     decoration: BoxDecoration(
                       color: Colors.purple[900].withOpacity(0.2),
                       borderRadius: BorderRadius.circular(50),
@@ -210,10 +208,11 @@ class _HomeState extends State<Home> {
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
-                            SizedBox(width: 5,),
+                            // SizedBox(width: 5,),
                             FaIcon(FontAwesomeIcons.checkCircle,size: 25,color: Colors.purple[900]),
-                            SizedBox(width: 15,),
-                            Text('Yes',style: GoogleFonts.merriweather(fontSize: 20, fontWeight: FontWeight.w500, color: Colors.black),)
+                            SizedBox(width: 5,),
+                            Center(child: Text('Yes',style: GoogleFonts.merriweather(fontSize: 20, fontWeight: FontWeight.w500, color: Colors.black),)),
+                            SizedBox(width: 5,),
                           ],
 
                         )
