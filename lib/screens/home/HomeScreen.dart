@@ -1,7 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sale_managment/screens/home/widgets/product_card.dart';
+import 'package:sale_managment/screens/widgets/simple_bar_chart.dart';
 import 'package:sale_managment/share/model/data/stock_details_data.dart';
 import 'package:sale_managment/share/model/stock_details_model.dart';
+import 'package:charts_flutter/flutter.dart' as charts;
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -9,72 +12,102 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
   static List<StockDetails> stockDetailData = stockDetailsData;
+  final List<String> entries = <String>['A', 'B', 'C'];
+  final List<int> colorCodes = <int>[600, 500, 100];
+
+  static List<charts.Series<OrdinalSales, String>> _createSampleData1() {
+    final data = [
+      new OrdinalSales('2014', 5),
+      new OrdinalSales('2015', 25),
+      new OrdinalSales('2016', 100),
+      new OrdinalSales('2017', 75),
+      new OrdinalSales('2018', 200),
+    ];
+
+    return [
+      new charts.Series<OrdinalSales, String>(
+        id: 'Sales',
+        colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
+        domainFn: (OrdinalSales sales, _) => sales.year,
+        measureFn: (OrdinalSales sales, _) => sales.sales,
+        data: data,
+      )
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      body: SingleChildScrollView(
-         child: Container(
-          alignment: Alignment.center,
-          color: Theme.of(context).buttonColor,
-          child: Column(
-              children: <Widget> [
-                Column(
-                  children: stockDetailData.map((e) =>
+      backgroundColor: Colors.white60,
+      body: CustomScrollView(
+          slivers: <Widget>[
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: _buildTitledContainer("Sales1",
+                    child: Container(
+                        height: 200, child: SimpleBarChart(_createSampleData1(), animate: false))),
+              ),
+            ),
+            SliverToBoxAdapter(
+              child: Column(
+                children: stockDetailData.map((e) =>
                     Container(
-                      height: 200,
-                      width: size.width,
-                      margin: EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(20))),
-                      child: CustomScrollView(
-                          slivers: [
-                            SliverToBoxAdapter(
-                              child: Padding(
-                                padding: EdgeInsets.only(top: 5, left: 10),
-                                child: Text(e.stockName.toString(),),
+                        height: 180,
+                        width: size.width,
+                        margin: EdgeInsets.all(5),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.all(Radius.circular(5))
+                        ),
+                        child: CustomScrollView(
+                            slivers: [
+                              SliverToBoxAdapter(
+                                child: Padding(
+                                  padding: EdgeInsets.only(top: 5, left: 10),
+                                  child: Text(e.stockName.toString(),style: TextStyle(color: Colors.purple[900],fontSize: 18.0,fontWeight: FontWeight.w700, fontFamily: 'roboto, khmer siemreap'),),
+                                ),
                               ),
-                            ),
-                            SliverToBoxAdapter(
-                                child: Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  height: 160,
-                                  margin: EdgeInsets.only(top: 5),
-                                  child: PageView(
-                                    controller: PageController(viewportFraction: 0.8,initialPage: 2),
-                                    children: e.products.map((item) =>
-                                      ProductCard(item)
-                                    ).toList(),
-                                  ),
-                                )
-                            )
-                          ]
-                      )
+                              SliverToBoxAdapter(
+                                  child: Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    height: 150,
+                                    color: Colors.white,
+                                    // margin: EdgeInsets.only(top: 5),
+                                    child: ListView.builder(
+                                        scrollDirection: Axis.horizontal,
+                                        itemCount: e.products.length,
+                                        itemBuilder: (BuildContext context, int index) {
+                                          // access element from list using index
+                                          // you can create and return a widget of your choice
+                                          return ProductCard(e.products[index], index);
+                                        }
+                                    ),
+                                  )
+                              ),
+                              SliverToBoxAdapter(
+                                  child: SizedBox(height: 20,)
+                              )
+                            ]
+                        )
 
                     )
-                  ).toList(),
-                ),
+                ).toList(),
+              ),
+            ),
+            SliverFixedExtentList(
+              itemExtent: 75,
+              delegate: SliverChildListDelegate([
+                Container(color: Colors.blue),
+                Container(color: Colors.pink),
+                Container(color: Colors.yellow),
+              ]),
+            ),
 
-                Container(
-                  height: 600,
-                  width: size.width,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(48),
-                        topRight: Radius.circular(48),
-                      )),
-                  child: IconButton(
-                    tooltip: 'Hello',
-                    icon: Icon(Icons.send),
-                    color: Theme.of(context).primaryColor,
-                  ),
-                ),
-              ]
-          )
-        ),
+          ]
       ),
     );
   }
@@ -147,6 +180,27 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ],
+    );
+  }
+
+  Container _buildTitledContainer(String title, {Widget child, double height}) {
+    return Container(
+      padding: const EdgeInsets.all(16.0),
+      width: double.infinity,
+      height: height,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20.0),
+        color: Colors.white,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(title,
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 28.0),
+          ),
+          if (child != null) ...[const SizedBox(height: 10.0), child]
+        ],
+      ),
     );
   }
 

@@ -6,6 +6,7 @@ final List<StockDetails> stockDetailsData = [
       [
         ProductStockDetails('P-White',100,50,22.00,1100.00, 100.00),
         ProductStockDetails('TAMARIND Scrub',100,50,10.00,500.00, 50.00),
+        ProductStockDetails('ទឹកដោះគោស្តួត',100,50,15.00,750.00, 50.00),
         ProductStockDetails('ទឹកដោះគោស្តួត',100,50,15.00,750.00, 50.00)
       ]
   ),
