@@ -2,49 +2,85 @@
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:sale_managment/screens/management/management.dart';
 
 class SideNave extends StatelessWidget {
   Size size;
   var numItems = 20;
   var _biggerFont = TextStyle(fontSize: 18.0);
   var logo = '';
+  var leftSub = 10.0;
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
     return Drawer(
             child: Scaffold(
-              body: Column(
-                  children: <Widget>[
-                    _container(context),
-                    // ListTile(title: Text("KYC Form"), leading: Icon(Icons.info),),
-                    // ListTile(title: Text("My Bookings"), leading: Icon(FontAwesomeIcons.calendarDay),),
-                    // ListTile(title: Text("My Purchases"), leading: Icon(FontAwesomeIcons.listOl),),
-                    ListTile(title: Text("Transaction Limits"), leading: Icon(FontAwesomeIcons.chartLine),),
-                    ListTile(title: Text("Coupan"), leading: Icon(Icons.card_giftcard),),
-                    Divider(),
-                    ListTile(title: Text("Play Khalti Quiz"), leading: Icon(FontAwesomeIcons.brain),),
-                    ListTile(title: Text("Khalti Points"), leading: Icon(FontAwesomeIcons.coins),),
-                    Divider(),
-                    ListTile(title: Text("Settings"), leading: Icon(Icons.settings),),
-                    ExpansionTile(
-                      backgroundColor: Colors.grey.shade100,
-                      title: Text("Help & Support"),
-                      leading: Icon(Icons.headset_mic),
-                      children: <Widget>[
-                        ListTile(title: Text("FAQ"),),
-                        ListTile(title: Text("Contact Us"),),
-                        ListTile(title: Text("Feedback"),),
-                      ],
-                    ),
-                    ListTile(title: Text("About"), leading: Icon(Icons.info),),
-                    ListTile(title: Text("Logout"), leading: Icon(Icons.exit_to_app),),
-                    Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 60.0,),
-                      color: Colors.grey.shade200,
-                      child: Text("2.20.00"),
-                    )
-                  ]
+              body: SingleChildScrollView(
+                child: Column(
+                    children: <Widget>[
+                      _container(context),
+                      // ListTile(title: Text("KYC Form"), leading: Icon(Icons.info),),
+                      // ListTile(title: Text("My Bookings"), leading: Icon(FontAwesomeIcons.calendarDay),),
+                      // ListTile(title: Text("My Purchases"), leading: Icon(FontAwesomeIcons.listOl),),
+                      ListTile(title: Text("Transaction Limits"), leading: Icon(FontAwesomeIcons.chartLine),),
+                      ListTile(title: Text("Coupan"), leading: Icon(Icons.card_giftcard),),
+                      Divider(),
+                      ListTile(title: Text("Play Khalti Quiz"), leading: Icon(FontAwesomeIcons.brain),),
+                      ListTile(title: Text("Khalti Points"), leading: Icon(FontAwesomeIcons.coins),),
+                      Divider(),
+                      ListTile(title: Text("Settings"), leading: Icon(Icons.settings),),
+                      Divider(),
+                      ExpansionTile(
+                        backgroundColor: Colors.grey.shade100,
+                        title: Text("Management"),
+                        leading: Icon(Icons.headset_mic),
+                        children: <Widget>[
+                          ListTile(
+                            title: Container(
+                                margin: EdgeInsets.only(left: leftSub),
+                                child: Text("FAQ")
+                            ),
+                          ),
+                          Divider(),
+                          ListTile(title: Container(
+                              margin: EdgeInsets.only(left: leftSub),
+                              child: Text("FAQ")
+                          )),
+                          Divider(),
+                          ListTile(title: Container(
+                              margin: EdgeInsets.only(left: leftSub),
+                              child: Text("FAQ")
+                          )),
+                        ],
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => ManagementScreen()),
+                          );
+                        },
+                        child: ListTile(title: Text("Management"), leading: Icon(Icons.settings),)),
+                      ExpansionTile(
+                        backgroundColor: Colors.grey.shade100,
+                        title: Text("Help & Support"),
+                        leading: Icon(Icons.headset_mic),
+                        children: <Widget>[
+                          ListTile(title: Text("FAQ"),),
+                          ListTile(title: Text("Contact Us"),),
+                          ListTile(title: Text("Feedback"),),
+                        ],
+                      ),
+                      ListTile(title: Text("About"), leading: Icon(Icons.info),),
+                      ListTile(title: Text("Logout"), leading: Icon(Icons.exit_to_app),),
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 60.0,),
+                        color: Colors.grey.shade200,
+                        child: Text("2.20.00"),
+                      )
+                    ]
+                ),
               ),
             )
     );

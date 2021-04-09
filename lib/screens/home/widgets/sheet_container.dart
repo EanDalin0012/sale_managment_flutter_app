@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sale_managment/screens/category/category.dart';
 import 'package:sale_managment/screens/customer/Customer.dart';
+import 'package:sale_managment/screens/package_product%E2%80%8B%E2%80%8B/package_product.dart';
 import 'package:sale_managment/screens/product/Product.dart';
-import 'package:sale_managment/screens/vendor/Vendor.dart';
-import 'package:sale_managment/share/constant/constantcolor.dart';
+import 'package:sale_managment/share/constant/text_style.dart';
 
 class SheetContainer extends StatefulWidget {
   final BuildContext context;
@@ -15,7 +15,6 @@ class SheetContainer extends StatefulWidget {
 
 class _SheetContainerState extends State<SheetContainer> {
   var colorContain = Color(0xffd9dbdb).withOpacity(0.9);
-  Color _textColor= Colors.purple[900];
   Color _iconColor = Colors.purple[900];
   double _iconSize = 25;
   double wContainer = 60;
@@ -42,12 +41,35 @@ class _SheetContainerState extends State<SheetContainer> {
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
+                  Stack(
+                      children: [
+                        Container(
+                          width: double.infinity,
+                          height: 35.0,
+                          child: Center(
+                              child: Text("Menu",
+                                style: TextStyle(fontFamily: fontFamilyDefault, fontWeight: FontWeight.w700, fontSize: 20)
+                              ) // Your desired title
+                          ),
+                        ),
+                        Positioned(
+                            left: 0.0,
+                            top: 0.0,
+                            child: IconButton(
+                                icon: FaIcon(FontAwesomeIcons.arrowLeft,size: 20 , color: _iconColor,), // Your desired icon
+                                onPressed: (){
+                                  Navigator.of(context).pop();
+                                }
+                            )
+                        )
+                      ]
+                  ),
                   drawerHandler(),
                   item1(w,h),
                   SizedBox(height: 20,),
                   item0(w, h),
                   SizedBox(height: 20,),
-                  item0(w, h),
+                  item2(w, h),
                 ]
             ),
           )
@@ -58,12 +80,110 @@ class _SheetContainerState extends State<SheetContainer> {
   drawerHandler() {
     return Container(
       margin: EdgeInsets.only(bottom: 25),
-      height: 5,
+      height: 4,
       width: 60,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
           color: Color(0xffd9dbdb)
       ),
+    );
+  }
+
+  item2(double w, double h) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: <Widget>[
+        InkWell(
+          onTap: () {
+            Navigator.pop(widget.context);
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => PackageProductScreen()
+              ),
+            );
+
+          },
+          child: Container(
+            width: w,
+            height: h + 5,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  width: 50,
+                  height: 50,
+                  decoration: BoxDecoration(
+                      color: colorContain,
+                      borderRadius: BorderRadius.circular(50),
+                      border: border
+                  ),
+                  child: Center(child: FaIcon(FontAwesomeIcons.cuttlefish,size: _iconSize , color: _iconColor,)),
+                ),
+                SizedBox(height: 5,),
+                Text('Package',style: textStyle),
+              ],
+            ),
+          ),
+        ),
+        InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Product()),
+            );
+          },
+          child: Container(
+            width: w,
+            height: h,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  width: 50,
+                  height: 50,
+                  decoration: BoxDecoration(
+                      color: colorContain,
+                      borderRadius: BorderRadius.circular(50),
+                      border: border
+                  ),
+                  child: Center(child: FaIcon(FontAwesomeIcons.productHunt,size: _iconSize,color: _iconColor)),
+                ),
+                SizedBox(height: 5,),
+                Text('Product',style: textStyle),
+              ],
+            ),
+          ),
+        ),
+        InkWell(
+          onTap: () {
+            print('Vendor Click');
+          },
+          child: Container(
+            width: w,
+            height: h,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  width: 50,
+                  height: 50,
+                  decoration: BoxDecoration(
+                      color: colorContain,
+                      borderRadius: BorderRadius.circular(50),
+                      border: border
+                  ),
+                  child: Center(child: FaIcon(FontAwesomeIcons.vimeo,size: _iconSize,color: _iconColor)),
+                ),
+                SizedBox(height: 5,),
+                Text('Vendor',style: textStyle),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 

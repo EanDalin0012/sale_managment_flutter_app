@@ -60,7 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         width: size.width,
                         margin: EdgeInsets.all(5),
                         decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: Color(0xffd9dbdb).withOpacity(0.4),
                             borderRadius: BorderRadius.all(Radius.circular(5))
                         ),
                         child: CustomScrollView(
@@ -75,7 +75,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                   child: Container(
                                     width: MediaQuery.of(context).size.width,
                                     height: 150,
-                                    color: Colors.white,
                                     // margin: EdgeInsets.only(top: 5),
                                     child: ListView.builder(
                                         scrollDirection: Axis.horizontal,

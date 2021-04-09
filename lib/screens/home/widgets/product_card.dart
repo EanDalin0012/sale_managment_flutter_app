@@ -22,7 +22,7 @@ class _ProductCardState extends State<ProductCard> {
     Size size = MediaQuery.of(context).size;
     var color;
     if (widget.index % 2 == 0) {
-      color = Colors.deepPurpleAccent;
+      color = Color(0xffd9dbdb).withOpacity(0.9);
     } else {
       color = Colors.deepOrangeAccent;
     }
