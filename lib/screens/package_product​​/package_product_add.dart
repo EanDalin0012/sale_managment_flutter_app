@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:sale_managment/screens/widgets/contry_dropdown/country_dropdown.dart';
 import 'package:sale_managment/screens/widgets/dropdown_container.dart';
+import 'package:sale_managment/screens/widgets/product_dropdown/product_dropdown.dart';
 import 'package:sale_managment/share/constant/text_style.dart';
 import 'package:sale_managment/share/model/catgory.dart';
 
@@ -99,8 +101,11 @@ class _PackageProductAddState extends State<PackageProductAdd> {
             physics: ClampingScrollPhysics(),
             child: Column(
                 children: <Widget>[
+                  CountryDropdown(),
+                  ProductDropdown(),
                   _categoryNameField(),
                   _productDropdown(),
+                  _productDropdown1(),
                   _categoryRemarkField()
                 ])
         )
@@ -219,6 +224,26 @@ class _PackageProductAddState extends State<PackageProductAdd> {
               );
             }).toList()
         ),
+      ),
+    );
+  }
+
+  Container _productDropdown1() {
+    return Container(
+      child: DropdownButton(
+        hint: Text('Select Product'),
+        dropdownColor: Colors.grey,
+        icon: Icon(Icons.arrow_circle_down),
+        iconSize: 36,
+        isExpanded: true,
+        underline: SizedBox(),
+        style: TextStyle(
+          color: Colors.black,
+          fontSize: 22
+        ),
+        onChanged: (newValue) {
+
+        },
       ),
     );
   }

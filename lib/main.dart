@@ -1,26 +1,44 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sale_managment/screens/home/Home.dart';
-import 'package:sale_managment/screens/home/home_screen.dart';
-import 'package:sale_managment/screens/widgets/simple_bar_chart.dart';
-import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:flutter/services.dart';
+import 'package:sale_managment/screens/widgets/contry_dropdown/provider/country_provider.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
+  Widget build(BuildContext context) => ChangeNotifierProvider(
+    create: (context) => CountryProvider(),
+    child: MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
       home: MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
+    )
+  );
+
+  // @override
+  // Widget build1(BuildContext context) {
+  //   return MaterialApp(
+  //     debugShowCheckedModeBanner: false,
+  //     title: 'Flutter Demo',
+  //     theme: ThemeData(
+  //       primarySwatch: Colors.blue,
+  //     ),
+  //     home: MyHomePage(title: 'Flutter Demo Home Page'),
+  //   );
+  // }
 }
 
 class MyHomePage extends StatefulWidget {

@@ -6,6 +6,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sale_managment/screens/home/HomeScreen.dart';
+import 'package:sale_managment/screens/home/home_screen.dart';
 import 'package:sale_managment/screens/home/widgets/sheet_container.dart';
 import 'package:sale_managment/screens/notification/notification_screen.dart';
 import 'package:sale_managment/screens/sale/sale_screen.dart';
@@ -30,6 +31,7 @@ class _HomeState extends State<Home> {
     GlobalKey<NavigatorState>()
   ];
   List<Widget> _widgetOptions = <Widget>[
+    HomeScreen1(),
     HomeScreen(),
     SaleScreen(),
   ];

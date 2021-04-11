@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:provider/provider.dart';
 import 'package:sale_managment/screens/home/home_container_screen.dart';
 import 'package:sale_managment/screens/notification/notification_screen.dart';
 import 'package:sale_managment/screens/sale/sale_screen.dart';
 import 'package:sale_managment/screens/sign_in/sign_in_screen.dart';
+import 'package:sale_managment/screens/widgets/contry_dropdown/country_page.dart';
+import 'package:sale_managment/screens/widgets/contry_dropdown/provider/country_provider.dart';
 import 'package:sale_managment/screens/widgets/simple_bar_chart.dart';
 import 'package:sale_managment/share/constant/constantcolor.dart';
+import 'package:sale_managment/share/model/country.dart';
+import 'package:sale_managment/screens/widgets/contry_dropdown/flag_widget.dart';
 
 class HomeScreen1 extends StatefulWidget {
   @override
@@ -13,32 +18,116 @@ class HomeScreen1 extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen1> {
-  int _selectedIndex = 0;
-  String _titleBar = 'Home';
-
+  CountryModel country;
+  List<CountryModel> countries = [];
+  var isMultiSelection = false;
   @override
-  Widget build(BuildContext context) {
-    return WillPopScope(
-        onWillPop: () async {
-          final isFirstRouteInCurrentTab = !await _navigatorKeys[_selectedIndex].currentState.maybePop();
-          print(
-              'isFirstRouteInCurrentTab: ' + isFirstRouteInCurrentTab.toString());
-          // let system handle back button if we're on the first route
-          return isFirstRouteInCurrentTab;
-        },
-        child: Scaffold(
-          appBar: appBar(),
-          backgroundColor: Theme.of(context).buttonColor,
-          bottomNavigationBar: _bottomNavigationBar(),
-          body: _widgetOptions.elementAt(_selectedIndex),
-        )
+  Widget build(BuildContext context) => Scaffold(
+    backgroundColor: Theme.of(context).primaryColor,
+    body: Padding(
+      padding: EdgeInsets.all(24),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          buildSingleCountry(),
+          const SizedBox(height: 24),
+          buildMultipleCountry(),
+        ],
+      ),
+    ),
+  );
+
+  Widget buildSingleCountry() {
+    final onTap = () async {
+      final country = await Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => CountryPage(countries: countries,isMultiSelection: false,)),
+      );
+
+      if (country == null) return;
+
+      setState(() => this.country = country);
+      countries.add(this.country);
+      isMultiSelection = true;
+    };
+
+    return buildCountryPicker(
+      title: 'Select Country',
+      child: country == null? buildListTile(title: 'No Country', onTap: onTap)
+          : buildListTile(
+        title: country.name,
+        leading: FlagWidget(code: country.code),
+        onTap: onTap,
+      ),
     );
   }
 
+  Widget buildMultipleCountry() {
+    final countriesText = countries.map((country) => country.name).join(', ');
+    final onTap = () async {
+      final countries = await Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => CountryPage(
+              isMultiSelection: true,
+              countries: List.of(this.countries),
+            )),
+      );
 
-  AppBar appBar() {
+      if (countries == null) return;
+
+      setState(() => this.countries = countries);
+    };
+
+    return buildCountryPicker(
+      title: 'Select Countries',
+      child: countries.isEmpty
+          ? buildListTile(title: 'No Countries', onTap: onTap)
+          : buildListTile(title: countriesText, onTap: onTap),
+    );
+  }
+
+  Widget buildListTile({
+    @required String title,
+    @required VoidCallback onTap,
+    Widget leading,
+  }) {
+    return ListTile(
+      onTap: onTap,
+      leading: leading,
+      title: Text(
+        title,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        style: TextStyle(color: Colors.black, fontSize: 18),
+      ),
+      trailing: Icon(Icons.arrow_drop_down, color: Colors.black),
+    );
+  }
+
+  Widget buildCountryPicker({
+    @required String title,
+    @required Widget child,
+  }) =>
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 12),
+          Card(margin: EdgeInsets.zero, child: child),
+        ],
+      );
+
+  AppBar _appBar() {
     return AppBar(
-      title: Text(_titleBar),
+      title: Text('App'),
       centerTitle: true,
       backgroundColor: Colors.purple[900],
       elevation: 0,
@@ -105,76 +194,4 @@ class _HomeScreenState extends State<HomeScreen1> {
       ],
     );
   }
-  BottomNavigationBar _bottomNavigationBar() {
-    double activeIconSize = 36;
-    return BottomNavigationBar(
-      currentIndex: _selectedIndex,
-      showSelectedLabels: false,
-      showUnselectedLabels: false,
-      items: [
-        BottomNavigationBarItem(
-          icon: Icon(
-            Feather.home,
-            color: kGoodLightGray,
-          ),
-          title: Text('HOME'),
-          activeIcon: Icon(
-            Feather.home,
-            color: kGoodPurple,
-            size: 30,
-          ),
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(
-            Feather.plus_circle,
-            color: kGoodLightGray,
-          ),
-          title: Text('CALENDAR'),
-          activeIcon: Icon(
-            Feather.plus_circle,
-            color: kGoodPurple,
-            size: activeIconSize,
-          ),
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(
-            Feather.align_left,
-            color: kGoodLightGray,
-          ),
-          title: Text('PROFILE'),
-          activeIcon: Icon(
-            Feather.align_left,
-            color: kGoodPurple,
-            size: activeIconSize,
-          ),
-        ),
-      ],
-      onTap: (index) {
-        setState(() {
-          if(index == 0) {
-            _titleBar = 'Home';
-          } else if (index == 1) {
-            _titleBar = 'Sale';
-          }
-          if(index >= 2) {
-            // _showModelSheet();
-          } else {
-            _selectedIndex = index;
-          }
-        });
-        // _selectedIndex = index;
-      },
-    );
-  }
-
-  List<Widget> _widgetOptions = <Widget>[
-    HomeContainerScreen(),
-    SaleScreen(),
-  ];
-
-  List<GlobalKey<NavigatorState>> _navigatorKeys = [
-    GlobalKey<NavigatorState>(),
-    GlobalKey<NavigatorState>(),
-    GlobalKey<NavigatorState>()
-  ];
 }

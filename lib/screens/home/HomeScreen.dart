@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sale_managment/screens/home/widgets/product_card.dart';
+import 'package:sale_managment/screens/widgets/contry_dropdown/country_page.dart';
 import 'package:sale_managment/screens/widgets/simple_bar_chart.dart';
 import 'package:sale_managment/share/model/data/stock_details_data.dart';
 import 'package:sale_managment/share/model/stock_details_model.dart';
@@ -44,6 +45,27 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: Colors.white60,
       body: CustomScrollView(
           slivers: <Widget>[
+            SliverToBoxAdapter(
+              child: TextButton(
+                style: ButtonStyle(
+                  overlayColor: MaterialStateProperty.resolveWith<Color>(
+                          (Set<MaterialState> states) {
+                        if (states.contains(MaterialState.focused))
+                          return Colors.red;
+                        return null; // Defer to the widget's default.
+                      }
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => CountryPage()),
+                  );
+                },
+                child: Text('TextButton'),
+              )
+              ,
+            ),
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
