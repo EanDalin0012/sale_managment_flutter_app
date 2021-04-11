@@ -29,6 +29,17 @@ class _HomeScreenState extends State<HomeScreen1> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          CircleAvatar(
+            backgroundColor: Colors.white,
+            child: CircleAvatar(
+              backgroundColor: Color(0xffE6E6E6),
+              radius: 30,
+              child: Icon(
+                Icons.person,
+                color: Color(0xffCCCCCC),
+              ),
+            )
+          ),
           buildSingleCountry(),
           const SizedBox(height: 24),
           buildMultipleCountry(),
