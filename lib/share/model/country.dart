@@ -28,4 +28,9 @@ class CountryModel {
 
   @override
   int get hashCode => name.hashCode ^ nativeName.hashCode ^ code.hashCode;
+
+  @override
+  String toString() {
+    return 'CountryModel{name: $name, nativeName: $nativeName, code: $code}';
+  }
 }
