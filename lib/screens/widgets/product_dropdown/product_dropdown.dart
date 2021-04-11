@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sale_managment/screens/widgets/contry_dropdown/flag_widget.dart';
-import 'package:sale_managment/share/model/country.dart';
 import 'package:sale_managment/screens/widgets/product_dropdown/product_page.dart';
 import 'package:sale_managment/share/model/product.dart';
 import 'package:sale_managment/screens/widgets/product_dropdown/FlagImageWidget.dart';
@@ -11,42 +9,40 @@ class ProductDropdown extends StatefulWidget {
 }
 
 class _ProductDropdownState extends State<ProductDropdown> {
-  ProductModel country;
+  ProductModel product;
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return  Container(
-        child: buildSingleCountry(),
+        child: buildSingleProduct(),
       );
   }
 
-  Widget buildSingleCountry() {
+  Widget buildSingleProduct() {
     final onTap = () async {
-      final country = await Navigator.push(
+      final product = await Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => ProductPage(
-          productModel: this.country,
+          productModel: this.product,
         )),
       );
 
-      if (country == null) return;
-      print('country:'+country.toString());
+      if (product == null) return;
       setState(() {
-        this.country = country;
-        print(this.country.toString());
+        this.product = product;
       });
     };
 
     return buildCountryPicker(
       title: 'Select Country',
-      child: country == null? buildListTile(title: 'No Country', onTap: onTap)
+      child: product == null? buildListTile(title: 'No Country', onTap: onTap)
           : buildListTile(
-        title: country.name,
+        title: product.name,
         leading: FlagImageWidget(
           width: 40,
           height: 40,
-          url: country.url,
+          url: product.url,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(60)),
             border: Border.all(color: Colors.grey, width: 2),

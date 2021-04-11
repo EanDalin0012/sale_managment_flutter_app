@@ -5,7 +5,6 @@ import 'package:sale_managment/share/model/product.dart';
 import 'package:sale_managment/screens/widgets/product_dropdown/product_list_tile_widget.dart';
 class ProductPage extends StatefulWidget {
   final ProductModel productModel;
-
   const ProductPage({
     Key key,
     this.productModel,
@@ -19,6 +18,8 @@ class _ProductPageState extends State<ProductPage> {
   bool isNative = false;
   String text = '';
   final controller = TextEditingController();
+  bool isSearch = false;
+
   List<ProductModel> items;
   List<ProductModel> itemsTmp;
 
@@ -31,30 +32,19 @@ class _ProductPageState extends State<ProductPage> {
             future: _fetchListItems(),
             //DefaultAssetBundle.of(context).loadString('assets/json_data/product_list.json'),
             builder: (context, snapshot) {
-              //   if(snapshot.data != null) {
-              //     var data = snapshot.data;
-              //     Map valueMap = jsonDecode(data);
-              //     var products = valueMap['products'];
-              //     var objs =  products.map<ProductModel>((json) {
-              //       return ProductModel.fromJson(json);
-              //     }).toList();
-              //     print(''+objs.toString());
-              //
-              //     return ListView(
-              //       children: objs.map((e) => ListTile(
-              //         title: Text('data'),
-              //       )).toList(),
-              //     );
-              //   }
-              // }
               if (!snapshot.hasData) {
                 return Center(child: CircularProgressIndicator());
               } else {
+                var productName = '';
+                var obj = widget.productModel;
+                if(obj != null) {
+                  productName = obj.name.toLowerCase();
+                }
                 return ListView(
                   children: items.map((e) {
                     return ProductListTileWidget(
                       productModel: e,
-                      isSelected: false,
+                      isSelected: e.name.toLowerCase() == productName,
                       onSelectedProduct: selectProduct,
                     );
                   }).toList(),
@@ -80,18 +70,18 @@ class _ProductPageState extends State<ProductPage> {
       title: Text('Select $label'),
       actions: [
         IconButton(
-          icon: Icon(isNative ? Icons.close : Icons.language),
+          icon: Icon(isNative ? Icons.close : Icons.search),
           onPressed: () => setState(() => this.isNative = !isNative),
         ),
         const SizedBox(width: 8),
       ],
-      bottom: PreferredSize(preferredSize: Size.fromHeight(60),
-        child: buildSearchWidget(
+      bottom: this.isNative ? PreferredSize(preferredSize: Size.fromHeight(60),
+        child:  buildSearchWidget(
           text: text,
           // onChanged: (text) => setState(() => this.text = text),
           hintText: 'Search $label',
         ),
-      ),
+      ): null,
     );
   }
 
@@ -116,7 +106,11 @@ class _ProductPageState extends State<ProductPage> {
       child: TextField(
         controller: controller,
         decoration: InputDecoration(
-          icon: Icon(Icons.search, color: style.color),
+          icon: InkWell(
+              onTap: () {
+                print('data search');
+              },
+              child: Icon(Icons.search, color: style.color)),
           suffixIcon: text.isNotEmpty ? GestureDetector(
             child: Icon(Icons.close, color: style.color),
             onTap: () {
@@ -154,15 +148,14 @@ class _ProductPageState extends State<ProductPage> {
     }).toList();
     items = objs;
     itemsTmp = items;
-    print('ada:' + items.length.toString());
     return objs;
   }
 
   void selectProduct(ProductModel productModel) {
-    setState(() {
-      final isSelected = items.contains(productModel);
-      print(isSelected);
-    });
+    // setState(() {
+    //   final isSelected = items.contains(productModel);
+    //   print(isSelected);
+    // });
     Navigator.pop(context, productModel);
   }
 
