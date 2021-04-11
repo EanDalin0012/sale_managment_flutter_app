@@ -19,52 +19,62 @@ class _ProductPageState extends State<ProductPage> {
   bool isNative = false;
   String text = '';
   final controller = TextEditingController();
+  List<ProductModel> items;
+  List<ProductModel> itemsTmp;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: buildAppBar(),
       body: Container(
         child: new FutureBuilder(
-          future: _fetchListItems(),//DefaultAssetBundle.of(context).loadString('assets/json_data/product_list.json'),
+            future: _fetchListItems(),
+            //DefaultAssetBundle.of(context).loadString('assets/json_data/product_list.json'),
             builder: (context, snapshot) {
-            //   if(snapshot.data != null) {
-            //     var data = snapshot.data;
-            //     Map valueMap = jsonDecode(data);
-            //     var products = valueMap['products'];
-            //     var objs =  products.map<ProductModel>((json) {
-            //       return ProductModel.fromJson(json);
-            //     }).toList();
-            //     print(''+objs.toString());
-            //
-            //     return ListView(
-            //       children: objs.map((e) => ListTile(
-            //         title: Text('data'),
-            //       )).toList(),
-            //     );
-            //   }
-            // }
+              //   if(snapshot.data != null) {
+              //     var data = snapshot.data;
+              //     Map valueMap = jsonDecode(data);
+              //     var products = valueMap['products'];
+              //     var objs =  products.map<ProductModel>((json) {
+              //       return ProductModel.fromJson(json);
+              //     }).toList();
+              //     print(''+objs.toString());
+              //
+              //     return ListView(
+              //       children: objs.map((e) => ListTile(
+              //         title: Text('data'),
+              //       )).toList(),
+              //     );
+              //   }
+              // }
               if (!snapshot.hasData) {
                 return Center(child: CircularProgressIndicator());
               } else {
-                return Container(
-                    // child: ListView.builder(
-                    //     itemCount: _faouriteList.length,
-                    //     scrollDirection: Axis.horizontal,
-                    //     itemBuilder: (BuildContext context, int index) {
-                    //       return Text('${_faouriteList[index].title}');
-                    //     }
-                    // )
-                  child: Text('data'),
+                return ListView(
+                  children: items.map((e) {
+                    return ProductListTileWidget(
+                      productModel: e,
+                      isSelected: false,
+                      onSelectedProduct: selectProduct,
+                    );
+                  }).toList(),
+                  // itemCount: items.length,
+                  // scrollDirection: Axis.horizontal,
+                  // itemBuilder: (BuildContext context, int index) {
+                  //   return ProductListTileWidget(
+                  //     productModel: items[index],
+                  //   );
+                  // }
                 );
               }
-          }
+            }
         ),
       ),
     );
   }
 
   Widget buildAppBar() {
-    final label =  'Product';
+    final label = 'Product';
 
     return AppBar(
       title: Text('Select $label'),
@@ -124,17 +134,44 @@ class _ProductPageState extends State<ProductPage> {
   }
 
   List<ProductModel> parseJosn(String response) {
-    print('response:'+response);
-    if(response==null){
+    print('response:' + response);
+    if (response == null) {
       return [];
     }
-    final parsed = json.decode(response.toString()).cast<Map<String, dynamic>>();
+    final parsed = json.decode(response.toString()).cast<
+        Map<String, dynamic>>();
     // return parsed.map<ProductModel>((json) => new ProductModel.fromJson(json);
     return null;
   }
+
   _fetchListItems() async {
-    final data = await rootBundle.loadString('assets/json_data/country_codes.json');
-    final countriesJson = json.decode(data);
-    return countriesJson;
+    final data = await rootBundle.loadString(
+        'assets/json_data/product_list.json');
+    Map valueMap = jsonDecode(data);
+    var products = valueMap['products'];
+    var objs = products.map<ProductModel>((json) {
+      return ProductModel.fromJson(json);
+    }).toList();
+    items = objs;
+    itemsTmp = items;
+    print('ada:' + items.length.toString());
+    return objs;
+  }
+
+  void selectProduct(ProductModel productModel) {
+    setState(() {
+      final isSelected = items.contains(productModel);
+      print(isSelected);
+    });
+    Navigator.pop(context, productModel);
+  }
+
+  bool _contains(ProductModel productModel, ProductModel _productModel) {
+    if ((productModel.name.toString()).toLowerCase() ==
+        (_productModel.name.toString()).toLowerCase()) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

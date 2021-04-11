@@ -30,7 +30,6 @@ class _CountryPageState extends State<CountryPage> {
   List<CountryModel> getPrioritizedCountries(List<CountryModel> countries) {
     final notSelectedCountries = List.of(countries)
       ..removeWhere((country) => selectedCountries.contains(country));
-
     return [
       ...List.of(selectedCountries)..sort(Utils.ascendingSort),
       ...notSelectedCountries,

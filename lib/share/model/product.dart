@@ -14,8 +14,6 @@ class ProductModel {
   });
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
-    print('json:'+json.toString());
-    print('name:'+json['name']);
     return ProductModel(
       name: json['name'],
       remark: json['remark'],
