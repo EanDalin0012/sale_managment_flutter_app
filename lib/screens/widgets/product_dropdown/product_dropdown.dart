@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:sale_managment/screens/widgets/contry_dropdown/country_page.dart';
 import 'package:sale_managment/screens/widgets/contry_dropdown/flag_widget.dart';
 import 'package:sale_managment/share/model/country.dart';
-
+import 'package:sale_managment/screens/widgets/product_dropdown/product_page.dart';
 class ProductDropdown extends StatefulWidget {
   @override
   _ProductDropdownState createState() => _ProductDropdownState();
@@ -23,7 +22,7 @@ class _ProductDropdownState extends State<ProductDropdown> {
     final onTap = () async {
       final country = await Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => CountryPage()),
+        MaterialPageRoute(builder: (context) => ProductPage()),
       );
 
       if (country == null) return;

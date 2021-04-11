@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class ProductModel {
   final String name;
@@ -13,15 +13,19 @@ class ProductModel {
     @required  this.url
   });
 
-  factory ProductModel.fromJson(Map<String, dynamic> json) => ProductModel(
-    name: json['name'],
-    remark: json['remark'],
-    category: json['category'],
-    url: json['url'],
-  );
-
-  @override
-  String toString() {
-    return 'ProductModel{name: $name, remark: $remark, category: $category, url: $url}';
+  factory ProductModel.fromJson(Map<String, dynamic> json) {
+    print('json:'+json.toString());
+    print('name:'+json['name']);
+    return ProductModel(
+      name: json['name'],
+      remark: json['remark'],
+      category: json['category'],
+      url: json['url'],
+    );
   }
+    @override
+    String toString() {
+      return 'ProductModel{name: $name, remark: $remark, category: $category, url: $url}';
+    }
+
 }
