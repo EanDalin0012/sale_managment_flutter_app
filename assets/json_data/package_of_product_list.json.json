@@ -6,22 +6,19 @@
       "quantity": 1,
       "price": 22,
       "remark": "P-White, Silver"
-    },
-    {
+    },{
       "name": "Silver",
       "productId": 1,
       "quantity": 6,
       "price": 16.50,
       "remark": "P-White, Silver"
-    },
-    {
+    },{
       "name": "VIP Silver",
       "productId": 1,
       "quantity": 12,
       "price": 16.00,
       "remark": "P-White, VIP Silver"
-    },
-    {
+    },{
       "name": "Premium",
       "productId": 1,
       "quantity": 30,
@@ -33,64 +30,55 @@
       "quantity": 50,
       "price": 14.80,
       "remark": "P-White , Premium"
-    },
-    {
+    },{
       "name": "Gold",
       "productId": 1,
       "quantity": 100,
       "price": 14,
       "remark": "P-White , Gold"
-    },
-    {
+    },{
       "name": "VIP Gold",
       "productId": 1,
       "quantity": 200,
       "price": 13,
       "remark": "P-White, VIP Gold"
-    },
-    {
+    },{
       "name": "Diamond",
       "productId": 1,
       "quantity": 500,
       "price": 12.10,
       "remark": "P-White, Diamond"
-    },
-    {
+    },{
       "name": "VIP Diamond",
       "productId": 1,
       "quantity": 1000,
       "price": 11.50,
       "remark": "P-White, VIP Diamond"
-    },
-    {
+    },{
       "name": "Queen",
       "productId": 1,
       "quantity": 2000,
       "price": 11.00,
       "remark": "P-White, Queen"
-    },
-    {
+    },{
       "name": "VIP Queen",
       "productId": 1,
       "quantity": 3000,
       "price": 10.50,
       "remark": "P-White, VIP Queen"
-    },
-    {
+    },{
       "name": "Super Queen",
       "productId": 1,
       "quantity": 4000,
       "price": 10.00,
       "remark": "P-White, Super Queen"
-    },
-    {
+    },{
       "name": "Price",
       "productId": 2,
       "quantity": 1,
       "price": 15.00,
       "remark": "ទឹកដោះគោស្តួត, Price"
-    },
-    {
+    },{
       "name": "Silver",
       "productId": 2,
       "quantity": 6,
@@ -114,29 +102,25 @@
       "quantity": 55 ,
       "price": 8.50,
       "remark": "ទឹកដោះគោស្តួត, VIP Premium"
-    },
-    {
+    },{
       "name": "Gold",
       "productId": 2,
       "quantity": 100 ,
       "price": 8.00,
       "remark": "ទឹកដោះគោស្តួត, Gold"
-    },
-    {
+    },{
       "name": "VIP Gold",
       "productId": 2,
       "quantity": 200,
       "price": 7.50,
       "remark": "ទឹកដោះគោស្តួត, VIP Gold"
-    },
-    {
+    },{
       "name": "Diamond",
       "productId": 2,
       "quantity": 400,
       "price": 7.00,
       "remark": "ទឹកដោះគោស្តួត, Diamond"
-    },
-    {
+    },{
       "name": "VIP Diamond",
       "productId": 2,
       "quantity": 600,
@@ -160,16 +144,13 @@
       "quantity": 3000,
       "price": 5.00,
       "remark": "ទឹកដោះគោស្តួត, Super Queen"
-    },
-
-    {
+    },{
       "name": "Price",
       "productId": 3,
       "quantity": 1,
       "price": 10.00,
       "remark": "TAMARIND Scrub, Price"
-    },
-    {
+    },{
       "name": "Silver",
       "productId": 3,
       "quantity": 6,
