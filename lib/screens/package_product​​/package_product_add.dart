@@ -22,7 +22,7 @@ class _PackageProductAddState extends State<PackageProductAdd> {
   var hintStyle = TextStyle(fontFamily: fontFamilyDefault);
   var nameValueController = new TextEditingController();
   var remarkValueController = new TextEditingController();
-  var _value = 1;
+
   var textValue = 'Select Product';
   var colorValue = Colors.deepPurple;
   Map<String, Object> dropdownValue;
@@ -74,7 +74,7 @@ class _PackageProductAddState extends State<PackageProductAdd> {
 
   AppBar _appBar() {
     return AppBar(
-        title: Text('Category', style: TextStyle(fontFamily: 'roboto', fontWeight: FontWeight.w700)),
+        title: Text('Package of Product', style: TextStyle(fontFamily: 'roboto', fontWeight: FontWeight.w700)),
         backgroundColor: Colors.purple[900]
     );
   }
@@ -92,7 +92,7 @@ class _PackageProductAddState extends State<PackageProductAdd> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Text(
-              'Add New Category',
+              'Add New Package of Product',
               style: containStyle
           ),
         ],
@@ -107,19 +107,31 @@ class _PackageProductAddState extends State<PackageProductAdd> {
             physics: ClampingScrollPhysics(),
             child: Column(
                 children: <Widget>[
-                  ProductDropdown(),
-                  SizedBox(height: 20,),
-                  buildSingleCountry(),
-                  _categoryNameField(),
-                  _productDropdown(),
-                  _productDropdown1(),
-                  _categoryRemarkField()
+                  _nameField(),
+                  Container(
+                    margin: EdgeInsets.only(
+                      left: 10,
+                      right: 10
+                    ),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                        border: Border.all(color: colorValue, width: 1.5)
+                    ),
+                    child: ProductDropdown(
+                      color: colorValue,
+                      onChanged: (value) {
+                        print('product change event work: ${value.toString()}');
+                      },
+                    ),
+                  ),
+                  _quantityField(),
+                  _remarkField()
                 ])
         )
     );
   }
 
-  Padding _categoryNameField() {
+  Padding _nameField() {
     return Padding(
       padding: EdgeInsets.all(10),
       child: TextField(
@@ -161,7 +173,49 @@ class _PackageProductAddState extends State<PackageProductAdd> {
     );
   }
 
-  Padding _categoryRemarkField() {
+  Padding _quantityField() {
+    return Padding(
+      padding: EdgeInsets.all(10),
+      child: TextField(
+        controller: remarkValueController,
+        decoration: InputDecoration(
+            hintText: 'Enter quantity',
+            labelText: 'Quantity',
+            // helperText: 'Remark',
+            labelStyle: labelStyle,
+            hintStyle: hintStyle,
+            // helperStyle: TextStyle(
+            //     color: Colors.blueGrey,
+            //     fontWeight: FontWeight.bold
+            // ),
+            // border: OutlineInputBorder(),
+            enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                    color: borderColorsTextField,
+                    width: 1.5,
+                    style: BorderStyle.solid
+                ),
+                borderRadius: BorderRadius.all(Radius.circular(5.0))
+            ),
+            focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                    color: Colors.indigo,
+                    width: 1.5,
+                    style: BorderStyle.solid
+                )
+            ),
+            prefixIcon: Icon(
+              Icons.info_outline,
+              color: Colors.black54,
+            )
+
+        ),
+      ),
+    );
+  }
+
+
+  Padding _remarkField() {
     return Padding(
       padding: EdgeInsets.all(10),
       child: TextField(
@@ -201,6 +255,7 @@ class _PackageProductAddState extends State<PackageProductAdd> {
       ),
     );
   }
+
   _save() {
     var categoryModel = new CategoryModel(nameValueController.text, remarkValueController.text);
     print(categoryModel.toString());

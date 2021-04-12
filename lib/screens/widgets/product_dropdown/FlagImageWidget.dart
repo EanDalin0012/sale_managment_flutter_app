@@ -24,6 +24,6 @@ class FlagImageWidget extends StatelessWidget {
         backgroundImage:NetworkImage(url),
         backgroundColor: Colors.transparent,
       ),
-    );;
+    );
   }
 }

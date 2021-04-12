@@ -50,13 +50,6 @@ class _ProductPageState extends State<ProductPage> {
                       onSelectedProduct: selectProduct,
                     );
                   }).toList(),
-                  // itemCount: items.length,
-                  // scrollDirection: Axis.horizontal,
-                  // itemBuilder: (BuildContext context, int index) {
-                  //   return ProductListTileWidget(
-                  //     productModel: items[index],
-                  //   );
-                  // }
                 );
               }
             }
@@ -137,7 +130,7 @@ class _ProductPageState extends State<ProductPage> {
     );
   }
 
-  List<ProductModel> parseJosn(String response) {
+  List<ProductModel> parseJson(String response) {
     if (response == null) {
       return [];
     }

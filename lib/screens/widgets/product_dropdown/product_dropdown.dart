@@ -4,6 +4,12 @@ import 'package:sale_managment/share/model/product.dart';
 import 'package:sale_managment/screens/widgets/product_dropdown/FlagImageWidget.dart';
 
 class ProductDropdown extends StatefulWidget {
+  final ValueChanged<ProductModel> onChanged;
+  final Color color;
+  ProductDropdown({
+    this.color,
+    this.onChanged
+});
   @override
   _ProductDropdownState createState() => _ProductDropdownState();
 }
@@ -32,12 +38,19 @@ class _ProductDropdownState extends State<ProductDropdown> {
       setState(() {
         this.product = product;
       });
+      widget.onChanged(product);
     };
 
     return buildCountryPicker(
       title: 'Select Country',
-      child: product == null? buildListTile(title: 'No Country', onTap: onTap)
-          : buildListTile(
+      child: product == null ? buildListTile(
+          title: 'Select Product',
+          leading: Icon(
+            Icons.info_outline,
+            color: Colors.black54,
+          ),
+          onTap: onTap
+        ) : buildListTile(
         title: product.name,
         leading: FlagImageWidget(
           width: 40,
@@ -45,7 +58,7 @@ class _ProductDropdownState extends State<ProductDropdown> {
           url: product.url,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(60)),
-            border: Border.all(color: Colors.grey, width: 2),
+            border: Border.all(color: Colors.grey, width: 0),
           ),
         ),
         onTap: onTap,
@@ -65,7 +78,7 @@ class _ProductDropdownState extends State<ProductDropdown> {
         title,
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
-        style: TextStyle(color: Colors.black, fontSize: 18),
+        style: TextStyle(color: widget.color, fontSize: 18),
       ),
       trailing: Icon(Icons.arrow_drop_down, color: Colors.black),
     );
@@ -78,16 +91,19 @@ class _ProductDropdownState extends State<ProductDropdown> {
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            title,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 12),
-          Card(margin: EdgeInsets.zero, child: child),
+          // Text(
+          //   title,
+          //   style: TextStyle(
+          //     color: Colors.white,
+          //     fontSize: 20,
+          //     fontWeight: FontWeight.bold,
+          //   ),
+          // ),
+          // const SizedBox(height: 12),
+          Card(
+              clipBehavior: Clip.antiAlias,
+              margin: EdgeInsets.zero,
+              child: child),
         ],
       );
 

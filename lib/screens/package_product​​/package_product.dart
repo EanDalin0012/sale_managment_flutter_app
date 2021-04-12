@@ -11,8 +11,12 @@ class PackageProductScreen extends StatefulWidget {
 }
 
 class _PackageProductScreenState extends State<PackageProductScreen> {
-
-  bool isSearch = false;
+  var controller = TextEditingController();
+  var isItemChanged = false;
+  var isNative = false;
+  var isSearch = false;
+  var text = '';
+  Size size ;
   TextEditingController _controller;
   // List<CategoryModel> categories = categoriesData;
   var menuStyle = TextStyle( color: Colors.purple[900], fontWeight: FontWeight.w500, fontFamily: fontFamilyDefault);
@@ -20,11 +24,12 @@ class _PackageProductScreenState extends State<PackageProductScreen> {
 
   @override
   Widget build(BuildContext context) {
+    size = MediaQuery.of(context).size;
     return Scaffold(
-        appBar: _appBar(),
+        appBar: _buildAppBar(),
         body: Column(
           children: <Widget>[
-            isSearch ? _containerSearch() : _container(),
+            _container(),
             // _mainTransactionBody()
           ],
         ),
@@ -32,39 +37,71 @@ class _PackageProductScreenState extends State<PackageProductScreen> {
     );
   }
 
-  AppBar _appBar() {
+  Widget _buildAppBar() {
     return AppBar(
-      title: Text('Representative', style: appBarStyle,),
-      backgroundColor: Colors.purple[900],
+      title: Text('Package of Product'),
+      actions: [
+        IconButton(
+          icon: Icon(isNative ? Icons.close : Icons.search),
+          onPressed: () => setState(() => this.isNative = !isNative),
+        ),
+        const SizedBox(width: 8),
+      ],
+      bottom: this.isNative ? PreferredSize(preferredSize: Size.fromHeight(60),
+        child:  _buildSearchWidget(
+          text: text,
+          // onChanged: (text) => setState(() => this.text = text),
+          hintText: 'Search by name',
+        ),
+      ): null,
     );
   }
 
-  Container _containerSearch() {
+  Widget _buildSearchWidget({
+    @required String text,
+    @required String hintText,
+    @required VoidCallback onTap,
+    Widget leading,
+  }) {
+    final styleActive = TextStyle(color: Colors.black);
+    final styleHint = TextStyle(color: Colors.black54);
+    final style = text.isEmpty ? styleHint : styleActive;
     return Container(
-      height: 60,
-      // margin: const EdgeInsets.symmetric(
-      //   vertical: 8.0,
-      //   horizontal: 16.0,
-      // ),
+      height: 40,
+      margin: const EdgeInsets.fromLTRB(16, 0, 16, 16),
       decoration: BoxDecoration(
-          color: Colors.grey.shade200
+        borderRadius: BorderRadius.circular(12),
+        color: Colors.white,
       ),
-      padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 20.0),
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            child: TextField(
-              textInputAction: TextInputAction.send,
-              controller: _controller,
-              decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0,),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20.0)),
-                  hintText: "Search here"),
-              onEditingComplete: _save,
-            ),
-          ),
-        ],
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      child: TextField(
+        controller: controller,
+        decoration: InputDecoration(
+          icon: InkWell(
+              onTap: () {
+                print('data search');
+              },
+              child: Icon(Icons.search, color: style.color)),
+          suffixIcon: text.isNotEmpty ? GestureDetector(
+            child: Icon(Icons.close, color: style.color),
+            onTap: () {
+              controller.clear();
+              FocusScope.of(context).requestFocus(FocusNode());
+            },
+          ) : null,
+          hintText: hintText,
+          hintStyle: style,
+          border: InputBorder.none,
+        ),
+        style: style,
+        onChanged: (value) {
+          this.isItemChanged = true;
+          if(value != null || value.trim() != '') {
+            setState(() {
+              // items = onItemChanged(value);
+            });
+          }
+        },
       ),
     );
   }
@@ -160,31 +197,22 @@ class _PackageProductScreenState extends State<PackageProductScreen> {
   Container _container() {
     return Container(
       color: Color(0xffd9dbdb).withOpacity(0.4),
+      width: size.width,
       padding: EdgeInsets.only(
           left: 20,
           top: 10,
           right: 20,
           bottom: 10
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Text(
-            'Representative Product List',
-            style: containStyle,
-          ),
-          InkWell(
-            onTap: () {
-              print(isSearch);
-
-              setState(() {
-                this.isSearch = true;
-              });
-            },
-            child: FaIcon(FontAwesomeIcons.search,size: 15 , color: Colors.blueGrey,),
-          ),
-        ],
+      child:  Text(
+        'Package of Product List',
+        style: containStyle,
       ),
     );
+  }
+
+  onItemChanged(String value) {
+    // var dataItems = itemsTmp.where((e) => e.name.toLowerCase().contains(value.toLowerCase())).toList();
+    // return dataItems;
   }
 }
