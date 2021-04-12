@@ -15,10 +15,12 @@ class ProductPage extends StatefulWidget {
 }
 
 class _ProductPageState extends State<ProductPage> {
-  bool isNative = false;
-  String text = '';
-  final controller = TextEditingController();
-  bool isSearch = false;
+
+  var isNative = false;
+  var text = '';
+  var controller = TextEditingController();
+  var isSearch = false;
+  var isItemChanged = false;
 
   List<ProductModel> items;
   List<ProductModel> itemsTmp;
@@ -123,12 +125,19 @@ class _ProductPageState extends State<ProductPage> {
           border: InputBorder.none,
         ),
         style: style,
+        onChanged: (value) {
+          this.isItemChanged = true;
+          if(value != null || value.trim() != '') {
+            setState(() {
+              items = onItemChanged(value);
+            });
+          }
+        },
       ),
     );
   }
 
   List<ProductModel> parseJosn(String response) {
-    print('response:' + response);
     if (response == null) {
       return [];
     }
@@ -139,16 +148,26 @@ class _ProductPageState extends State<ProductPage> {
   }
 
   _fetchListItems() async {
-    final data = await rootBundle.loadString(
-        'assets/json_data/product_list.json');
-    Map valueMap = jsonDecode(data);
-    var products = valueMap['products'];
-    var objs = products.map<ProductModel>((json) {
-      return ProductModel.fromJson(json);
-    }).toList();
-    items = objs;
-    itemsTmp = items;
-    return objs;
+    if(isItemChanged == true) {
+      if(controller.text != null) {
+        setState(() {
+          isItemChanged = true;
+          items = onItemChanged(controller.text);
+        });
+      }
+      return items;
+    }  else {
+      final data = await rootBundle.loadString('assets/json_data/product_list.json');
+      Map valueMap = jsonDecode(data);
+      var products = valueMap['products'];
+      var objs = products.map<ProductModel>((json) {
+        return ProductModel.fromJson(json);
+      }).toList();
+      items = objs;
+      itemsTmp = items;
+      return objs;
+    }
+
   }
 
   void selectProduct(ProductModel productModel) {
@@ -159,12 +178,8 @@ class _ProductPageState extends State<ProductPage> {
     Navigator.pop(context, productModel);
   }
 
-  bool _contains(ProductModel productModel, ProductModel _productModel) {
-    if ((productModel.name.toString()).toLowerCase() ==
-        (_productModel.name.toString()).toLowerCase()) {
-      return true;
-    } else {
-      return false;
-    }
+  onItemChanged(String value) {
+    var dataItems = itemsTmp.where((e) => e.name.toLowerCase().contains(value.toLowerCase())).toList();
+    return dataItems;
   }
 }
