@@ -1,9 +1,14 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sale_managment/screens/package_product%E2%80%8B%E2%80%8B/package_product_add.dart';
 import 'package:sale_managment/share/components/show_dialog/show_dialog.dart';
+import 'package:sale_managment/share/constant/constantcolor.dart';
 import 'package:sale_managment/share/constant/text_style.dart';
-import 'package:sale_managment/share/model/catgory.dart';
+import 'package:sale_managment/share/model/product.dart';
+import 'package:sale_managment/share/model/package_product.dart';
+import 'package:sale_managment/share/services/load_data_local.dart';
 
 class PackageProductScreen extends StatefulWidget {
   @override
@@ -21,6 +26,9 @@ class _PackageProductScreenState extends State<PackageProductScreen> {
   // List<CategoryModel> categories = categoriesData;
   var menuStyle = TextStyle( color: Colors.purple[900], fontWeight: FontWeight.w500, fontFamily: fontFamilyDefault);
 
+  List<PackageProductModel> items;
+  List<PackageProductModel> itemsTmp;
+  List<ProductModel> productItems = [];
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +38,7 @@ class _PackageProductScreenState extends State<PackageProductScreen> {
         body: Column(
           children: <Widget>[
             _container(),
-            // _mainTransactionBody()
+            _buildBody()
           ],
         ),
         floatingActionButton: _floatingActionButton()
@@ -39,6 +47,7 @@ class _PackageProductScreenState extends State<PackageProductScreen> {
 
   Widget _buildAppBar() {
     return AppBar(
+      backgroundColor: Colors.purple[900],
       title: Text('Package of Product'),
       actions: [
         IconButton(
@@ -54,6 +63,33 @@ class _PackageProductScreenState extends State<PackageProductScreen> {
           hintText: 'Search by name',
         ),
       ): null,
+    );
+  }
+
+  Widget _buildBody () {
+    return Expanded(
+        child: new FutureBuilder(
+            future: _fetchItems(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return Center(child: CircularProgressIndicator());
+              } else {
+                return ListView.separated(
+                     itemCount: items.length,
+                      separatorBuilder: (context, index) => Divider(
+                        color: Colors.purple[900].withOpacity(0.5),
+                      ),
+                      itemBuilder: (context, index) {
+                       return _buildListTile(
+                        dataItem: items[index]
+                       );},
+                );
+                // return ListView(
+                //   children: items.map((e) => _buildListTile1(dataItem: e)).toList(),
+                // );
+              }
+            }
+        )
     );
   }
 
@@ -115,7 +151,7 @@ class _PackageProductScreenState extends State<PackageProductScreen> {
     // });
   }
 
-  Widget _offsetPopup(CategoryModel categoryModel) => PopupMenuButton<int>(
+  Widget _offsetPopup(PackageProductModel item) => PopupMenuButton<int>(
     itemBuilder: (context) => [
       PopupMenuItem(
           value: 2,
@@ -158,16 +194,108 @@ class _PackageProductScreenState extends State<PackageProductScreen> {
         //   MaterialPageRoute(builder: (context) => EditCategoryScreen(categoryModel)),
         // );
       } else if (value == 3) {
-        _showDialog(categoryModel);
+        _showDialog(item);
       }
     },
   );
 
-  Widget _showDialog(CategoryModel _vendorModel) {
+  Widget _buildListTile( {
+    @required PackageProductModel dataItem
+  }) {
+    return ListTile(
+        title: Text( dataItem.name,
+          style: TextStyle( color: Colors.black87, fontSize: 20, fontWeight: FontWeight.w700,fontFamily: fontFamilyDefault),
+        ),
+        leading: _buildLeading(dataItem.productId),
+      subtitle: Text(
+        dataItem.price.toString()+' \$,'+dataItem.remark,
+        style: TextStyle(fontSize: 12,fontWeight: FontWeight.w700, fontFamily: fontFamilyDefault, color: primaryColor),
+      ),
+      trailing: Container(
+        width: 130,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: <Widget>[
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    Text(
+                      dataItem.quantity.toString(),
+                      style: TextStyle(
+                        color: Colors.black87,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w900,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            Column(
+              children: <Widget>[
+                _offsetPopup(dataItem),
+              ],
+            ),
+
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildListTile1( {
+    @required PackageProductModel dataItem
+  }) {
+    return Container(
+       width: size.width,
+       height: 55,
+       margin: EdgeInsets.only(
+         left: 10,
+         right: 10
+       ),
+       decoration: BoxDecoration(
+         border: Border(
+           bottom: BorderSide(width: 1.0, color: Colors.black),
+         ),
+       ),
+       child:Row(
+        children: <Widget>[
+          _buildLeading(dataItem.productId),
+          SizedBox(width: 10,),
+          Text(dataItem.name),
+          SizedBox(height: 5)
+        ],
+      )
+    );
+  }
+  Widget _buildLeading(int productId) {
+    var url = _searchProductById(productId);
+    if(url == null) {
+      url = 'https://icons-for-free.com/iconfiles/png/512/part+1+p-1320568343314317876.png';
+    }
+    return Container(
+      width: 50,
+      height: 50,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(60)),
+        border: Border.all(color: Colors.grey, width: 2),
+      ),
+      child: CircleAvatar(
+        radius: 30.0,
+        backgroundImage:NetworkImage(url),
+        backgroundColor: Colors.transparent,
+      ),
+    );
+  }
+
+
+  Widget _showDialog(PackageProductModel item) {
     ShowDialog.showDialogYesNo(
         buildContext: context,
-        title: Text(_vendorModel.name),
-        content: Text('Do you want to delete category : '+_vendorModel.name+'?'),
+        title: Text(item.name),
+        content: Text('Do you want to delete package of product : '+item.name+'?'),
         btnRight: 'Yes',
         onPressedBntRight: () {
           print('onPressedBntRight');
@@ -214,5 +342,42 @@ class _PackageProductScreenState extends State<PackageProductScreen> {
   onItemChanged(String value) {
     // var dataItems = itemsTmp.where((e) => e.name.toLowerCase().contains(value.toLowerCase())).toList();
     // return dataItems;
+  }
+
+  _fetchItems() async {
+    // LoadLocalData.fetchPackageProductItems().then((value) {
+    //   items = value;
+    //   print('vData: ${items.toString()}');
+    //   return items;
+    // });
+
+    final data = await rootBundle.loadString('assets/json_data/package_of_product_list.json');
+    Map valueMap = jsonDecode(data);
+    var dataItems = valueMap['packageProducts'];
+    var arrObjs = dataItems.map<PackageProductModel>((json) {
+      return PackageProductModel.fromJson(json);
+    }).toList();
+
+
+    this.items = arrObjs;
+    this.itemsTmp = this.items;
+    _fetchProductItems();
+    return this.items;
+  }
+
+  _fetchProductItems() {
+      LoadLocalData.fetchProductItems().then((value) {
+        productItems = value;
+      });
+  }
+
+  String _searchProductById(int productId) {
+    if(this.productItems.length > 0) {
+      for(ProductModel p in productItems) {
+          if(p.id == productId) {
+            return p.url;
+          }
+      }
+    }
   }
 }
