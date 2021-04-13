@@ -1,12 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:sale_managment/screens/widgets/contry_dropdown/country_page.dart';
-import 'package:sale_managment/screens/widgets/contry_dropdown/flag_widget.dart';
 import 'package:sale_managment/screens/widgets/product_dropdown/product_dropdown.dart';
 import 'package:sale_managment/share/constant/text_style.dart';
 import 'package:sale_managment/share/model/catgory.dart';
-import 'package:sale_managment/share/model/country.dart';
 
 class PackageProductAdd extends StatefulWidget {
   @override
