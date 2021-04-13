@@ -59,7 +59,7 @@ class _PackageProductScreenState extends State<PackageProductScreen> {
       ],
       bottom: this.isNative ? PreferredSize(preferredSize: Size.fromHeight(60),
         child:  _buildSearchWidget(
-          text: text,
+          text: controller.text,
           // onChanged: (text) => setState(() => this.text = text),
           hintText: 'Search by name',
         ),
@@ -100,7 +100,7 @@ class _PackageProductScreenState extends State<PackageProductScreen> {
     @required VoidCallback onTap,
     Widget leading,
   }) {
-    final styleActive = TextStyle(color: Colors.black);
+    final styleActive = TextStyle(color: Colors.black, fontSize: 15);
     final styleHint = TextStyle(color: Colors.black54);
     final style = text.isEmpty ? styleHint : styleActive;
     return Container(
@@ -134,9 +134,12 @@ class _PackageProductScreenState extends State<PackageProductScreen> {
         onChanged: (value) {
           this.isItemChanged = true;
           if(value != null || value.trim() != '') {
-            setState(() {
-              // items = onItemChanged(value);
-            });
+            this.isItemChanged = true;
+            if(value != null || value.trim() != '') {
+              setState(() {
+                items = onItemChanged(value);
+              });
+            }
           }
         },
       ),
@@ -341,8 +344,8 @@ class _PackageProductScreenState extends State<PackageProductScreen> {
   }
 
   onItemChanged(String value) {
-    // var dataItems = itemsTmp.where((e) => e.name.toLowerCase().contains(value.toLowerCase())).toList();
-    // return dataItems;
+    var dataItems = itemsTmp.where((e) => e.name.toLowerCase().contains(value.toLowerCase())).toList();
+    return dataItems;
   }
 
   _fetchItems() async {
@@ -351,19 +354,29 @@ class _PackageProductScreenState extends State<PackageProductScreen> {
     //   print('vData: ${items.toString()}');
     //   return items;
     // });
+    if(isItemChanged == true) {
+      if(controller.text != null) {
+        setState(() {
+          isItemChanged = true;
+          items = onItemChanged(controller.text);
+        });
+      }
+      return items;
+    } else {
+      final data = await rootBundle.loadString(
+          'assets/json_data/package_of_product_list.json');
+      Map valueMap = jsonDecode(data);
+      var dataItems = valueMap['packageProducts'];
+      var arrObjs = dataItems.map<PackageProductModel>((json) {
+        return PackageProductModel.fromJson(json);
+      }).toList();
 
-    final data = await rootBundle.loadString('assets/json_data/package_of_product_list.json');
-    Map valueMap = jsonDecode(data);
-    var dataItems = valueMap['packageProducts'];
-    var arrObjs = dataItems.map<PackageProductModel>((json) {
-      return PackageProductModel.fromJson(json);
-    }).toList();
 
-
-    this.items = arrObjs;
-    this.itemsTmp = this.items;
-    _fetchProductItems();
-    return this.items;
+      this.items = arrObjs;
+      this.itemsTmp = this.items;
+      _fetchProductItems();
+      return this.items;
+    }
   }
 
   _fetchProductItems() {
