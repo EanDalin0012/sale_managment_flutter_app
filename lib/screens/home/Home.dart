@@ -23,7 +23,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int _selectedIndex = 0;
   String _titleBar = 'Home';
-  var isSelectMenu = false;
+  var isShowAppBar = true;
 
   List<GlobalKey<NavigatorState>> _navigatorKeys = [
     GlobalKey<NavigatorState>(),
@@ -31,9 +31,9 @@ class _HomeState extends State<Home> {
     GlobalKey<NavigatorState>()
   ];
   List<Widget> _widgetOptions = <Widget>[
-    HomeScreen1(),
     HomeScreen(),
     SaleScreen(),
+    HomeScreen1(),
   ];
 
   BottomNavigationBar _bottomNavigationBar() {
@@ -86,6 +86,7 @@ class _HomeState extends State<Home> {
             _titleBar = 'Home';
           } else if (index == 1) {
             _titleBar = 'Sale';
+            isShowAppBar = false;
           }
           if(index >= 2) {
             _showModelSheet();
@@ -233,7 +234,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: _appBar(),
+        appBar: isShowAppBar ? _appBar(): null,
         drawer: SideNave(),
         backgroundColor: Colors.black12.withOpacity(0.1),
         bottomNavigationBar: _bottomNavigationBar(),

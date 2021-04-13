@@ -1,61 +1,82 @@
 import 'package:flutter/material.dart';
-import 'package:sale_managment/screens/widgets/product_dropdown/product_page.dart';
-import 'package:sale_managment/share/model/product.dart';
+import 'package:sale_managment/share/model/package_product.dart';
 import 'package:sale_managment/screens/widgets/product_dropdown/FlagImageWidget.dart';
+import 'package:sale_managment/screens/widgets/package_product_dropdown/package_product_page.dart';
+import 'package:sale_managment/share/model/product.dart';
+import 'package:sale_managment/share/services/load_data_local.dart';
 
-class ProductDropdown extends StatefulWidget {
-  final ValueChanged<ProductModel> onChanged;
+class PackageProductDropdown extends StatefulWidget {
+  final ValueChanged<PackageProductModel> onChanged;
   final Color color;
-  ProductDropdown({
+  final ProductModel product;
+  PackageProductDropdown({
     this.color,
+    @required this.product,
     this.onChanged
   });
   @override
   _ProductDropdownState createState() => _ProductDropdownState();
 }
 
-class _ProductDropdownState extends State<ProductDropdown> {
-  ProductModel product;
+class _ProductDropdownState extends State<PackageProductDropdown> {
 
+  PackageProductModel _packageProductModel;
+  List<ProductModel> productItems = [];
+  var url = 'https://icons-for-free.com/iconfiles/png/512/part+1+p-1320568343314317876.png';
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    if(widget.product != null) {
+      setState(() {
+        this.url = widget.product.url;
+      });
+    }
     return  Container(
-        child: buildSingleProduct(),
-      );
+      child: buildSingleProduct(),
+    );
   }
 
   Widget buildSingleProduct() {
     final onTap = () async {
       final product = await Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => ProductPage(
-          productModel: this.product,
+        MaterialPageRoute(builder: (context) => PackageProductPage(
+          product: widget.product,
+          packageProductModel: this._packageProductModel,
         )),
       );
 
       if (product == null) return;
       setState(() {
-        this.product = product;
+        this._packageProductModel = product;
       });
+      _fetchProductItems();
       widget.onChanged(product);
     };
 
     return buildCountryPicker(
       title: 'Select Country',
-      child: product == null ? buildListTile(
-          title: 'Select Product',
-          leading: Icon(
+      child: _packageProductModel == null ? buildListTile(
+          title: 'Select Package Product',
+          leading: widget.product != null ? FlagImageWidget(
+            width: 40,
+            height: 40,
+            url: url,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(60)),
+              border: Border.all(color: Colors.grey, width: 0),
+            ),
+          ) : Icon(
             Icons.info_outline,
             color: Colors.black54,
           ),
           onTap: onTap
-        ) : buildListTile(
-        title: product.name,
+      ) : buildListTile(
+        title: _packageProductModel.name,
         leading: FlagImageWidget(
           width: 40,
           height: 40,
-          url: product.url,
+          url: url,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(60)),
             border: Border.all(color: Colors.grey, width: 0),
@@ -121,6 +142,23 @@ class _ProductDropdownState extends State<ProductDropdown> {
         backgroundColor: Colors.transparent,
       ),
     );
+  }
+
+  _fetchProductItems() {
+    LoadLocalData.fetchProductItems().then((value) {
+      this.productItems = value;
+      print('productItems: ${productItems.toString()}');
+    });
+  }
+
+  String _searchProductById(int productId) {
+    if(this.productItems.length > 0) {
+      for(ProductModel p in productItems) {
+        if(p.id == productId) {
+          return p.url;
+        }
+      }
+    }
   }
 
 }

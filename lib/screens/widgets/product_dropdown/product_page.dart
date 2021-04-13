@@ -21,7 +21,6 @@ class _ProductPageState extends State<ProductPage> {
   var controller = TextEditingController();
   var isSearch = false;
   var isItemChanged = false;
-
   List<ProductModel> items;
   List<ProductModel> itemsTmp;
 

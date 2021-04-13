@@ -6,13 +6,14 @@ import 'package:sale_managment/screens/widgets/product_dropdown/product_dropdown
 import 'package:sale_managment/share/constant/text_style.dart';
 import 'package:sale_managment/share/model/catgory.dart';
 import 'package:sale_managment/share/model/country.dart';
-
-class PackageProductAdd extends StatefulWidget {
+import 'package:sale_managment/screens/widgets/package_product_dropdown/package_product_dropdown.dart';
+import 'package:sale_managment/share/model/product.dart';
+class SaleAddScreen extends StatefulWidget {
   @override
   _PackageProductAddState createState() => _PackageProductAddState();
 }
 
-class _PackageProductAddState extends State<PackageProductAdd> {
+class _PackageProductAddState extends State<SaleAddScreen> {
 
   var borderColorsTextField = Colors.deepPurple;
   var labelStyle = TextStyle(fontSize: 20, color: Colors.deepPurple, fontFamily: fontFamilyDefault);
@@ -24,11 +25,15 @@ class _PackageProductAddState extends State<PackageProductAdd> {
   var colorValue = Colors.deepPurple;
   Map<String, Object> dropdownValue;
   CountryModel country;
+  ProductModel product;
+
+  var next = 0;
+  var btnText = 'Next';
 
   Size size;
   @override
   Widget build(BuildContext context) {
-     size = MediaQuery.of(context).size;
+    size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: _appBar(),
       body: Column(
@@ -49,7 +54,7 @@ class _PackageProductAddState extends State<PackageProductAdd> {
                   //   left: 5,
                   //   right: 5
                   // ),
-                  child: Center(child: Text('SAVE', style: TextStyle(fontWeight: FontWeight.w700, color: Colors.white, fontFamily: 'roboto', fontSize: 18))),
+                  child: Center(child: Text(btnText, style: TextStyle(fontWeight: FontWeight.w700, color: Colors.white, fontFamily: 'roboto', fontSize: 18))),
                 ),
               ),
             ],
@@ -62,7 +67,7 @@ class _PackageProductAddState extends State<PackageProductAdd> {
 
   AppBar _appBar() {
     return AppBar(
-        title: Text('Package of Product', style: TextStyle(fontFamily: 'roboto', fontWeight: FontWeight.w700)),
+        title: Text('Sale', style: TextStyle(fontFamily: 'roboto', fontWeight: FontWeight.w700)),
         backgroundColor: Colors.purple[900]
     );
   }
@@ -80,7 +85,7 @@ class _PackageProductAddState extends State<PackageProductAdd> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Text(
-              'Add New Package of Product',
+              'New Sale',
               style: containStyle
           ),
         ],
@@ -95,11 +100,10 @@ class _PackageProductAddState extends State<PackageProductAdd> {
             physics: ClampingScrollPhysics(),
             child: Column(
                 children: <Widget>[
-                  _nameField(),
                   Container(
                     margin: EdgeInsets.only(
-                      left: 10,
-                      right: 10
+                        left: 10,
+                        right: 10
                     ),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(5.0)),
@@ -109,9 +113,31 @@ class _PackageProductAddState extends State<PackageProductAdd> {
                       color: colorValue,
                       onChanged: (value) {
                         print('product change event work: ${value.toString()}');
+                        setState(() {
+                          this.product = value;
+                        });
                       },
                     ),
                   ),
+                  SizedBox(height: 12,),
+                  Container(
+                    margin: EdgeInsets.only(
+                        left: 10,
+                        right: 10
+                    ),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                        border: Border.all(color: colorValue, width: 1.5)
+                    ),
+                    child: PackageProductDropdown(
+                      color: colorValue,
+                      product: product,
+                      onChanged: (value) {
+                        print('Package Product Dropdown work: ${value.toString()}');
+                      },
+                    ),
+                  ),
+                  _nameField(),
                   _quantityField(),
                   _remarkField()
                 ])
