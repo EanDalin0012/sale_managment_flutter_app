@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sale_managment/screens/package_product%E2%80%8B%E2%80%8B/package_product_add.dart';
+import 'package:sale_managment/screens/widgets/product_dropdown/product_page.dart';
 import 'package:sale_managment/share/components/show_dialog/show_dialog.dart';
 import 'package:sale_managment/share/constant/constantcolor.dart';
 import 'package:sale_managment/share/constant/text_style.dart';
@@ -19,6 +20,7 @@ class PackageProductScreen extends StatefulWidget {
 class _PackageProductScreenState extends State<PackageProductScreen> {
   var controller = TextEditingController();
   var isItemChanged = false;
+  var isFilterByProduct = false;
   var isNative = false;
   var isSearch = false;
   var text = '';
@@ -30,6 +32,7 @@ class _PackageProductScreenState extends State<PackageProductScreen> {
   List<PackageProductModel> items;
   List<PackageProductModel> itemsTmp;
   List<ProductModel> productItems = [];
+  ProductModel product;
 
   @override
   Widget build(BuildContext context) {
@@ -58,10 +61,35 @@ class _PackageProductScreenState extends State<PackageProductScreen> {
         const SizedBox(width: 8),
       ],
       bottom: this.isNative ? PreferredSize(preferredSize: Size.fromHeight(60),
-        child:  _buildSearchWidget(
-          text: controller.text,
-          // onChanged: (text) => setState(() => this.text = text),
-          hintText: 'Search by name',
+        child:  Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              width: size.width - 60,
+              child: _buildSearchWidget(
+                text: controller.text,
+                // onChanged: (text) => setState(() => this.text = text),
+                hintText: 'Search by name', onTap: () {  },
+              ),
+            ),
+            _buildFilterByProduct()
+            // Container(
+            //   height: 40,
+            //   // padding: EdgeInsets.only(
+            //   //   right: 3
+            //   // ),
+            //   child: IconButton(
+            //     icon: FaIcon(FontAwesomeIcons.filter,size: 25 , color: Colors.white,),
+            //     tooltip: 'Increase volume by 10',
+            //     onPressed: () {
+            //       setState(() {
+            //         // _volume += 10;
+            //       });
+            //     },
+            //   ),
+            // ),
+          ],
         ),
       ): null,
     );
@@ -91,6 +119,34 @@ class _PackageProductScreenState extends State<PackageProductScreen> {
               }
             }
         )
+    );
+  }
+
+  Widget _buildFilterByProduct() {
+    return Container(
+      height: 40,
+      // padding: EdgeInsets.only(
+      //   right: 3
+      // ),
+      child: IconButton(
+        icon: FaIcon(FontAwesomeIcons.filter,size: 25 , color: Colors.white,),
+        tooltip: 'Increase volume by 10',
+        onPressed: () async {
+          final product = await Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => ProductPage(
+              productModel: this.product,
+            )),
+          );
+
+          if (product == null) return;
+          this.isItemChanged = false;
+          this.isFilterByProduct = true;
+          setState(() {
+            this.product = product;
+          });
+        },
+      ),
     );
   }
 
@@ -349,11 +405,6 @@ class _PackageProductScreenState extends State<PackageProductScreen> {
   }
 
   _fetchItems() async {
-    // LoadLocalData.fetchPackageProductItems().then((value) {
-    //   items = value;
-    //   print('vData: ${items.toString()}');
-    //   return items;
-    // });
     if(isItemChanged == true) {
       if(controller.text != null) {
         setState(() {
@@ -361,6 +412,10 @@ class _PackageProductScreenState extends State<PackageProductScreen> {
           items = onItemChanged(controller.text);
         });
       }
+      return items;
+    } else if(isFilterByProduct == true) {
+      print('for filter product:${this.product.toString()}');
+      this.items = this._doFilterByProduct(this.product);
       return items;
     } else {
       final data = await rootBundle.loadString(
@@ -393,6 +448,12 @@ class _PackageProductScreenState extends State<PackageProductScreen> {
           }
       }
     }
+  }
+
+  _doFilterByProduct(ProductModel product) {
+    var dataItems = itemsTmp.where((e) => e.productId.toString().contains(product.id.toString())).toList();
+    print('bu: ${dataItems.toString()}');
+    return dataItems;
   }
 
 }
