@@ -27,6 +27,9 @@ class PackageProductPage extends StatefulWidget {
 }
 
 class _PackageProductScreenState extends State<PackageProductPage> {
+  _PackageProductScreenState() {
+    this._fetchProductItems();
+  }
   var controller = TextEditingController();
   var isItemChanged = false;
   var isFilterByProduct = false;
@@ -79,14 +82,14 @@ class _PackageProductScreenState extends State<PackageProductPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Container(
-              width: size.width - 60,
+              width: size.width,
               child: _buildSearchWidget(
                 text: controller.text,
                 // onChanged: (text) => setState(() => this.text = text),
                 hintText: 'Search by name', onTap: () {  },
               ),
             ),
-            _buildFilterByProduct()
+            // _buildFilterByProduct()
           ],
         ),
       ): null,
@@ -386,15 +389,14 @@ class _PackageProductScreenState extends State<PackageProductPage> {
         });
       }
       return items;
-    }
-    else if(isFilterByProduct == true) {
+    } else if(isFilterByProduct == true) {
       this.items = this._doFilterByProduct(this.product);
       return items;
-    }
-    else if(this.isNative == false && this.itemsTmp.length > 0) {
+    } else if(this.isNative == false && this.itemsTmp.length > 0) {
       this.items = itemsTmp;
       return this.items;
     } else {
+      print('item:');
       final data = await rootBundle.loadString(
           'assets/json_data/package_of_product_list.json');
       Map valueMap = jsonDecode(data);
@@ -402,22 +404,19 @@ class _PackageProductScreenState extends State<PackageProductPage> {
       var arrObjs = dataItems.map<PackageProductModel>((json) {
         return PackageProductModel.fromJson(json);
       }).toList();
-      this.items = arrObjs;
+      this.itemsTmp = arrObjs;
+      var vData = _doFilterByProduct(widget.product);
+      this.items = vData;
       this.itemsTmp = this.items;
-      _fetchProductItems();
       return this.items;
     }
   }
 
-  _fetchProductItems() {
-    LoadLocalData.fetchProductItems().then((value) {
-      setState(() {
-        productItems = value;
-        this.items = this._doFilterByProduct(widget.product);
-        this.isFilterByProduct = true;
-        print('_doFilterByProduct: ${items.toString()}');
-      });
+  Future<void> _fetchProductItems() async {
+    await LoadLocalData.fetchProductItems().then((value) {
+      this.productItems = value;
     });
+
   }
 
   String _searchProductById(int productId) {
@@ -436,10 +435,6 @@ class _PackageProductScreenState extends State<PackageProductPage> {
   }
 
   void selectPackageProduct(PackageProductModel packageProductModel) {
-    // setState(() {
-    //   final isSelected = items.contains(productModel);
-    //   print(isSelected);
-    // });
     Navigator.pop(context, packageProductModel);
   }
 
