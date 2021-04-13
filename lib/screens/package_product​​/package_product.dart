@@ -9,6 +9,7 @@ import 'package:sale_managment/share/constant/text_style.dart';
 import 'package:sale_managment/share/model/product.dart';
 import 'package:sale_managment/share/model/package_product.dart';
 import 'package:sale_managment/share/services/load_data_local.dart';
+import 'package:sale_managment/share/utils/number_format.dart';
 
 class PackageProductScreen extends StatefulWidget {
   @override
@@ -208,7 +209,7 @@ class _PackageProductScreenState extends State<PackageProductScreen> {
         ),
         leading: _buildLeading(dataItem.productId),
       subtitle: Text(
-        dataItem.price.toString()+' \$,'+dataItem.remark,
+        FormatNumber.usdFormat2Digit(dataItem.price).toString()+' \$,'+dataItem.remark,
         style: TextStyle(fontSize: 12,fontWeight: FontWeight.w700, fontFamily: fontFamilyDefault, color: primaryColor),
       ),
       trailing: Container(
@@ -380,4 +381,5 @@ class _PackageProductScreenState extends State<PackageProductScreen> {
       }
     }
   }
+
 }
