@@ -74,21 +74,6 @@ class _PackageProductScreenState extends State<PackageProductScreen> {
               ),
             ),
             _buildFilterByProduct()
-            // Container(
-            //   height: 40,
-            //   // padding: EdgeInsets.only(
-            //   //   right: 3
-            //   // ),
-            //   child: IconButton(
-            //     icon: FaIcon(FontAwesomeIcons.filter,size: 25 , color: Colors.white,),
-            //     tooltip: 'Increase volume by 10',
-            //     onPressed: () {
-            //       setState(() {
-            //         // _volume += 10;
-            //       });
-            //     },
-            //   ),
-            // ),
           ],
         ),
       ): null,
@@ -414,7 +399,6 @@ class _PackageProductScreenState extends State<PackageProductScreen> {
       }
       return items;
     } else if(isFilterByProduct == true) {
-      print('for filter product:${this.product.toString()}');
       this.items = this._doFilterByProduct(this.product);
       return items;
     } else {
@@ -452,7 +436,6 @@ class _PackageProductScreenState extends State<PackageProductScreen> {
 
   _doFilterByProduct(ProductModel product) {
     var dataItems = itemsTmp.where((e) => e.productId.toString().contains(product.id.toString())).toList();
-    print('bu: ${dataItems.toString()}');
     return dataItems;
   }
 
