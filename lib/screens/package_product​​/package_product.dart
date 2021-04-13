@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sale_managment/screens/package_product%E2%80%8B%E2%80%8B/package_product_add.dart';
+import 'package:sale_managment/screens/package_product%E2%80%8B%E2%80%8B/package_product_edit.dart';
 import 'package:sale_managment/screens/widgets/product_dropdown/product_page.dart';
 import 'package:sale_managment/share/components/show_dialog/show_dialog.dart';
 import 'package:sale_managment/share/constant/constantcolor.dart';
@@ -203,7 +204,7 @@ class _PackageProductScreenState extends State<PackageProductScreen> {
   Widget _offsetPopup(PackageProductModel item) => PopupMenuButton<int>(
     itemBuilder: (context) => [
       PopupMenuItem(
-          value: 2,
+          value: 0,
           child: Row(
             children: <Widget>[
               FaIcon(FontAwesomeIcons.edit,size: 20,color: Colors.purple[900]),
@@ -216,7 +217,7 @@ class _PackageProductScreenState extends State<PackageProductScreen> {
           )
       ),
       PopupMenuItem(
-          value: 3,
+          value: 1,
           child: Row(
             children: <Widget>[
               FaIcon(FontAwesomeIcons.trash,size: 20,color: Colors.purple[900]),
@@ -232,17 +233,15 @@ class _PackageProductScreenState extends State<PackageProductScreen> {
     icon: FaIcon(FontAwesomeIcons.ellipsisV,size: 20,color: Colors.black),
     offset: Offset(0, 45),
     onSelected: (value) {
-      if(value == 1) {
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(builder: (context) => VendorViewScreen(vendorModel)),
-        // );
-      } else if(value == 2) {
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(builder: (context) => EditCategoryScreen(categoryModel)),
-        // );
-      } else if (value == 3) {
+      print('index ${value}');
+      if(value == 0) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) =>
+              PackageProductEdit(packageProduct: item)
+          ),
+        );
+      } else if (value == 1) {
         _showDialog(item);
       }
     },

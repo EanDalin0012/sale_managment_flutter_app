@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:sale_managment/screens/widgets/contry_dropdown/country_page.dart';
 import 'package:sale_managment/screens/widgets/contry_dropdown/flag_widget.dart';
 import 'package:sale_managment/screens/widgets/product_dropdown/product_dropdown.dart';
@@ -18,12 +19,13 @@ class _PackageProductAddState extends State<PackageProductAdd> {
   var labelStyle = TextStyle(fontSize: 20, color: Colors.deepPurple, fontFamily: fontFamilyDefault);
   var hintStyle = TextStyle(fontFamily: fontFamilyDefault);
   var nameValueController = new TextEditingController();
+  var quantityValueController = new TextEditingController();
+  var priceValueController = new TextEditingController();
   var remarkValueController = new TextEditingController();
 
   var textValue = 'Select Product';
   var colorValue = Colors.deepPurple;
   Map<String, Object> dropdownValue;
-  CountryModel country;
 
   Size size;
   @override
@@ -113,6 +115,7 @@ class _PackageProductAddState extends State<PackageProductAdd> {
                     ),
                   ),
                   _quantityField(),
+                  _priceField(),
                   _remarkField()
                 ])
         )
@@ -161,11 +164,54 @@ class _PackageProductAddState extends State<PackageProductAdd> {
     );
   }
 
+  Padding _priceField() {
+    return Padding(
+      padding: EdgeInsets.all(10),
+      child: TextField(
+        keyboardType: TextInputType.number,
+        controller: priceValueController,
+        decoration: InputDecoration(
+            hintText: 'Enter price',
+            labelText: 'Price',
+            // helperText: 'Remark',
+            labelStyle: labelStyle,
+            hintStyle: hintStyle,
+            // helperStyle: TextStyle(
+            //     color: Colors.blueGrey,
+            //     fontWeight: FontWeight.bold
+            // ),
+            // border: OutlineInputBorder(),
+            enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                    color: borderColorsTextField,
+                    width: 1.5,
+                    style: BorderStyle.solid
+                ),
+                borderRadius: BorderRadius.all(Radius.circular(5.0))
+            ),
+            focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                    color: Colors.indigo,
+                    width: 1.5,
+                    style: BorderStyle.solid
+                )
+            ),
+            prefixIcon: Icon(
+              Icons.info_outline,
+              color: Colors.black54,
+            )
+
+        ),
+      ),
+    );
+  }
+
   Padding _quantityField() {
     return Padding(
       padding: EdgeInsets.all(10),
       child: TextField(
-        controller: remarkValueController,
+        keyboardType: TextInputType.number,
+        controller: quantityValueController,
         decoration: InputDecoration(
             hintText: 'Enter quantity',
             labelText: 'Quantity',
@@ -247,31 +293,6 @@ class _PackageProductAddState extends State<PackageProductAdd> {
   _save() {
     var categoryModel = new CategoryModel(nameValueController.text, remarkValueController.text);
     print(categoryModel.toString());
-  }
-
-  Widget buildSingleCountry() {
-    final onTap = () async {
-      final country = await Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => CountryPage()),
-      );
-
-      if (country == null) return;
-
-      // setState(() => this.country = country);
-      // countries.add(this.country);
-      // isMultiSelection = true;
-    };
-
-    return buildCountryPicker(
-      title: 'Select Country',
-      child: country == null ? buildListTile(title: 'No Country', onTap: onTap)
-          : buildListTile(
-        title: country.name,
-        leading: FlagWidget(code: country.code),
-        onTap: onTap,
-      ),
-    );
   }
 
   Widget buildListTile({

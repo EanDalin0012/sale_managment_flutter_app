@@ -4,10 +4,12 @@ import 'package:sale_managment/share/model/product.dart';
 import 'package:sale_managment/screens/widgets/product_dropdown/FlagImageWidget.dart';
 
 class ProductDropdown extends StatefulWidget {
+  final ProductModel product;
   final ValueChanged<ProductModel> onChanged;
   final Color color;
   ProductDropdown({
     this.color,
+    this.product,
     this.onChanged
   });
   @override
@@ -19,6 +21,11 @@ class _ProductDropdownState extends State<ProductDropdown> {
 
   @override
   Widget build(BuildContext context) {
+
+    if(widget.product !=null) {
+      this.product = widget.product;
+    }
+
     Size size = MediaQuery.of(context).size;
     return  Container(
         child: buildSingleProduct(),

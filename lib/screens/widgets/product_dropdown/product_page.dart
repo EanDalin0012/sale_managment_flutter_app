@@ -61,6 +61,7 @@ class _ProductPageState extends State<ProductPage> {
     final label = 'Product';
 
     return AppBar(
+      backgroundColor: Colors.purple[900],
       title: Text('Select $label'),
       actions: [
         IconButton(
