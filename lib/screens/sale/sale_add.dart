@@ -20,6 +20,8 @@ class _PackageProductAddState extends State<SaleAddScreen> {
   var hintStyle = TextStyle(fontFamily: fontFamilyDefault);
   var nameValueController = new TextEditingController();
   var remarkValueController = new TextEditingController();
+  var quantityValueController = new TextEditingController();
+  var totalValueController = new TextEditingController();
 
   var textValue = 'Select Product';
   var colorValue = Colors.deepPurple;
@@ -119,7 +121,7 @@ class _PackageProductAddState extends State<SaleAddScreen> {
                       },
                     ),
                   ),
-                  SizedBox(height: 12,),
+                  SizedBox(height: 10,),
                   Container(
                     margin: EdgeInsets.only(
                         left: 10,
@@ -139,6 +141,7 @@ class _PackageProductAddState extends State<SaleAddScreen> {
                   ),
                   _nameField(),
                   _quantityField(),
+                  _totalField(),
                   _remarkField()
                 ])
         )
@@ -147,7 +150,11 @@ class _PackageProductAddState extends State<SaleAddScreen> {
 
   Padding _nameField() {
     return Padding(
-      padding: EdgeInsets.all(10),
+      padding: EdgeInsets.only(
+        right: 10,
+        left: 10,
+        top: 10
+      ),
       child: TextField(
         controller: nameValueController,
         decoration: InputDecoration(
@@ -189,12 +196,61 @@ class _PackageProductAddState extends State<SaleAddScreen> {
 
   Padding _quantityField() {
     return Padding(
-      padding: EdgeInsets.all(10),
+      padding: EdgeInsets.only(
+          right: 10,
+          left: 10,
+          top: 10
+      ),
       child: TextField(
-        controller: remarkValueController,
+        controller: quantityValueController,
         decoration: InputDecoration(
             hintText: 'Enter quantity',
             labelText: 'Quantity',
+            // helperText: 'Remark',
+            labelStyle: labelStyle,
+            hintStyle: hintStyle,
+            // helperStyle: TextStyle(
+            //     color: Colors.blueGrey,
+            //     fontWeight: FontWeight.bold
+            // ),
+            // border: OutlineInputBorder(),
+            enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                    color: borderColorsTextField,
+                    width: 1.5,
+                    style: BorderStyle.solid
+                ),
+                borderRadius: BorderRadius.all(Radius.circular(5.0))
+            ),
+            focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                    color: Colors.indigo,
+                    width: 1.5,
+                    style: BorderStyle.solid
+                )
+            ),
+            prefixIcon: Icon(
+              Icons.info_outline,
+              color: Colors.black54,
+            )
+
+        ),
+      ),
+    );
+  }
+
+  Padding _totalField() {
+    return Padding(
+      padding: EdgeInsets.only(
+          right: 10,
+          left: 10,
+          top: 10
+      ),
+      child: TextField(
+        controller: totalValueController,
+        decoration: InputDecoration(
+            hintText: 'Enter total',
+            labelText: 'Total',
             // helperText: 'Remark',
             labelStyle: labelStyle,
             hintStyle: hintStyle,

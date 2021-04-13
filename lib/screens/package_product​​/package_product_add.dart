@@ -121,7 +121,12 @@ class _PackageProductAddState extends State<PackageProductAdd> {
 
   Padding _nameField() {
     return Padding(
-      padding: EdgeInsets.all(10),
+      padding: EdgeInsets.only(
+          right: 10,
+          left: 10,
+          top: 10,
+          bottom: 10
+      ),
       child: TextField(
         controller: nameValueController,
         decoration: InputDecoration(
@@ -163,7 +168,11 @@ class _PackageProductAddState extends State<PackageProductAdd> {
 
   Padding _priceField() {
     return Padding(
-      padding: EdgeInsets.all(10),
+      padding: EdgeInsets.only(
+          right: 10,
+          left: 10,
+          top: 10
+      ),
       child: TextField(
         keyboardType: TextInputType.number,
         controller: priceValueController,
@@ -205,7 +214,11 @@ class _PackageProductAddState extends State<PackageProductAdd> {
 
   Padding _quantityField() {
     return Padding(
-      padding: EdgeInsets.all(10),
+      padding: EdgeInsets.only(
+          right: 10,
+          left: 10,
+          top: 10
+      ),
       child: TextField(
         keyboardType: TextInputType.number,
         controller: quantityValueController,
@@ -248,7 +261,11 @@ class _PackageProductAddState extends State<PackageProductAdd> {
 
   Padding _remarkField() {
     return Padding(
-      padding: EdgeInsets.all(10),
+      padding: EdgeInsets.only(
+          right: 10,
+          left: 10,
+          top: 10
+      ),
       child: TextField(
         controller: remarkValueController,
         decoration: InputDecoration(
