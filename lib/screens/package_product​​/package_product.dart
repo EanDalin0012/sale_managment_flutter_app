@@ -29,8 +29,8 @@ class _PackageProductScreenState extends State<PackageProductScreen> {
   // List<CategoryModel> categories = categoriesData;
   var menuStyle = TextStyle( color: Colors.purple[900], fontWeight: FontWeight.w500, fontFamily: fontFamilyDefault);
 
-  List<PackageProductModel> items;
-  List<PackageProductModel> itemsTmp;
+  List<PackageProductModel> items = [];
+  List<PackageProductModel> itemsTmp = [];
   List<ProductModel> productItems = [];
   ProductModel product;
 
@@ -56,7 +56,11 @@ class _PackageProductScreenState extends State<PackageProductScreen> {
       actions: [
         IconButton(
           icon: Icon(isNative ? Icons.close : Icons.search),
-          onPressed: () => setState(() => this.isNative = !isNative),
+          onPressed: () => setState(() {
+            this.isNative = !isNative;
+            this.isItemChanged = false;
+            this.isFilterByProduct = false;
+          }),
         ),
         const SizedBox(width: 8),
       ],
@@ -290,31 +294,6 @@ class _PackageProductScreenState extends State<PackageProductScreen> {
     );
   }
 
-  Widget _buildListTile1( {
-    @required PackageProductModel dataItem
-  }) {
-    return Container(
-       width: size.width,
-       height: 55,
-       margin: EdgeInsets.only(
-         left: 10,
-         right: 10
-       ),
-       decoration: BoxDecoration(
-         border: Border(
-           bottom: BorderSide(width: 1.0, color: Colors.black),
-         ),
-       ),
-       child:Row(
-        children: <Widget>[
-          _buildLeading(dataItem.productId),
-          SizedBox(width: 10,),
-          Text(dataItem.name),
-          SizedBox(height: 5)
-        ],
-      )
-    );
-  }
   Widget _buildLeading(int productId) {
     var url = _searchProductById(productId);
     if(url == null) {
@@ -401,6 +380,9 @@ class _PackageProductScreenState extends State<PackageProductScreen> {
     } else if(isFilterByProduct == true) {
       this.items = this._doFilterByProduct(this.product);
       return items;
+    } else if(this.isNative == false && this.itemsTmp.length > 0) {
+      this.items = itemsTmp;
+      return this.items;
     } else {
       final data = await rootBundle.loadString(
           'assets/json_data/package_of_product_list.json');
