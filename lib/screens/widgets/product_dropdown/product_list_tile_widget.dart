@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sale_managment/share/model/product.dart';
 import 'package:sale_managment/screens/widgets/product_dropdown/FlagImageWidget.dart';
 
@@ -32,7 +33,18 @@ class ProductListTileWidget extends StatelessWidget {
           ),
         ),
         title: Text(productModel.name),
-         trailing: isSelected ? Icon(Icons.check, color: selectedColor, size: 26) : null,
+         trailing: isSelected ? _buildCheckIcon() : null,
+    );
+  }
+
+  Widget _buildCheckIcon() {
+    return Container(
+      width: 40,
+      height: 40,
+      // margin: EdgeInsets.only(
+      //     left: 10
+      // ),
+      child: Center(child: FaIcon(FontAwesomeIcons.checkCircle, size: 25 , color: Colors.deepPurple)),
     );
   }
 }

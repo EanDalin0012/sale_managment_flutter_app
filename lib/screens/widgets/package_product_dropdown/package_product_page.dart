@@ -434,6 +434,9 @@ class _PackageProductScreenState extends State<PackageProductPage> {
       var vData = _doFilterByProduct(widget.product);
       this.items = vData;
       this.itemsTmp = this.items;
+      if(this.items.length <= 0) {
+        return [];
+      }
       return this.items;
     }
   }
