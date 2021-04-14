@@ -14,11 +14,11 @@ import 'package:sale_managment/share/utils/number_format.dart';
 
 class PackageProductPage extends StatefulWidget {
 
-  final PackageProductModel packageProductModel;
+  final PackageProductModel packageProduct;
   final ProductModel product;
   const PackageProductPage({
     Key key,
-    this.packageProductModel,
+    this.packageProduct,
     this.product
   }) : super(key: key);
 
@@ -28,8 +28,9 @@ class PackageProductPage extends StatefulWidget {
 
 class _PackageProductScreenState extends State<PackageProductPage> {
   _PackageProductScreenState() {
-    this._fetchProductItems();
+      this._fetchProductItems();
   }
+
   var controller = TextEditingController();
   var isItemChanged = false;
   var isFilterByProduct = false;
@@ -46,8 +47,18 @@ class _PackageProductScreenState extends State<PackageProductPage> {
   List<ProductModel> productItems = [];
   ProductModel product;
 
+
+  @override
+  void initState() {
+    print('initState');
+  }
+
   @override
   Widget build(BuildContext context) {
+    print('build');
+    if(widget.packageProduct != null) {
+       print('abc: ${widget.packageProduct}');
+    }
     size = MediaQuery.of(context).size;
     return Scaffold(
         appBar: _buildAppBar(),
@@ -295,6 +306,12 @@ class _PackageProductScreenState extends State<PackageProductPage> {
                 ),
               ],
             ),
+            Column(
+              children: <Widget>[
+                widget.packageProduct !=null && dataItem.id == widget.packageProduct.id ? _buildCheckIcon() : Container()
+              ],
+            ),
+
             // Column(
             //   children: <Widget>[
             //     _offsetPopup(dataItem),
@@ -303,6 +320,15 @@ class _PackageProductScreenState extends State<PackageProductPage> {
           ],
         ),
       ),
+    );
+  }
+  Widget _buildCheckIcon() {
+    return Container(
+      margin: EdgeInsets.only(
+        top: 15,
+        left: 10
+      ),
+      child: Center(child: FaIcon(FontAwesomeIcons.checkCircle, size: 25 , color: Colors.deepPurple)),
     );
   }
 

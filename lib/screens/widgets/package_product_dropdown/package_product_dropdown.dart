@@ -9,9 +9,11 @@ class PackageProductDropdown extends StatefulWidget {
   final ValueChanged<PackageProductModel> onChanged;
   final Color color;
   final ProductModel product;
+  final PackageProductModel packageProduct;
   PackageProductDropdown({
     this.color,
     @required this.product,
+    this.packageProduct,
     this.onChanged
   });
   @override
@@ -26,6 +28,7 @@ class _ProductDropdownState extends State<PackageProductDropdown> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    print('p:'+widget.packageProduct.toString());
     if(widget.product != null) {
       setState(() {
         this.url = widget.product.url;
@@ -42,7 +45,7 @@ class _ProductDropdownState extends State<PackageProductDropdown> {
         context,
         MaterialPageRoute(builder: (context) => PackageProductPage(
           product: widget.product,
-          packageProductModel: this._packageProductModel,
+          packageProduct: widget.packageProduct,
         )),
       );
 
@@ -147,7 +150,6 @@ class _ProductDropdownState extends State<PackageProductDropdown> {
   _fetchProductItems() {
     LoadLocalData.fetchProductItems().then((value) {
       this.productItems = value;
-      print('productItems: ${productItems.toString()}');
     });
   }
 

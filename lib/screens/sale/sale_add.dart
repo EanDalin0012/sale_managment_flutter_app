@@ -7,6 +7,7 @@ import 'package:sale_managment/share/constant/text_style.dart';
 import 'package:sale_managment/share/model/catgory.dart';
 import 'package:sale_managment/share/model/country.dart';
 import 'package:sale_managment/screens/widgets/package_product_dropdown/package_product_dropdown.dart';
+import 'package:sale_managment/share/model/package_product.dart';
 import 'package:sale_managment/share/model/product.dart';
 class SaleAddScreen extends StatefulWidget {
   @override
@@ -28,6 +29,7 @@ class _PackageProductAddState extends State<SaleAddScreen> {
   Map<String, Object> dropdownValue;
   CountryModel country;
   ProductModel product;
+  PackageProductModel packageProductModel;
 
   var next = 0;
   var btnText = 'Next';
@@ -114,7 +116,6 @@ class _PackageProductAddState extends State<SaleAddScreen> {
                     child: ProductDropdown(
                       color: colorValue,
                       onChanged: (value) {
-                        print('product change event work: ${value.toString()}');
                         setState(() {
                           this.product = value;
                         });
@@ -134,8 +135,11 @@ class _PackageProductAddState extends State<SaleAddScreen> {
                     child: PackageProductDropdown(
                       color: colorValue,
                       product: product,
+                      packageProduct: packageProductModel,
                       onChanged: (value) {
-                        print('Package Product Dropdown work: ${value.toString()}');
+                        setState(() {
+                          this.packageProductModel = value;
+                        });
                       },
                     ),
                   ),
