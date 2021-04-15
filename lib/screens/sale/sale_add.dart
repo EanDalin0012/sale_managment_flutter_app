@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sale_managment/screens/widgets/contry_dropdown/country_page.dart';
 import 'package:sale_managment/screens/widgets/contry_dropdown/flag_widget.dart';
 import 'package:sale_managment/screens/widgets/product_dropdown/product_dropdown.dart';
@@ -10,6 +11,7 @@ import 'package:sale_managment/screens/widgets/package_product_dropdown/package_
 import 'package:sale_managment/share/model/package_product.dart';
 import 'package:sale_managment/share/model/product.dart';
 import 'package:sale_managment/share/utils/number_format.dart';
+
 class SaleAddScreen extends StatefulWidget {
   @override
   _PackageProductAddState createState() => _PackageProductAddState();
@@ -27,8 +29,9 @@ class _PackageProductAddState extends State<SaleAddScreen> {
   var styleInput = TextStyle(color: Colors.black, fontSize: 17, fontWeight: FontWeight.w500, fontFamily: fontFamilyDefault);
   var textValue = 'Select Product';
   var colorValue = Colors.deepPurple;
-  var price;
-  var quantity;
+  var cartArrowDownCount = 0 ;
+  double price;
+  double quantity;
   var keyboardType = TextInputType.number;
 
   Map<String, Object> dropdownValue;
@@ -54,6 +57,9 @@ class _PackageProductAddState extends State<SaleAddScreen> {
             children: <Widget>[
               InkWell(
                 onTap: () {
+                  setState(() {
+                    next += 1;
+                  });
                   _save();
                 },
                 child: Container(
@@ -78,7 +84,39 @@ class _PackageProductAddState extends State<SaleAddScreen> {
   AppBar _appBar() {
     return AppBar(
         title: Text('Sale', style: TextStyle(fontFamily: 'roboto', fontWeight: FontWeight.w700)),
-        backgroundColor: Colors.purple[900]
+        backgroundColor: Colors.purple[900],
+        actions: <Widget>[
+          InkWell(
+            onTap: () {
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(builder: (context) => NotificationScreen()),
+              // );
+            },
+            child: Container(
+              height: 80,
+              width: 55,
+              child: Stack(
+                children: <Widget>[
+                  Center(child:  FaIcon(FontAwesomeIcons.cartArrowDown,size: 25 , color: Colors.white,),),
+                  Container(
+                    width: 20,
+                    height: 20,
+                    margin: EdgeInsets.only(
+                        top: 5,
+                        left: 30
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.purple.withOpacity(0.5),
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
+                    child: Center(child: Text(cartArrowDownCount.toString(), style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w800))),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ]
     );
   }
 
@@ -131,7 +169,7 @@ class _PackageProductAddState extends State<SaleAddScreen> {
                     ),
                   ),
                   SizedBox(height: 10,),
-                  Container(
+                  next > 0 ? Container(
                     margin: EdgeInsets.only(
                         left: 10,
                         right: 10
@@ -147,18 +185,21 @@ class _PackageProductAddState extends State<SaleAddScreen> {
                       onChanged: (value) {
                         setState(() {
                           this.packageProductModel = value;
-                          this.price = this.packageProductModel.price;
+                          this.price = double.parse(this.packageProductModel.price.toString());
                           this.quantityValueController.text = this.packageProductModel.quantity.toString();
-                          this.totalValueController.text = _calTotal(price,this.packageProductModel.quantity);
+                          this.totalValueController.text = _calTotal(double.parse(price.toString()),double.parse(this.packageProductModel.quantity.toString()));
                         });
                       },
                     ),
-                  ),
-                  price != null ? _buildPrice() : Container(),
-                  _nameField(),
-                  _quantityField(),
-                  _totalField(),
-                  _remarkField()
+                  ) : Container(),
+                  (next > 0) && price != null ? _buildPrice() : Container(),
+                  // next > 0 ? _nameField(): Container() ,
+                  next > 0 ? _quantityField() : Container(),
+                  next > 0 ? _totalField() : Container(),
+                  next > 0 ? _remarkField() : Container(),
+                  if (next > 0) Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[_buildAddButton()]) else Container()
                 ])
         )
     );
@@ -265,7 +306,7 @@ class _PackageProductAddState extends State<SaleAddScreen> {
         ),
         onChanged: (v) {
           setState(() {
-            this.totalValueController.text = _calTotal(price, int.parse(v));
+            this.totalValueController.text = _calTotal(price, double.parse(v));
           });
         },
       ),
@@ -362,6 +403,33 @@ class _PackageProductAddState extends State<SaleAddScreen> {
     );
   }
 
+  Widget _buildAddButton() {
+    return  Container(
+      height: 50,
+      width: 110,
+      margin: EdgeInsets.only(right: 10),
+      child: RaisedButton(
+        color: Colors.red,
+        textColor: Colors.white,
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(50.0),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            FaIcon(FontAwesomeIcons.plusCircle,size: 25 , color: Colors.white,),
+            Center(child: Text("Add", style: TextStyle(fontFamily: fontFamilyDefault, fontWeight: FontWeight.w700, fontSize: 20, color: Colors.white),)),
+          ],
+        ),
+        onPressed: () {
+          setState(() {
+            this.cartArrowDownCount += 1;
+          });
+        },
+      ),
+    );
+  }
   _save() {
     var categoryModel = new CategoryModel(nameValueController.text, remarkValueController.text);
     print(categoryModel.toString());
@@ -430,10 +498,8 @@ class _PackageProductAddState extends State<SaleAddScreen> {
         ],
       );
 
-  String _calTotal(int price, int quantity) {
-    print('pp: ${price} ${quantity} ');
+  String _calTotal(double price, double quantity) {
     if(price> 0 && quantity > 0) {
-      print('pp: ');
         return FormatNumber.usdFormat2Digit((price * quantity));
     } else {
       return '0';

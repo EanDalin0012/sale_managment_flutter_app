@@ -27,9 +27,6 @@ class PackageProductPage extends StatefulWidget {
 }
 
 class _PackageProductScreenState extends State<PackageProductPage> {
-  _PackageProductScreenState() {
-      this._fetchProductItems();
-  }
 
   var controller = TextEditingController();
   var isItemChanged = false;
@@ -41,7 +38,6 @@ class _PackageProductScreenState extends State<PackageProductPage> {
   var styleInput = TextStyle(color: Colors.black, fontSize: 17, fontWeight: FontWeight.w500, fontFamily: fontFamilyDefault);
 
   TextEditingController _controller;
-  // List<CategoryModel> categories = categoriesData;
   var menuStyle = TextStyle( color: Colors.purple[900], fontWeight: FontWeight.w500, fontFamily: fontFamilyDefault);
 
   List<PackageProductModel> items = [];
@@ -52,22 +48,19 @@ class _PackageProductScreenState extends State<PackageProductPage> {
 
   @override
   void initState() {
-    print('initState');
+    this._fetchProductItems();
   }
 
   @override
   Widget build(BuildContext context) {
-    print('build');
-    if(widget.packageProduct != null) {
-       print('abc: ${widget.packageProduct}');
-    }
     size = MediaQuery.of(context).size;
     return Scaffold(
         appBar: _buildAppBar(),
         body: Column(
           children: <Widget>[
             _container(),
-            _buildBody()
+            _buildBody(),
+            SizedBox(height: 70,)
           ],
         ),
         floatingActionButton: _floatingActionButton()
@@ -277,7 +270,7 @@ class _PackageProductScreenState extends State<PackageProductPage> {
     @required PackageProductModel dataItem
   }) {
     return ListTile(
-      onTap: ()=> selectPackageProduct(dataItem),
+      onTap: () => selectPackageProduct(dataItem),
       title: Text( dataItem.name,
         style: TextStyle( color: Colors.black87, fontSize: 20, fontWeight: FontWeight.w700,fontFamily: fontFamilyDefault),
       ),

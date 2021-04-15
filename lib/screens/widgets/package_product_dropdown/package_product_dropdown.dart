@@ -28,7 +28,6 @@ class _ProductDropdownState extends State<PackageProductDropdown> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    print('p:'+widget.packageProduct.toString());
     if(widget.product != null) {
       setState(() {
         this.url = widget.product.url;
@@ -53,7 +52,7 @@ class _ProductDropdownState extends State<PackageProductDropdown> {
       setState(() {
         this._packageProductModel = product;
       });
-      _fetchProductItems();
+      // _fetchProductItems();
       widget.onChanged(product);
     };
 

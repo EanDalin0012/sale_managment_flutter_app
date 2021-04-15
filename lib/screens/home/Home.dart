@@ -1,7 +1,5 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -10,7 +8,6 @@ import 'package:sale_managment/screens/home/home_screen.dart';
 import 'package:sale_managment/screens/home/widgets/sheet_container.dart';
 import 'package:sale_managment/screens/notification/notification_screen.dart';
 import 'package:sale_managment/screens/sale/sale_screen.dart';
-import 'package:sale_managment/screens/sign_in/sign_in_screen.dart';
 import 'package:sale_managment/screens/widgets/side_nav.dart';
 import 'package:sale_managment/share/constant/constantcolor.dart';
 
@@ -83,6 +80,7 @@ class _HomeState extends State<Home> {
       onTap: (index) {
         setState(() {
           if(index == 0) {
+            isShowAppBar = true;
             _titleBar = 'Home';
           } else if (index == 1) {
             _titleBar = 'Sale';
