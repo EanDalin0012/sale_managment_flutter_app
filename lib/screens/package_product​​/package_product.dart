@@ -36,6 +36,7 @@ class _PackageProductScreenState extends State<PackageProductScreen> {
   List<PackageProductModel> itemsTmp = [];
   List<ProductModel> productItems = [];
   ProductModel product;
+  int itemLength = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -349,6 +350,7 @@ class _PackageProductScreenState extends State<PackageProductScreen> {
   }
 
   Container _container() {
+    this.itemLength = this.items.length;
     return Container(
       color: Color(0xffd9dbdb).withOpacity(0.4),
       width: size.width,
@@ -358,9 +360,19 @@ class _PackageProductScreenState extends State<PackageProductScreen> {
           right: 20,
           bottom: 10
       ),
-      child:  Text(
-        'Package of Product List',
-        style: containStyle,
+      // child:  Text(
+      //   'Package of Product List',
+      //   style: containStyle,
+      // ),
+      child:  Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Text(
+            'Package of Product List',
+            style: containStyle,
+          ),
+          Text(this.itemLength.toString(), style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.w700, fontFamily: fontFamilyDefault),)
+        ],
       ),
     );
   }

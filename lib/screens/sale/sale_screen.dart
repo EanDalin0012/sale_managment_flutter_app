@@ -29,11 +29,14 @@ class _SaleScreenState extends State<SaleScreen> {
   List<PackageProductModel> itemsTmp = [];
   List<ProductModel> productItems = [];
   ProductModel product;
+  int itemLength = 0;
+
   var menuStyle = TextStyle( color: Colors.purple[900], fontWeight: FontWeight.w500, fontFamily: fontFamilyDefault);
 
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
+    this.itemLength = this.items.length;
     return Scaffold(
         appBar: _buildAppBar(),
         body: Column(
@@ -63,7 +66,7 @@ class _SaleScreenState extends State<SaleScreen> {
             'Sale of Product List',
             style: containStyle,
           ),
-         Text(this.items.length.toString(), style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.w700, fontFamily: fontFamilyDefault),)
+         Text(itemLength.toString(), style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.w700, fontFamily: fontFamilyDefault),)
         ],
       ),
     );
