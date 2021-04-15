@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class SaleTransactionModel {
   final int id;
   final String transactionId;
-  final double total;
+  final num total;
   final String transactionData;
   final String remark;
 
@@ -15,14 +15,16 @@ class SaleTransactionModel {
     this.remark,
   });
 
-  factory SaleTransactionModel.fromJson(Map<String, dynamic> json)
-    => SaleTransactionModel(
+  factory SaleTransactionModel.fromJson(Map<String, dynamic> json) {
+    return SaleTransactionModel(
       id: json['id'],
       transactionId: json['transactionId'],
       total: json['total'],
       transactionData: json['transactionData'],
       remark: json['remark'],
     );
+  }
+
 
     @override
     String toString() {

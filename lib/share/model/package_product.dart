@@ -30,6 +30,6 @@ class PackageProductModel {
 
   @override
   String toString() {
-    return 'PackageProductModel{id: $id, name: $name, productId: $productId, quantity: $quantity, price: $price, remark: $remark}';
+    return 'PackageProductModel : {id: $id, name: $name, productId: $productId, quantity: $quantity, price: $price, remark: $remark}';
   }
 }
