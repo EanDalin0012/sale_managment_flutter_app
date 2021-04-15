@@ -118,7 +118,8 @@ class _PackageProductScreenState extends State<PackageProductPage> {
                   itemBuilder: (context, index) {
                     return _buildListTile(
                         dataItem: items[index]
-                    );},
+                    );
+                   },
                 );
                 // return ListView(
                 //   children: items.map((e) => _buildListTile1(dataItem: e)).toList(),
@@ -266,7 +267,7 @@ class _PackageProductScreenState extends State<PackageProductPage> {
     },
   );
 
-  Widget _buildListTile( {
+  Widget _buildListTile({
     @required PackageProductModel dataItem
   }) {
     return ListTile(
@@ -317,6 +318,7 @@ class _PackageProductScreenState extends State<PackageProductPage> {
       ),
     );
   }
+
   Widget _buildCheckIcon() {
     return Container(
       margin: EdgeInsets.only(

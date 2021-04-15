@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:sale_managment/share/constant/constantcolor.dart';
 import 'package:sale_managment/share/constant/text_style.dart';
 import 'package:sale_managment/share/model/product.dart';
 import 'package:sale_managment/screens/widgets/product_dropdown/product_list_tile_widget.dart';
@@ -44,15 +46,26 @@ class _ProductPageState extends State<ProductPage> {
                 if(obj != null) {
                   productName = obj.name.toLowerCase();
                 }
-                return ListView(
-                  children: items.map((e) {
-                    return ProductListTileWidget(
-                      productModel: e,
-                      isSelected: e.name.toLowerCase() == productName,
-                      onSelectedProduct: selectProduct,
+                return ListView.separated(
+                  itemCount: items.length,
+                  separatorBuilder: (context, index) => Divider(
+                    color: Colors.purple[900].withOpacity(0.5),
+                  ),
+                  itemBuilder: (context, index) {
+                    return _buildListTile(
+                        dataItem: items[index]
                     );
-                  }).toList(),
+                  },
                 );
+                // return ListView(
+                //   children: items.map((e) {
+                //     return ProductListTileWidget(
+                //       productModel: e,
+                //       isSelected: e.name.toLowerCase() == productName,
+                //       onSelectedProduct: selectProduct,
+                //     );
+                //   }).toList(),
+                // );
               }
             }
         ),
@@ -83,6 +96,40 @@ class _ProductPageState extends State<ProductPage> {
     );
   }
 
+  Widget _buildListTile({
+    @required ProductModel dataItem
+  }) {
+    var productName = '';
+    var obj = widget.productModel;
+    if(obj != null) {
+      productName = obj.name.toLowerCase();
+    }
+
+    return ListTile(
+      onTap: () => selectProduct(dataItem),
+      title: Text( dataItem.name,
+        style: TextStyle( color: Colors.black87, fontSize: 20, fontWeight: FontWeight.w700,fontFamily: fontFamilyDefault),
+      ),
+      leading: _buildLeading(dataItem.url),
+      subtitle: Text(
+        dataItem.name.toString(),
+        style: TextStyle(fontSize: 12,fontWeight: FontWeight.w700, fontFamily: fontFamilyDefault, color: primaryColor),
+      ),
+      trailing: Container(
+        width: 130,
+        child: (dataItem.name.toString()).toLowerCase() == productName ? _buildCheckIcon() : null,
+      ),
+    );
+  }
+
+  Widget _buildCheckIcon() {
+    return Container(
+      margin: EdgeInsets.only(
+        left: 100
+      ),
+      child: Center(child: FaIcon(FontAwesomeIcons.checkCircle, size: 25 , color: Colors.deepPurple)),
+    );
+  }
 
   Widget buildSearchWidget({
     @required String text,
@@ -129,6 +176,22 @@ class _ProductPageState extends State<ProductPage> {
             });
           }
         },
+      ),
+    );
+  }
+
+  Widget _buildLeading(String url) {
+    return Container(
+      width: 50,
+      height: 50,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(60)),
+        border: Border.all(color: Colors.grey, width: 2),
+      ),
+      child: CircleAvatar(
+        radius: 30.0,
+        backgroundImage:NetworkImage(url),
+        backgroundColor: Colors.transparent,
       ),
     );
   }

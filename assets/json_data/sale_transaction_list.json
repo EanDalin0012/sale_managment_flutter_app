@@ -3,44 +3,44 @@
     {
       "id": 1,
       "transactionId": "PAY202120020812",
-      "price": 100,
+      "total": 100,
       "transactionData": "20210413"
     },
     {
       "id": 2,
       "transactionId": "PAY202120020813",
-      "price": 100,
+      "total": 100,
       "transactionData": "20210413"
     },
     {
       "id": 3,
       "transactionId": "PAY202120020814",
-      "price": 100,
+      "total": 100,
       "transactionData": "20210414"
     },{
       "id": 4,
       "transactionId": "PAY202120020815",
-      "price": 100,
+      "total": 100,
       "transactionData": "20210414"
     },{
       "id": 5,
       "transactionId": "PAY202120020816",
-      "price": 100,
+      "total": 100,
       "transactionData": "20210414"
     },{
       "id": 6,
       "transactionId": "PAY202120020817",
-      "price": 100,
+      "total": 100,
       "transactionData": "20210415"
     },{
       "id": 7,
       "transactionId": "PAY202120020818",
-      "price": 100,
+      "total": 100,
       "transactionData": "20210415"
     },{
       "id": 8,
       "transactionId": "PAY202120020819",
-      "price": 100,
+      "total": 100,
       "transactionData": "20210416"
     }
   ]
