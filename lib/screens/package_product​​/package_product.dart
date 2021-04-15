@@ -26,6 +26,8 @@ class _PackageProductScreenState extends State<PackageProductScreen> {
   var isSearch = false;
   var text = '';
   Size size ;
+  var styleInput = TextStyle(color: Colors.black, fontSize: 17, fontWeight: FontWeight.w500, fontFamily: fontFamilyDefault);
+
   TextEditingController _controller;
   // List<CategoryModel> categories = categoriesData;
   var menuStyle = TextStyle( color: Colors.purple[900], fontWeight: FontWeight.w500, fontFamily: fontFamilyDefault);
@@ -159,6 +161,7 @@ class _PackageProductScreenState extends State<PackageProductScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: TextField(
         controller: controller,
+
         decoration: InputDecoration(
           icon: InkWell(
               onTap: () {
@@ -176,7 +179,7 @@ class _PackageProductScreenState extends State<PackageProductScreen> {
           hintStyle: style,
           border: InputBorder.none,
         ),
-        style: style,
+        style: styleInput,
         onChanged: (value) {
           this.isItemChanged = true;
           if(value != null || value.trim() != '') {

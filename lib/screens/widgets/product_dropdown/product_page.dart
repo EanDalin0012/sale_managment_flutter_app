@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:sale_managment/share/constant/text_style.dart';
 import 'package:sale_managment/share/model/product.dart';
 import 'package:sale_managment/screens/widgets/product_dropdown/product_list_tile_widget.dart';
 class ProductPage extends StatefulWidget {
@@ -21,6 +22,8 @@ class _ProductPageState extends State<ProductPage> {
   var controller = TextEditingController();
   var isSearch = false;
   var isItemChanged = false;
+  var styleInput = TextStyle(color: Colors.black, fontSize: 17, fontWeight: FontWeight.w500, fontFamily: fontFamilyDefault);
+
   List<ProductModel> items;
   List<ProductModel> itemsTmp;
 
@@ -117,7 +120,7 @@ class _ProductPageState extends State<ProductPage> {
           hintStyle: style,
           border: InputBorder.none,
         ),
-        style: style,
+        style: styleInput,
         onChanged: (value) {
           this.isItemChanged = true;
           if(value != null || value.trim() != '') {

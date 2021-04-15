@@ -38,6 +38,8 @@ class _PackageProductScreenState extends State<PackageProductPage> {
   var isSearch = false;
   var text = '';
   Size size ;
+  var styleInput = TextStyle(color: Colors.black, fontSize: 17, fontWeight: FontWeight.w500, fontFamily: fontFamilyDefault);
+
   TextEditingController _controller;
   // List<CategoryModel> categories = categoriesData;
   var menuStyle = TextStyle( color: Colors.purple[900], fontWeight: FontWeight.w500, fontFamily: fontFamilyDefault);
@@ -198,7 +200,7 @@ class _PackageProductScreenState extends State<PackageProductPage> {
           hintStyle: style,
           border: InputBorder.none,
         ),
-        style: style,
+        style: styleInput,
         onChanged: (value) {
           this.isItemChanged = true;
           if(value != null || value.trim() != '') {
