@@ -9,6 +9,7 @@ import 'package:sale_managment/share/model/country.dart';
 import 'package:sale_managment/screens/widgets/package_product_dropdown/package_product_dropdown.dart';
 import 'package:sale_managment/share/model/package_product.dart';
 import 'package:sale_managment/share/model/product.dart';
+import 'package:sale_managment/share/utils/number_format.dart';
 class SaleAddScreen extends StatefulWidget {
   @override
   _PackageProductAddState createState() => _PackageProductAddState();
@@ -23,9 +24,13 @@ class _PackageProductAddState extends State<SaleAddScreen> {
   var remarkValueController = new TextEditingController();
   var quantityValueController = new TextEditingController();
   var totalValueController = new TextEditingController();
-
+  var styleInput = TextStyle(color: Colors.black, fontSize: 17, fontWeight: FontWeight.w500, fontFamily: fontFamilyDefault);
   var textValue = 'Select Product';
   var colorValue = Colors.deepPurple;
+  var price;
+  var quantity;
+  var keyboardType = TextInputType.number;
+
   Map<String, Object> dropdownValue;
   CountryModel country;
   ProductModel product;
@@ -43,6 +48,7 @@ class _PackageProductAddState extends State<SaleAddScreen> {
       body: Column(
         children: <Widget>[
           _container(),
+          SizedBox(height: 15),
           _body(),
           Stack(
             children: <Widget>[
@@ -103,6 +109,8 @@ class _PackageProductAddState extends State<SaleAddScreen> {
             padding: EdgeInsets.only(left: 10),
             physics: ClampingScrollPhysics(),
             child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Container(
                     margin: EdgeInsets.only(
@@ -139,10 +147,14 @@ class _PackageProductAddState extends State<SaleAddScreen> {
                       onChanged: (value) {
                         setState(() {
                           this.packageProductModel = value;
+                          this.price = this.packageProductModel.price;
+                          this.quantityValueController.text = this.packageProductModel.quantity.toString();
+                          this.totalValueController.text = _calTotal(price,this.packageProductModel.quantity);
                         });
                       },
                     ),
                   ),
+                  price != null ? _buildPrice() : Container(),
                   _nameField(),
                   _quantityField(),
                   _totalField(),
@@ -151,6 +163,16 @@ class _PackageProductAddState extends State<SaleAddScreen> {
         )
     );
   }
+
+  Widget _buildPrice() {
+    return Container(
+        margin: EdgeInsets.only(
+            left: 15,
+            top: 5
+        ),
+        child: Text('Price: ${FormatNumber.usdFormat2Digit(this.price)} \$', style: TextStyle(fontFamily: fontFamilyDefault, fontWeight: FontWeight.w500, fontSize: 15, color: Colors.red.withOpacity(0.8)),));
+  }
+
 
   Padding _nameField() {
     return Padding(
@@ -161,6 +183,7 @@ class _PackageProductAddState extends State<SaleAddScreen> {
       ),
       child: TextField(
         controller: nameValueController,
+        style: styleInput,
         decoration: InputDecoration(
             hintText: 'Enter category name',
             labelText: 'Name',
@@ -207,6 +230,8 @@ class _PackageProductAddState extends State<SaleAddScreen> {
       ),
       child: TextField(
         controller: quantityValueController,
+        style: styleInput,
+        keyboardType: keyboardType,
         decoration: InputDecoration(
             hintText: 'Enter quantity',
             labelText: 'Quantity',
@@ -236,9 +261,13 @@ class _PackageProductAddState extends State<SaleAddScreen> {
             prefixIcon: Icon(
               Icons.info_outline,
               color: Colors.black54,
-            )
-
+            ),
         ),
+        onChanged: (v) {
+          setState(() {
+            this.totalValueController.text = _calTotal(price, int.parse(v));
+          });
+        },
       ),
     );
   }
@@ -252,6 +281,8 @@ class _PackageProductAddState extends State<SaleAddScreen> {
       ),
       child: TextField(
         controller: totalValueController,
+        style: styleInput,
+        keyboardType: keyboardType,
         decoration: InputDecoration(
             hintText: 'Enter total',
             labelText: 'Total',
@@ -294,6 +325,7 @@ class _PackageProductAddState extends State<SaleAddScreen> {
       padding: EdgeInsets.all(10),
       child: TextField(
         controller: remarkValueController,
+        style: styleInput,
         decoration: InputDecoration(
             hintText: 'Enter remark',
             labelText: 'Remark',
@@ -397,5 +429,16 @@ class _PackageProductAddState extends State<SaleAddScreen> {
           Card(margin: EdgeInsets.zero, child: child),
         ],
       );
+
+  String _calTotal(int price, int quantity) {
+    print('pp: ${price} ${quantity} ');
+    if(price> 0 && quantity > 0) {
+      print('pp: ');
+        return FormatNumber.usdFormat2Digit((price * quantity));
+    } else {
+      return '0';
+    }
+  }
+
 
 }
