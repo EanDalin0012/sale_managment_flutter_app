@@ -1,4 +1,3 @@
-import 'dart:collection';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -25,6 +24,7 @@ class _SaleScreenState extends State<SaleScreen> {
   List<SaleTransactionModel> items = [];
   List<SaleTransactionModel> itemsTmp = [];
   Map mapItems = new Map();
+  List<dynamic> vData;
 
   int itemLength = 0;
   var menuStyle = TextStyle( color: Colors.purple[900], fontWeight: FontWeight.w500, fontFamily: fontFamilyDefault);
@@ -39,13 +39,43 @@ class _SaleScreenState extends State<SaleScreen> {
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
-    this.itemLength = this.items.length;
     return Scaffold(
         appBar: _buildAppBar(),
         body: Column(
           children: <Widget>[
             _container(),
-            _buildBody()
+            SizedBox(height: 15),
+            Row(
+              children: this.vData.map((e) {
+                print('${e}');
+                List<dynamic> mData = e['transactionInfo'];
+                return Container(
+                  width: size.width,
+                  child: Column(
+                    children: <Widget>[
+
+                      Container(
+                        width: size.width,
+                        decoration: BoxDecoration(
+                          color: Colors.yellowAccent
+                        ),
+                        child: Text(e['transactionDate'])
+                      ),
+                      // Column(
+                      //   children: vData.map((e) =>
+                      //     Container(
+                      //       width: 20,
+                      //       child: Text(e['transactionId'].toString()),
+                      //     )
+                      //   ).toList(),
+                      // ),
+                      // _buildBody(mData)
+                    ],
+                  ),
+                );
+              }).toList(),
+            ),
+
           ],
         ),
         floatingActionButton: _floatingActionButton()
@@ -69,35 +99,26 @@ class _SaleScreenState extends State<SaleScreen> {
             'Sale of Product List',
             style: containStyle,
           ),
-         Text(itemLength.toString(), style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.w700, fontFamily: fontFamilyDefault),)
+         Text(this.itemLength.toString(), style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.w700, fontFamily: fontFamilyDefault),)
         ],
       ),
     );
   }
-  Widget _buildBody () {
-
+  Widget _buildBody ( List<dynamic> data) {
+    print('_buildBody: ${data[0]}');
     return Expanded(
         child: ListView.separated(
-          itemCount: items.length,
+          itemCount: data.length,
           separatorBuilder: (context, index) => Divider(
             color: Colors.purple[900].withOpacity(0.5),
           ),
           itemBuilder: (context, index) {
-            return _buildListTile(dataItem: this.mapItems[TransactionKey.transactionList][index]);},
+            return _buildListTile(dataItem: data[index]);},
         )
     );
   }
 
 
-  Widget build1(BuildContext context) {
-    return SingleChildScrollView(
-        child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          // ProfileCategories(),
-        ])
-    );
-  }
   FloatingActionButton _floatingActionButton() {
     return FloatingActionButton(
       backgroundColor: Colors.purple[900],
@@ -231,13 +252,15 @@ class _SaleScreenState extends State<SaleScreen> {
   Widget _buildListTile( {
     @required Map dataItem
   }) {
+    print('dataItem: ${dataItem}');
+    return Text(dataItem['transactionId']);
     return ListTile(
-      title: Text( dataItem[TransactionKey.transactionId],
+      title: Text(dataItem['transactionId'],
         style: TextStyle( color: Colors.black87, fontSize: 20, fontWeight: FontWeight.w700,fontFamily: fontFamilyDefault),
       ),
       // leading: _buildLeading(dataItem.productId),
       subtitle: Text(
-          FormatNumber.usdFormat2Digit(dataItem[TransactionKey.total].toString()) +' \$,'+dataItem[TransactionKey.remark].toString(),
+          FormatNumber.usdFormat2Digit(dataItem['total'].toString()).toString(),
         style: TextStyle(fontSize: 12,fontWeight: FontWeight.w700, fontFamily: fontFamilyDefault, color: primaryColor),
       ),
       trailing: Container(
@@ -251,7 +274,7 @@ class _SaleScreenState extends State<SaleScreen> {
                 Row(
                   children: <Widget>[
                     Text(
-                      dataItem[TransactionKey.remark].remark.toString(),
+                     'a',
                       style: TextStyle(
                         color: Colors.black87,
                         fontSize: 18,
@@ -262,11 +285,11 @@ class _SaleScreenState extends State<SaleScreen> {
                 ),
               ],
             ),
-            Column(
-              children: <Widget>[
-                _offsetPopup(dataItem),
-              ],
-            ),
+            // Column(
+            //   children: <Widget>[
+            //     _offsetPopup(dataItem),
+            //   ],
+            // ),
 
           ],
         ),
@@ -359,12 +382,16 @@ class _SaleScreenState extends State<SaleScreen> {
   }
 
   _fetchItems() async {
-      final data = await rootBundle.loadString(
-          'assets/json_data/sale_transaction_list.json');
-      this.mapItems = jsonDecode(data);
-      // this.mapItems = valueMap['transactionList'];
+      final data = await rootBundle.loadString('assets/json_data/sale_transaction_list.json');
+      Map mapItems = jsonDecode(data);
 
-      print('mapItems: ${this.mapItems[TransactionKey.transactionList][0]}');
+      setState(() {
+        this.vData = mapItems['transactionList'];
+        this.itemLength = this.vData.length;
+        print('mapItems: ${vData[0]}');
+        print('mapItems: ${vData.length}');
+      });
+      return this.vData;
       // var arrObjs = dataItems.map<SaleTransactionModel>((json) {
       //   return SaleTransactionModel.fromJson(json);
       // }).toList();
@@ -389,9 +416,8 @@ class _SaleScreenState extends State<SaleScreen> {
       //
       //   this.itemsTmp = this.items;
       // });
-      return this.items;
+      // return this.items;
     // }
-    return null;
   }
 
 }
