@@ -4,14 +4,14 @@ class SaleTransactionModel {
   final int id;
   final String transactionId;
   final num total;
-  final String transactionData;
+  final String transactionDate;
   final String remark;
 
   SaleTransactionModel({
     @required this.id,
     @required this.transactionId,
     @required this.total,
-    @required this.transactionData,
+    @required this.transactionDate,
     this.remark,
   });
 
@@ -20,7 +20,7 @@ class SaleTransactionModel {
       id: json['id'],
       transactionId: json['transactionId'],
       total: json['total'],
-      transactionData: json['transactionData'],
+      transactionDate: json['transactionDate'],
       remark: json['remark'],
     );
   }
@@ -28,6 +28,6 @@ class SaleTransactionModel {
 
     @override
     String toString() {
-      return 'SaleTransactionModel: {id: $id, transactionId: $transactionId, total: $total, transactionData: $transactionData, remark: $remark}';
+      return 'SaleTransactionModel: {id: $id, transactionId: $transactionId, total: $total, transactionData: $transactionDate, remark: $remark}';
     }
 }
