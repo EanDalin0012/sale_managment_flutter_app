@@ -4,11 +4,13 @@ import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sale_managment/share/components/show_dialog/show_dialog.dart';
 import 'package:sale_managment/share/constant/constantcolor.dart';
+import 'package:sale_managment/share/constant/sale_status.dart';
 import 'package:sale_managment/share/constant/text_style.dart';
 import 'package:sale_managment/share/model/sale_transaction.dart';
 import 'package:sale_managment/share/utils/number_format.dart';
 import 'package:sale_managment/screens/sale/sale_add.dart';
 import 'package:sale_managment/share/model/key/transactionKey.dart';
+import 'package:smart_select/smart_select.dart';
 
 class SaleScreen extends StatefulWidget {
   @override
@@ -25,10 +27,8 @@ class _SaleScreenState extends State<SaleScreen> {
   List<SaleTransactionModel> itemsTmp = [];
   Map mapItems = new Map();
   List<dynamic> vData;
-
   int itemLength = 0;
   var menuStyle = TextStyle( color: Colors.purple[900], fontWeight: FontWeight.w500, fontFamily: fontFamilyDefault);
-
 
   @override
   void initState() {
@@ -44,37 +44,45 @@ class _SaleScreenState extends State<SaleScreen> {
         body: Column(
           children: <Widget>[
             _container(),
-            SizedBox(height: 15),
-            Row(
-              children: this.vData.map((e) {
-                print('${e}');
-                List<dynamic> mData = e['transactionInfo'];
-                return Container(
-                  width: size.width,
-                  child: Column(
-                    children: <Widget>[
-
-                      Container(
-                        width: size.width,
-                        decoration: BoxDecoration(
-                          color: Colors.yellowAccent
+            Flexible(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: this.vData.map((e) {
+                  List<dynamic> mData = e['transactionInfo'];
+                  return Container(
+                    width: size.width,
+                    margin: EdgeInsets.only(
+                      top: 10,
+                      bottom: 10
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          color: Color(0xCD939BA9).withOpacity(0.5),
+                          width: size.width,
+                          padding: EdgeInsets.all(10),
+                          child: Text(e['transactionDate']),
                         ),
-                        child: Text(e['transactionDate'])
-                      ),
-                      // Column(
-                      //   children: vData.map((e) =>
-                      //     Container(
-                      //       width: 20,
-                      //       child: Text(e['transactionId'].toString()),
-                      //     )
-                      //   ).toList(),
-                      // ),
-                      // _buildBody(mData)
-                    ],
-                  ),
-                );
-              }).toList(),
-            ),
+                        Column(
+                          children: mData.map((item) {
+                            print('mData: ${item}');
+                            return Container(
+                              padding: EdgeInsets.all(10),
+                              child: Text(item['transactionId']),
+                            );
+                          }
+                          ).toList(),
+                        )
+                      ],
+                    ),
+                  );
+                }
+                ).toList(),
+              ),
+            )
 
           ],
         ),
@@ -89,8 +97,7 @@ class _SaleScreenState extends State<SaleScreen> {
       padding: EdgeInsets.only(
           left: 20,
           top: 10,
-          right: 20,
-          bottom: 10
+          right: 20
       ),
       child:  Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -425,4 +432,3 @@ class _SaleScreenState extends State<SaleScreen> {
 const Color profile_info_background = Color(0xFF3775FD);
 const Color profile_info_categories_background = Color(0xFF939BA9);
 const Color furnitureCateDisableColor = Color(0xCD939BA9);
-

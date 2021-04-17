@@ -37,6 +37,7 @@ dependencies:
   charts_flutter: ^0.9.0
   modern_charts: ^0.1.19
   provider: ^5.0.0
+  smart_select: ^4.3.2
 
 dev_dependencies:
   flutter_test:
