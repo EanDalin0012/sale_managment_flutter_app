@@ -29,6 +29,7 @@ class _SaleScreenState extends State<SaleScreen> {
   List<dynamic> vData;
   int itemLength = 0;
   var menuStyle = TextStyle( color: Colors.purple[900], fontWeight: FontWeight.w500, fontFamily: fontFamilyDefault);
+ var color = Color.fromRGBO(58, 66, 86, 1.0);
 
   @override
   void initState() {
@@ -69,9 +70,26 @@ class _SaleScreenState extends State<SaleScreen> {
                         Column(
                           children: mData.map((item) {
                             print('mData: ${item}');
-                            return Container(
-                              padding: EdgeInsets.all(10),
-                              child: Text(item['transactionId']),
+                            // return Container(
+                            //   padding: EdgeInsets.all(10),
+                            //   child: Text(item['transactionId']),
+                            // );
+                            return ListTile(
+                              leading: Container(
+                                padding: EdgeInsets.only(right: 12.0),
+                                decoration: new BoxDecoration(
+                                    border: new Border(
+                                        right: new BorderSide(width: 1.0, color: Colors.white24))),
+                                child: Icon(Icons.autorenew, color: Colors.black54),
+                              ),
+                              title: Text(
+                                item['transactionId'],
+                                style: TextStyle(color: Colors.black54, fontWeight: FontWeight.bold),
+                              ),
+                              trailing: Text(
+                                FormatNumber.usdFormat2Digit(item['total'].toString()).toString(),
+                                style: TextStyle(fontFamily: fontFamilyDefault, fontSize: 20, fontWeight: FontWeight.w700, color: color),
+                              ),
                             );
                           }
                           ).toList(),
