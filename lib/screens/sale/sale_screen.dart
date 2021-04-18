@@ -2,15 +2,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:sale_managment/share/components/show_dialog/show_dialog.dart';
 import 'package:sale_managment/share/constant/constantcolor.dart';
-import 'package:sale_managment/share/constant/sale_status.dart';
 import 'package:sale_managment/share/constant/text_style.dart';
 import 'package:sale_managment/share/model/sale_transaction.dart';
 import 'package:sale_managment/share/utils/number_format.dart';
 import 'package:sale_managment/screens/sale/sale_add.dart';
-import 'package:sale_managment/share/model/key/transactionKey.dart';
-import 'package:smart_select/smart_select.dart';
+import 'package:intl/intl.dart';
 
 class SaleScreen extends StatefulWidget {
   @override
@@ -26,7 +23,7 @@ class _SaleScreenState extends State<SaleScreen> {
   List<SaleTransactionModel> items = [];
   List<SaleTransactionModel> itemsTmp = [];
   Map mapItems = new Map();
-  List<dynamic> vData;
+  List<dynamic> vData = [];
   int itemLength = 0;
   var menuStyle = TextStyle( color: Colors.purple[900], fontWeight: FontWeight.w500, fontFamily: fontFamilyDefault);
  var color = Color.fromRGBO(58, 66, 86, 1.0);
@@ -34,6 +31,7 @@ class _SaleScreenState extends State<SaleScreen> {
   @override
   void initState() {
     super.initState();
+    this.todayDate();
     this._fetchItems();
   }
 
@@ -45,18 +43,20 @@ class _SaleScreenState extends State<SaleScreen> {
         body: Column(
           children: <Widget>[
             _container(),
-            Flexible(
+            SizedBox(height: 10,),
+            if(this.vData.length > 0) Flexible(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: this.vData.map((e) {
                   List<dynamic> mData = e['transactionInfo'];
+                  var mDataLength = mData.length;
+                  var i = 0;
                   return Container(
                     width: size.width,
-                    margin: EdgeInsets.only(
-                      top: 10,
-                      bottom: 10
-                    ),
+                    // margin: EdgeInsets.only(
+                    //   top: 10,
+                    // ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -65,40 +65,48 @@ class _SaleScreenState extends State<SaleScreen> {
                           color: Color(0xCD939BA9).withOpacity(0.5),
                           width: size.width,
                           padding: EdgeInsets.all(10),
-                          child: Text(e['transactionDate']),
+                          child: Text(
+                              e['transactionDate'],
+                            style: TextStyle(fontFamily: fontFamilyDefault, fontWeight: FontWeight.w500, fontSize: 17),
+                          ),
                         ),
                         Column(
                           children: mData.map((item) {
-                            print('mData: ${item}');
-                            // return Container(
-                            //   padding: EdgeInsets.all(10),
-                            //   child: Text(item['transactionId']),
-                            // );
-                            return ListTile(
-                              leading: Container(
-                                padding: EdgeInsets.only(right: 12.0),
-                                decoration: new BoxDecoration(
-                                    border: new Border(
-                                        right: new BorderSide(width: 1.0, color: Colors.white24))),
-                                child: Icon(Icons.autorenew, color: Colors.black54),
-                              ),
-                              title: Text(
-                                item['transactionId'],
-                                style: TextStyle(color: Colors.black54, fontWeight: FontWeight.bold),
-                              ),
-                              trailing: Text(
-                                FormatNumber.usdFormat2Digit(item['total'].toString()).toString(),
-                                style: TextStyle(fontFamily: fontFamilyDefault, fontSize: 20, fontWeight: FontWeight.w700, color: color),
+                            i += 1;
+                            return Container(
+                              decoration: mDataLength != i ? BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(color: Color(0xCD939BA9).withOpacity(0.2), width: 1.5),
+                                  )
+                              ) : null,
+                              child: ListTile(
+                                leading: _buildLeading(),
+                                title: Text(
+                                  item['transactionId'],
+                                  style: TextStyle(color: primaryColor, fontWeight: FontWeight.bold, fontFamily: fontFamilyDefault),
+                                ),
+                                trailing: Container(
+                                  width: 110,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: <Widget>[
+                                      Text(
+                                        FormatNumber.usdFormat2Digit(item['total'].toString()).toString() + ' \$',
+                                        style: TextStyle(fontFamily: fontFamilyDefault, fontSize: 20, fontWeight: FontWeight.w700, color: color),
+                                      ),
+                                      SizedBox(width: 10,),
+                                      FaIcon(FontAwesomeIcons.chevronRight,size: 20 , color: Colors.black54.withOpacity(0.5))
+                                    ]
+                                  ),
+                                ),
                               ),
                             );
-                          }
-                          ).toList(),
-                        )
+                          }).toList(),
+                        ),
                       ],
                     ),
                   );
-                }
-                ).toList(),
+                }).toList(),
               ),
             )
 
@@ -108,13 +116,13 @@ class _SaleScreenState extends State<SaleScreen> {
     );
   }
 
-  Container _container() {
+  Widget _container() {
     return Container(
       color: Color(0xffd9dbdb).withOpacity(0.4),
       width: size.width,
+      height: 40,
       padding: EdgeInsets.only(
           left: 20,
-          top: 10,
           right: 20
       ),
       child:  Row(
@@ -129,20 +137,6 @@ class _SaleScreenState extends State<SaleScreen> {
       ),
     );
   }
-  Widget _buildBody ( List<dynamic> data) {
-    print('_buildBody: ${data[0]}');
-    return Expanded(
-        child: ListView.separated(
-          itemCount: data.length,
-          separatorBuilder: (context, index) => Divider(
-            color: Colors.purple[900].withOpacity(0.5),
-          ),
-          itemBuilder: (context, index) {
-            return _buildListTile(dataItem: data[index]);},
-        )
-    );
-  }
-
 
   FloatingActionButton _floatingActionButton() {
     return FloatingActionButton(
@@ -253,7 +247,7 @@ class _SaleScreenState extends State<SaleScreen> {
       //   right: 3
       // ),
       child: IconButton(
-        icon: FaIcon(FontAwesomeIcons.filter,size: 25 , color: Colors.white,),
+        icon: FaIcon(FontAwesomeIcons.filter,size: 25 , color: Colors.white),
         tooltip: 'Increase volume by 10',
         onPressed: () async {
         //   final product = await Navigator.push(
@@ -274,142 +268,9 @@ class _SaleScreenState extends State<SaleScreen> {
     );
   }
 
-  Widget _buildListTile( {
-    @required Map dataItem
-  }) {
-    print('dataItem: ${dataItem}');
-    return Text(dataItem['transactionId']);
-    return ListTile(
-      title: Text(dataItem['transactionId'],
-        style: TextStyle( color: Colors.black87, fontSize: 20, fontWeight: FontWeight.w700,fontFamily: fontFamilyDefault),
-      ),
-      // leading: _buildLeading(dataItem.productId),
-      subtitle: Text(
-          FormatNumber.usdFormat2Digit(dataItem['total'].toString()).toString(),
-        style: TextStyle(fontSize: 12,fontWeight: FontWeight.w700, fontFamily: fontFamilyDefault, color: primaryColor),
-      ),
-      trailing: Container(
-        width: 130,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget>[
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    Text(
-                     'a',
-                      style: TextStyle(
-                        color: Colors.black87,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w900,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            // Column(
-            //   children: <Widget>[
-            //     _offsetPopup(dataItem),
-            //   ],
-            // ),
-
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _offsetPopup(Map item) => PopupMenuButton<int>(
-    itemBuilder: (context) => [
-      PopupMenuItem(
-          value: 2,
-          child: Row(
-            children: <Widget>[
-              FaIcon(FontAwesomeIcons.edit,size: 20,color: Colors.purple[900]),
-              SizedBox(width: 10,),
-              Text(
-                "Edit",
-                style: menuStyle,
-              ),
-            ],
-          )
-      ),
-      PopupMenuItem(
-          value: 3,
-          child: Row(
-            children: <Widget>[
-              FaIcon(FontAwesomeIcons.trash,size: 20,color: Colors.purple[900]),
-              SizedBox(width: 10,),
-              Text(
-                "Delete",
-                style: menuStyle,
-              ),
-            ],
-          )
-      ),
-    ],
-    icon: FaIcon(FontAwesomeIcons.ellipsisV,size: 20,color: Colors.black),
-    offset: Offset(0, 45),
-    onSelected: (value) {
-      if(value == 1) {
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(builder: (context) => VendorViewScreen(vendorModel)),
-        // );
-      } else if(value == 2) {
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(builder: (context) => EditCategoryScreen(categoryModel)),
-        // );
-      } else if (value == 3) {
-        _showDialog(item);
-      }
-    },
-  );
-
-  Widget _showDialog(Map item) {
-    ShowDialog.showDialogYesNo(
-        buildContext: context,
-        title: Text(item[TransactionKey.transactionDate].transactionDate),
-        content: Text('Do you want to delete package of product : '+item[TransactionKey.transactionDate].transactionDate+'?'),
-        btnRight: 'Yes',
-        onPressedBntRight: () {
-          print('onPressedBntRight');
-        },
-        btnLeft: 'No',
-        onPressedBntLeft: () {
-          print('onPressedBntLeft');
-        }
-    );
-  }
-
-  Widget _buildLeading(int productId) {
-    var url = 'https://icons-for-free.com/iconfiles/png/512/part+1+p-1320568343314317876.png'; //_searchProductById(productId);
-    if(url == null) {
-      url = 'https://icons-for-free.com/iconfiles/png/512/part+1+p-1320568343314317876.png';
-    }
-    return Container(
-      width: 50,
-      height: 50,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(60)),
-        border: Border.all(color: Colors.grey, width: 2),
-      ),
-      child: CircleAvatar(
-        radius: 30.0,
-        backgroundImage:NetworkImage(url),
-        backgroundColor: Colors.transparent,
-      ),
-    );
-  }
-
   _fetchItems() async {
       final data = await rootBundle.loadString('assets/json_data/sale_transaction_list.json');
       Map mapItems = jsonDecode(data);
-
       setState(() {
         this.vData = mapItems['transactionList'];
         this.itemLength = this.vData.length;
@@ -417,32 +278,35 @@ class _SaleScreenState extends State<SaleScreen> {
         print('mapItems: ${vData.length}');
       });
       return this.vData;
-      // var arrObjs = dataItems.map<SaleTransactionModel>((json) {
-      //   return SaleTransactionModel.fromJson(json);
-      // }).toList();
-      //
-      // Map dataInfo = new Map();
-      // Map transactionDate = new LinkedHashMap();
-      // Map transactionInfo = new Map();
-      //
-      // this.items = arrObjs;
-      // var iLength = this.items.length;
-      // print('${TransactionKey[0]}');
-      // for (var i =0 ; i < iLength; i++) {
-      //   print('${this.items[i].transactionDate}');
-      //   if(this.items[i].transactionDate == this.items[i+1].transactionDate) {
-      //     dataInfo = {
-      //       "transactionDate": this.items[i].transactionDate
-      //     };
-      //   }
-      // }
-      //
-      // setState(() {
-      //
-      //   this.itemsTmp = this.items;
-      // });
-      // return this.items;
-    // }
+  }
+
+  Widget _buildLeading() {
+    return Container(
+      width: 40,
+      height: 40,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(60)),
+        border: Border.all(color: Colors.deepPurpleAccent.withOpacity(0.7), width: 2),
+      ),
+      child: CircleAvatar(
+        radius: 30.0,
+        backgroundColor: Colors.transparent,
+        child: FaIcon(FontAwesomeIcons.receipt,size: 20 , color: Colors.deepPurple),
+      ),
+    );
+  }
+
+  todayDate() {
+    // var myDate = '2020-01-02';
+    // var changeFormat = myDate.replace(/(\d{2})-(\d{2})-(\d{4})/, "$2/$1/$3")
+    print(DateTime.parse('2020-01-02'));
+    var d = DateTime.parse('2020-01-02');
+    var now = new DateTime.now();
+    var formatter = new DateFormat('dd-MMM-yyyy');
+    // String formattedTime = DateFormat('kk:mm:a').format(now);
+    String formattedDate = formatter.format(d);
+    // print(formattedTime);
+    print(formattedDate);
   }
 
 }

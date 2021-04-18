@@ -38,6 +38,7 @@ dependencies:
   modern_charts: ^0.1.19
   provider: ^5.0.0
   smart_select: ^4.3.2
+  flutter_parsed_text: ^2.1.0
 
 dev_dependencies:
   flutter_test:
