@@ -11,6 +11,7 @@ import 'package:sale_managment/screens/widgets/package_product_dropdown/package_
 import 'package:sale_managment/share/model/package_product.dart';
 import 'package:sale_managment/share/model/product.dart';
 import 'package:sale_managment/share/utils/number_format.dart';
+import 'package:sale_managment/screens/sale/widgets/sale_items.dart';
 
 class SaleAddScreen extends StatefulWidget {
   @override
@@ -88,10 +89,7 @@ class _PackageProductAddState extends State<SaleAddScreen> {
         actions: <Widget>[
           InkWell(
             onTap: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(builder: (context) => NotificationScreen()),
-              // );
+              _showModelSheet();
             },
             child: Container(
               height: 80,
@@ -506,5 +504,31 @@ class _PackageProductAddState extends State<SaleAddScreen> {
     }
   }
 
+  Container _showModelSheet() {
+    var orientation = MediaQuery.of(context).orientation;
+    double height = (MediaQuery.of(context).copyWith().size.height * 0.95);
+    setState(() {
+      if(orientation != Orientation.portrait){
+        height = MediaQuery.of(context).copyWith().size.height * 0.5;
+      }
+    });
+
+    showModalBottomSheet(
+        backgroundColor: Colors.transparent,
+        context: context,
+        isScrollControlled: true,
+        builder: (BuildContext builder) {
+          return Container(
+            height: height,
+            width: MediaQuery.of(context).size.width,
+            padding: EdgeInsets.only(top: 3),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                color: Colors.deepPurpleAccent.withOpacity(0.5)
+            ),
+              child: SaleItems(),
+          );
+        });
+  }
 
 }
