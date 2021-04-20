@@ -8,6 +8,7 @@ import 'package:sale_managment/share/constant/text_style.dart';
 import 'package:sale_managment/share/model/catgory.dart';
 import 'package:sale_managment/share/model/country.dart';
 import 'package:sale_managment/screens/widgets/package_product_dropdown/package_product_dropdown.dart';
+import 'package:sale_managment/share/model/key/transactionKey.dart';
 import 'package:sale_managment/share/model/package_product.dart';
 import 'package:sale_managment/share/model/product.dart';
 import 'package:sale_managment/share/utils/number_format.dart';
@@ -42,6 +43,7 @@ class _PackageProductAddState extends State<SaleAddScreen> {
 
   var next = 0;
   var btnText = 'Next';
+  List<dynamic> vData = [];
 
   Size size;
   @override
@@ -59,18 +61,13 @@ class _PackageProductAddState extends State<SaleAddScreen> {
               InkWell(
                 onTap: () {
                   setState(() {
-                    next += 1;
+                    this.next += 1;
                   });
-                  _save();
                 },
                 child: Container(
                   width: size.width,
                   height: 45,
                   color: Colors.red,
-                  // margin: EdgeInsets.only(
-                  //   left: 5,
-                  //   right: 5
-                  // ),
                   child: Center(child: Text(btnText, style: TextStyle(fontWeight: FontWeight.w700, color: Colors.white, fontFamily: 'roboto', fontSize: 18))),
                 ),
               ),
@@ -159,6 +156,7 @@ class _PackageProductAddState extends State<SaleAddScreen> {
                     ),
                     child: ProductDropdown(
                       color: colorValue,
+                      product: this.product,
                       onChanged: (value) {
                         setState(() {
                           this.product = value;
@@ -194,7 +192,8 @@ class _PackageProductAddState extends State<SaleAddScreen> {
                   // next > 0 ? _nameField(): Container() ,
                   next > 0 ? _quantityField() : Container(),
                   next > 0 ? _totalField() : Container(),
-                  next > 0 ? _remarkField() : Container(),
+                  SizedBox(height: 15,),
+                  // next > 0 ? _remarkField() : Container(),
                   if (next > 0) Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[_buildAddButton()]) else Container()
@@ -303,9 +302,13 @@ class _PackageProductAddState extends State<SaleAddScreen> {
             ),
         ),
         onChanged: (v) {
-          setState(() {
-            this.totalValueController.text = _calTotal(price, double.parse(v));
-          });
+            setState(() {
+              if(quantityValueController.text !=null && quantityValueController.text.trim() != '') {
+                this.totalValueController.text = _calTotal(price, double.parse(quantityValueController.text));
+              } else {
+                this.totalValueController.text = _calTotal(price, 0.0);
+              }
+            });
         },
       ),
     );
@@ -422,7 +425,19 @@ class _PackageProductAddState extends State<SaleAddScreen> {
         ),
         onPressed: () {
           setState(() {
-            this.cartArrowDownCount += 1;
+            Map data = {
+              SaleAddItem.productId: this.product.id,
+              SaleAddItem.productUrl: this.product.url,
+              SaleAddItem.productName: this.product.name,
+              SaleAddItem.packageProductName: this.packageProductModel.name,
+              SaleAddItem.quantity: quantityValueController.text,
+              SaleAddItem.price: this.packageProductModel.price,
+              SaleAddItem.total: totalValueController.text
+            };
+            this.vData.add(data);
+            this.cartArrowDownCount = this.vData.length;
+            this.next = 0;
+            this.product = null;
           });
         },
       ),
@@ -526,7 +541,15 @@ class _PackageProductAddState extends State<SaleAddScreen> {
                 borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
                 color: Colors.deepPurpleAccent.withOpacity(0.5)
             ),
-              child: SaleItems(),
+              child: SaleItems(
+                vData: this.vData,
+                onChanged: (vChangeData) {
+                  setState(() {
+                    this.vData = vChangeData;
+                    this.cartArrowDownCount = this.vData.length;
+                  });
+                },
+              ),
           );
         });
   }

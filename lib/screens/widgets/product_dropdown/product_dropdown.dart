@@ -22,9 +22,10 @@ class _ProductDropdownState extends State<ProductDropdown> {
   @override
   Widget build(BuildContext context) {
 
-    if(widget.product !=null) {
-      this.product = widget.product;
-    }
+    // if(widget.product !=null) {
+    //   this.product = widget.product;
+    // }
+    this.product = widget.product;
 
     Size size = MediaQuery.of(context).size;
     return  Container(

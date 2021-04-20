@@ -5,7 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sale_managment/share/constant/constantcolor.dart';
 import 'package:sale_managment/share/constant/text_style.dart';
 import 'package:sale_managment/share/model/product.dart';
-import 'package:sale_managment/screens/widgets/product_dropdown/product_list_tile_widget.dart';
+
 class ProductPage extends StatefulWidget {
   final ProductModel productModel;
   const ProductPage({
