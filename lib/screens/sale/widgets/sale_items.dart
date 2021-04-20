@@ -20,7 +20,6 @@ class _SaleItemsState extends State<SaleItems> {
   var i = 0;
   @override
   SaleItems get widget => super.widget;
-  List id = [2,3,4];
 
   @override
   Widget build(BuildContext context) {
@@ -150,9 +149,6 @@ class _SaleItemsState extends State<SaleItems> {
           color: Colors.red,
           elevation: 4.0,
           onPressed: () {
-            print('${id}');
-            id.remove(2);
-            print('remove: ${id}');
             setState(() {
               widget.vData.remove(item);
               print('remove: ${widget.vData}');
