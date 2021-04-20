@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:sale_managment/screens/widgets/contry_dropdown/country_page.dart';
 import 'package:sale_managment/screens/widgets/contry_dropdown/flag_widget.dart';
 import 'package:sale_managment/screens/widgets/product_dropdown/product_dropdown.dart';
@@ -40,9 +41,6 @@ class _PackageProductAddState extends State<SaleAddScreen> {
   CountryModel country;
   ProductModel product;
   PackageProductModel packageProductModel;
-
-  var next = 0;
-  var btnText = 'Next';
   List<dynamic> vData = [];
 
   Size size;
@@ -60,15 +58,12 @@ class _PackageProductAddState extends State<SaleAddScreen> {
             children: <Widget>[
               InkWell(
                 onTap: () {
-                  setState(() {
-                    this.next += 1;
-                  });
                 },
                 child: Container(
                   width: size.width,
                   height: 45,
                   color: Colors.red,
-                  child: Center(child: Text(btnText, style: TextStyle(fontWeight: FontWeight.w700, color: Colors.white, fontFamily: 'roboto', fontSize: 18))),
+                  child: Center(child: Text('Next', style: TextStyle(fontWeight: FontWeight.w700, color: Colors.white, fontFamily: 'roboto', fontSize: 18))),
                 ),
               ),
             ],
@@ -165,7 +160,7 @@ class _PackageProductAddState extends State<SaleAddScreen> {
                     ),
                   ),
                   SizedBox(height: 10,),
-                  next > 0 ? Container(
+                  Container(
                     margin: EdgeInsets.only(
                         left: 10,
                         right: 10
@@ -187,16 +182,18 @@ class _PackageProductAddState extends State<SaleAddScreen> {
                         });
                       },
                     ),
-                  ) : Container(),
-                  (next > 0) && price != null ? _buildPrice() : Container(),
+                  ),
+                  _buildPrice(),
                   // next > 0 ? _nameField(): Container() ,
-                  next > 0 ? _quantityField() : Container(),
-                  next > 0 ? _totalField() : Container(),
+                 _quantityField(),
+                  _totalField(),
                   SizedBox(height: 15,),
-                  // next > 0 ? _remarkField() : Container(),
-                  if (next > 0) Row(
+                  Row(
                       mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[_buildAddButton()]) else Container()
+                      children: <Widget>[
+                        _buildAddButton()
+                      ]
+                  )
                 ])
         )
     );
@@ -425,19 +422,33 @@ class _PackageProductAddState extends State<SaleAddScreen> {
         ),
         onPressed: () {
           setState(() {
-            Map data = {
-              SaleAddItem.productId: this.product.id,
-              SaleAddItem.productUrl: this.product.url,
-              SaleAddItem.productName: this.product.name,
-              SaleAddItem.packageProductName: this.packageProductModel.name,
-              SaleAddItem.quantity: quantityValueController.text,
-              SaleAddItem.price: this.packageProductModel.price,
-              SaleAddItem.total: totalValueController.text
-            };
-            this.vData.add(data);
-            this.cartArrowDownCount = this.vData.length;
-            this.next = 0;
-            this.product = null;
+            if(this.product == null) {
+              _isValid(
+                body: 'Please select product!'
+              );
+              return;
+            } else if (this.packageProductModel == null) {
+              _isValid(
+                  body: 'Please select package product!'
+              );
+              return;
+            } else {
+              Map data = {
+                SaleAddItem.productId: this.product.id,
+                SaleAddItem.productUrl: this.product.url,
+                SaleAddItem.productName: this.product.name,
+                SaleAddItem.packageProductName: this.packageProductModel.name,
+                SaleAddItem.quantity: quantityValueController.text,
+                SaleAddItem.price: this.packageProductModel.price,
+                SaleAddItem.total: totalValueController.text
+              };
+              this.vData.add(data);
+              this.cartArrowDownCount = this.vData.length;
+              this.product = null;
+              this.quantityValueController.text = '';
+              this.totalValueController.text = '';
+              this.packageProductModel = null;
+            }
           });
         },
       ),
@@ -550,6 +561,46 @@ class _PackageProductAddState extends State<SaleAddScreen> {
                   });
                 },
               ),
+          );
+        });
+  }
+
+  Future<void> _isValid({
+    @required String body,
+  }) {
+    var padding = EdgeInsets.all(5);
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            // title: Text('Are you sure?'),
+            content: Text(body, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700, fontFamily: fontFamilyDefault),),
+            actions: <Widget>[
+              FlatButton(
+                child: Container(
+                    padding: padding,
+                    decoration: BoxDecoration(
+                      color: Colors.red,//Color(0xffd9dbdb).withOpacity(0.4),
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    child: Center(
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            FaIcon(FontAwesomeIcons.timesCircle,size: 25,color: Colors.white),
+                            SizedBox(width: 5,),
+                            Center(child: Text('Close', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, fontFamily: fontFamilyDefault, color: Colors.white),)),
+                            SizedBox(width: 5,),
+                          ],
+
+                        )
+                    )
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop(false);
+                },
+              ),
+            ],
           );
         });
   }
