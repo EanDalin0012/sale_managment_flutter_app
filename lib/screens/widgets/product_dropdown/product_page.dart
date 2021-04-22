@@ -26,50 +26,32 @@ class _ProductPageState extends State<ProductPage> {
   var isItemChanged = false;
   var styleInput = TextStyle(color: Colors.black, fontSize: 17, fontWeight: FontWeight.w500, fontFamily: fontFamilyDefault);
 
-  List<ProductModel> items;
-  List<ProductModel> itemsTmp;
+  List<ProductModel> items = [];
+  List<ProductModel> itemsTmp = [];
+
+  @override
+  void initState() {
+    super.initState();
+    this._fetchListItems();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: buildAppBar(),
-      body: Container(
-        child: new FutureBuilder(
-            future: _fetchListItems(),
-            //DefaultAssetBundle.of(context).loadString('assets/json_data/product_list.json'),
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-                return Center(child: CircularProgressIndicator());
-              } else {
-                var productName = '';
-                var obj = widget.productModel;
-                if(obj != null) {
-                  productName = obj.name.toLowerCase();
-                }
-                return ListView.separated(
-                  itemCount: items.length,
-                  separatorBuilder: (context, index) => Divider(
-                    color: Colors.purple[900].withOpacity(0.5),
-                  ),
-                  itemBuilder: (context, index) {
-                    return _buildListTile(
-                        dataItem: items[index]
-                    );
-                  },
-                );
-                // return ListView(
-                //   children: items.map((e) {
-                //     return ProductListTileWidget(
-                //       productModel: e,
-                //       isSelected: e.name.toLowerCase() == productName,
-                //       onSelectedProduct: selectProduct,
-                //     );
-                //   }).toList(),
-                // );
-              }
-            }
+      body: items.length > 0 ? Container(
+        child: ListView.separated(
+        itemCount: items.length,
+        separatorBuilder: (context, index) => Divider(
+          color: Colors.purple[900].withOpacity(0.5),
         ),
-      ),
+        itemBuilder: (context, index) {
+          return _buildListTile(
+              dataItem: items[index]
+          );
+        },
+      )
+      ) : Container(),
     );
   }
 
@@ -205,28 +187,18 @@ class _ProductPageState extends State<ProductPage> {
     // return parsed.map<ProductModel>((json) => new ProductModel.fromJson(json);
     return null;
   }
-
   _fetchListItems() async {
-    if(isItemChanged == true) {
-      if(controller.text != null) {
-        setState(() {
-          isItemChanged = true;
-          items = onItemChanged(controller.text);
-        });
-      }
-      return items;
-    }  else {
-      final data = await rootBundle.loadString('assets/json_data/product_list.json');
-      Map valueMap = jsonDecode(data);
-      var products = valueMap['products'];
-      var objs = products.map<ProductModel>((json) {
-        return ProductModel.fromJson(json);
-      }).toList();
+    final data = await rootBundle.loadString('assets/json_data/product_list.json');
+    Map valueMap = jsonDecode(data);
+    var products = valueMap['products'];
+    var objs = products.map<ProductModel>((json) {
+      return ProductModel.fromJson(json);
+    }).toList();
+    setState(() {
       items = objs;
       itemsTmp = items;
       return objs;
-    }
-
+    });
   }
 
   void selectProduct(ProductModel productModel) {
