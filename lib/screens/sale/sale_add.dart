@@ -75,7 +75,7 @@ class _PackageProductAddState extends State<SaleAddScreen> {
 
   AppBar _appBar() {
     return AppBar(
-        title: Text('Sale', style: TextStyle(fontFamily: 'roboto', fontWeight: FontWeight.w700)),
+        title: Text('Sale', style: TextStyle(fontFamily: fontFamilyDefault, fontWeight: FontWeight.w700)),
         backgroundColor: Colors.purple[900],
         actions: <Widget>[
           InkWell(
@@ -209,7 +209,7 @@ class _PackageProductAddState extends State<SaleAddScreen> {
             left: 15,
             top: 5
         ),
-        child: Text('Price: ${pr} \$', style: TextStyle(fontFamily: fontFamilyDefault, fontWeight: FontWeight.w500, fontSize: 15, color: Colors.red.withOpacity(0.8)),));
+        child: Text('Price: ${pr} USD', style: TextStyle(fontFamily: fontFamilyDefault, fontWeight: FontWeight.w500, fontSize: 15, color: Colors.red.withOpacity(0.8)),));
   }
 
 

@@ -1,13 +1,14 @@
 import 'dart:convert';
+import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sale_managment/share/constant/constantcolor.dart';
 import 'package:sale_managment/share/constant/text_style.dart';
 import 'package:sale_managment/share/model/sale_transaction.dart';
+import 'package:sale_managment/share/utils/format_date.dart';
 import 'package:sale_managment/share/utils/number_format.dart';
 import 'package:sale_managment/screens/sale/sale_add.dart';
-import 'package:intl/intl.dart';
 
 class SaleScreen extends StatefulWidget {
   @override
@@ -66,7 +67,7 @@ class _SaleScreenState extends State<SaleScreen> {
                           width: size.width,
                           padding: EdgeInsets.all(10),
                           child: Text(
-                              e['transactionDate'],
+                            FormatDate.dateFormat(yyyyMMdd: e['transactionDate'].toString()),
                             style: TextStyle(fontFamily: fontFamilyDefault, fontWeight: FontWeight.w500, fontSize: 17),
                           ),
                         ),
@@ -83,7 +84,11 @@ class _SaleScreenState extends State<SaleScreen> {
                                 leading: _buildLeading(),
                                 title: Text(
                                   item['transactionId'],
-                                  style: TextStyle(color: primaryColor, fontWeight: FontWeight.bold, fontFamily: fontFamilyDefault),
+                                  style: TextStyle(color: Colors.deepPurple, fontWeight: FontWeight.bold, fontFamily: fontFamilyDefault),
+                                ),
+                                subtitle: Text(
+                                    FormatDate.dateTime(hhnn: e['transactionDate'].toString().substring(8)),
+                                  style: TextStyle(fontFamily: fontFamilyDefault, fontWeight: FontWeight.w500, fontSize: 15, color: Colors.black.withOpacity(0.8)),
                                 ),
                                 trailing: Container(
                                   width: 110,
@@ -274,8 +279,6 @@ class _SaleScreenState extends State<SaleScreen> {
       setState(() {
         this.vData = mapItems['transactionList'];
         this.itemLength = this.vData.length;
-        print('mapItems: ${vData[0]}');
-        print('mapItems: ${vData.length}');
       });
       return this.vData;
   }
@@ -297,16 +300,7 @@ class _SaleScreenState extends State<SaleScreen> {
   }
 
   todayDate() {
-    // var myDate = '2020-01-02';
-    // var changeFormat = myDate.replace(/(\d{2})-(\d{2})-(\d{4})/, "$2/$1/$3")
-    print(DateTime.parse('2020-01-02'));
-    var d = DateTime.parse('2020-01-02');
-    var now = new DateTime.now();
-    var formatter = new DateFormat('dd-MMM-yyyy');
-    // String formattedTime = DateFormat('kk:mm:a').format(now);
-    String formattedDate = formatter.format(d);
-    // print(formattedTime);
-    print(formattedDate);
+    print(formatDate(DateTime(1989, 2, 21,15, 40, 10), [yyyy, '-', MM, '-', dd, '-',hh,'-',nn, '-',ss]));
   }
 
 }

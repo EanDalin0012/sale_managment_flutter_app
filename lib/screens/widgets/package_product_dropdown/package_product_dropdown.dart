@@ -53,7 +53,6 @@ class _ProductDropdownState extends State<PackageProductDropdown> {
       setState(() {
         this._packageProductModel = product;
       });
-      // _fetchProductItems();
       widget.onChanged(product);
     };
 
