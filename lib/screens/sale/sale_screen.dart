@@ -44,7 +44,6 @@ class _SaleScreenState extends State<SaleScreen> {
             builder: (BuildContext context, BoxConstraints viewportConstraints) {
               return Stack(
                 children: <Widget>[
-
                   SingleChildScrollView(
                     child: ConstrainedBox(
                       constraints: BoxConstraints(
@@ -53,7 +52,7 @@ class _SaleScreenState extends State<SaleScreen> {
                       child: IntrinsicHeight(
                         child: this.vData.length > 0 ? Column(
                             children: <Widget>[
-
+                              SizedBox(height: 40,),
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
