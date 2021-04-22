@@ -128,7 +128,15 @@ class _SaleItemsState extends State<SaleItems> {
           return DataRow(
               cells: <DataCell>[
                 DataCell(Text(i.toString())),
-                DataCell(Text(e[SaleAddItem.productName].toString())),
+                DataCell(
+                    Row(
+                        children: <Widget>[
+                          _buildLeading(e[SaleAddItem.productUrl].toString()),
+                          SizedBox(width: 10),
+                          Text(e[SaleAddItem.productName].toString())
+                        ]
+                    )
+                ),
                 DataCell(Text(e[SaleAddItem.packageProductName].toString())),
                 DataCell(Text(e[SaleAddItem.quantity].toString())),
                 DataCell(Text(e[SaleAddItem.total].toString() + ' \$')),
@@ -157,6 +165,22 @@ class _SaleItemsState extends State<SaleItems> {
           },
           icon: FaIcon(FontAwesomeIcons.minusCircle,size: 20 , color: Colors.white,),
           label: Text('Remove',style: TextStyle(fontFamily: fontFamilyDefault, fontWeight: FontWeight.w700, fontSize: 15, color: Colors.white))
+      ),
+    );
+  }
+
+  Widget _buildLeading(String url) {
+    return Container(
+      width: 35,
+      height: 35,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(60)),
+        border: Border.all(color: Colors.grey, width: 2),
+      ),
+      child: CircleAvatar(
+        radius: 30.0,
+        backgroundImage:NetworkImage(url),
+        backgroundColor: Colors.transparent,
       ),
     );
   }

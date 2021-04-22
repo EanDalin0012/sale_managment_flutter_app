@@ -462,6 +462,7 @@ class _PackageProductAddState extends State<SaleAddScreen> {
               this.quantityValueController.text = '';
               this.totalValueController.text = '';
               this.packageProductModel = null;
+              this.price = 0.0;
             }
           });
         },
