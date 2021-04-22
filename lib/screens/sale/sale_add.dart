@@ -154,6 +154,7 @@ class _PackageProductAddState extends State<SaleAddScreen> {
                       onChanged: (value) {
                         setState(() {
                           this.product = value;
+                          this.packageProductModel = null;
                         });
                       },
                     ),

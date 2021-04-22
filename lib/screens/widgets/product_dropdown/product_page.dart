@@ -202,10 +202,6 @@ class _ProductPageState extends State<ProductPage> {
   }
 
   void selectProduct(ProductModel productModel) {
-    // setState(() {
-    //   final isSelected = items.contains(productModel);
-    //   print(isSelected);
-    // });
     Navigator.pop(context, productModel);
   }
 
