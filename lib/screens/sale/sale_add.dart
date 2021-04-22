@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:sale_managment/screens/widgets/contry_dropdown/country_page.dart';
 import 'package:sale_managment/screens/widgets/contry_dropdown/flag_widget.dart';
 import 'package:sale_managment/screens/widgets/product_dropdown/product_dropdown.dart';
@@ -200,12 +199,16 @@ class _PackageProductAddState extends State<SaleAddScreen> {
   }
 
   Widget _buildPrice() {
+    var pr = '00.00';
+    if(this.price != null) {
+     pr =  FormatNumber.usdFormat2Digit(this.price);
+    }
     return Container(
         margin: EdgeInsets.only(
             left: 15,
             top: 5
         ),
-        child: Text('Price: ${FormatNumber.usdFormat2Digit(this.price)} \$', style: TextStyle(fontFamily: fontFamilyDefault, fontWeight: FontWeight.w500, fontSize: 15, color: Colors.red.withOpacity(0.8)),));
+        child: Text('Price: ${pr} \$', style: TextStyle(fontFamily: fontFamilyDefault, fontWeight: FontWeight.w500, fontSize: 15, color: Colors.red.withOpacity(0.8)),));
   }
 
 
@@ -430,6 +433,16 @@ class _PackageProductAddState extends State<SaleAddScreen> {
             } else if (this.packageProductModel == null) {
               _isValid(
                   body: 'Please select package product!'
+              );
+              return;
+            } else if (this.quantityValueController.text == null || this.quantityValueController.text.trim() == '') {
+              _isValid(
+                  body: 'Invalid Quantity!'
+              );
+              return;
+            } else if (this.totalValueController.text == null || this.totalValueController.text.trim() == '') {
+              _isValid(
+                  body: 'Invalid Total!'
               );
               return;
             } else {

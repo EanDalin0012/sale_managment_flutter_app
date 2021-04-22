@@ -54,10 +54,10 @@ class _SaleItemsState extends State<SaleItems> {
               ),
             ],
           ),
-          Container(
-            height: 39,
-            color: Colors.red,
-          )
+          // Container(
+          //   height: 39,
+          //   color: Colors.red,
+          // )
         ],
       ),
     );
@@ -132,7 +132,7 @@ class _SaleItemsState extends State<SaleItems> {
                 DataCell(Text(e[SaleAddItem.packageProductName].toString())),
                 DataCell(Text(e[SaleAddItem.quantity].toString())),
                 DataCell(Text(e[SaleAddItem.total].toString() + ' \$')),
-                DataCell(_buildAddButton(e))
+                DataCell(_buildRemoveButton(e))
               ]
           );
         }
@@ -141,7 +141,7 @@ class _SaleItemsState extends State<SaleItems> {
     );
   }
 
-  Widget _buildAddButton(Map<dynamic, dynamic> item) {
+  Widget _buildRemoveButton(Map<dynamic, dynamic> item) {
     return  Container(
       height: 35,
       width: 120,
@@ -155,7 +155,7 @@ class _SaleItemsState extends State<SaleItems> {
               widget.onChanged(widget.vData);
             });
           },
-          icon: FaIcon(FontAwesomeIcons.plusCircle,size: 20 , color: Colors.white,),
+          icon: FaIcon(FontAwesomeIcons.minusCircle,size: 20 , color: Colors.white,),
           label: Text('Remove',style: TextStyle(fontFamily: fontFamilyDefault, fontWeight: FontWeight.w700, fontSize: 15, color: Colors.white))
       ),
     );

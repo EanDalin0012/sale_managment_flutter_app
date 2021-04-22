@@ -28,6 +28,7 @@ class _ProductDropdownState extends State<PackageProductDropdown> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    this._packageProductModel = widget.packageProduct;
     if(widget.product != null) {
       setState(() {
         this.url = widget.product.url;
