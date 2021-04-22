@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:sale_managment/screens/sale/sale_add_confirm.dart';
 import 'package:sale_managment/screens/widgets/contry_dropdown/country_page.dart';
 import 'package:sale_managment/screens/widgets/contry_dropdown/flag_widget.dart';
 import 'package:sale_managment/screens/widgets/product_dropdown/product_dropdown.dart';
@@ -57,6 +58,10 @@ class _PackageProductAddState extends State<SaleAddScreen> {
             children: <Widget>[
               InkWell(
                 onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SaleAddConfirm(vData: this.vData)),
+                  );
                 },
                 child: Container(
                   width: size.width,
@@ -469,6 +474,7 @@ class _PackageProductAddState extends State<SaleAddScreen> {
       ),
     );
   }
+
   _save() {
     var categoryModel = new CategoryModel(nameValueController.text, remarkValueController.text);
     print(categoryModel.toString());

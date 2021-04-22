@@ -100,7 +100,8 @@ class _SaleScreenState extends State<SaleScreen> {
                                   );
                                 }
                                 ).toList(),
-                              )
+                              ),
+                              SizedBox(height: 50),
                             ]
                         ) : Container()
                       ),
