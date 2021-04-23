@@ -25,8 +25,6 @@ class _PackageProductAddState extends State<SaleAddScreen> {
   var borderColorsTextField = Colors.deepPurple;
   var labelStyle = TextStyle(fontSize: 20, color: Colors.deepPurple, fontFamily: fontFamilyDefault);
   var hintStyle = TextStyle(fontFamily: fontFamilyDefault);
-  var nameValueController = new TextEditingController();
-  var remarkValueController = new TextEditingController();
   var quantityValueController = new TextEditingController();
   var totalValueController = new TextEditingController();
   var styleInput = TextStyle(color: Colors.black, fontSize: 17, fontWeight: FontWeight.w500, fontFamily: fontFamilyDefault);
@@ -218,52 +216,7 @@ class _PackageProductAddState extends State<SaleAddScreen> {
   }
 
 
-  Padding _nameField() {
-    return Padding(
-      padding: EdgeInsets.only(
-        right: 10,
-        left: 10,
-        top: 10
-      ),
-      child: TextField(
-        controller: nameValueController,
-        style: styleInput,
-        decoration: InputDecoration(
-            hintText: 'Enter category name',
-            labelText: 'Name',
-            // helperText: 'Category Name',
-            labelStyle: labelStyle,
-            hintStyle: hintStyle,
-            // helperStyle: TextStyle(
-            //     color: Colors.blueGrey,
-            //     fontWeight: FontWeight.bold,
-            //     fontFamily: 'roboto'
-            // ),
-            // border: OutlineInputBorder(),
-            enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                    color: borderColorsTextField,
-                    width: 1.5,
-                    style: BorderStyle.solid
-                ),
-                borderRadius: BorderRadius.all(Radius.circular(5.0))
-            ),
-            focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                    color: Colors.indigo,
-                    width: 1.5,
-                    style: BorderStyle.solid
-                )
-            ),
-            prefixIcon: Icon(
-              Icons.info_outline,
-              color: Colors.black54,
-            )
 
-        ),
-      ),
-    );
-  }
 
   Padding _quantityField() {
     return Padding(
@@ -368,47 +321,6 @@ class _PackageProductAddState extends State<SaleAddScreen> {
   }
 
 
-  Padding _remarkField() {
-    return Padding(
-      padding: EdgeInsets.all(10),
-      child: TextField(
-        controller: remarkValueController,
-        style: styleInput,
-        decoration: InputDecoration(
-            hintText: 'Enter remark',
-            labelText: 'Remark',
-            // helperText: 'Remark',
-            labelStyle: labelStyle,
-            hintStyle: hintStyle,
-            // helperStyle: TextStyle(
-            //     color: Colors.blueGrey,
-            //     fontWeight: FontWeight.bold
-            // ),
-            // border: OutlineInputBorder(),
-            enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                    color: borderColorsTextField,
-                    width: 1.5,
-                    style: BorderStyle.solid
-                ),
-                borderRadius: BorderRadius.all(Radius.circular(5.0))
-            ),
-            focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                    color: Colors.indigo,
-                    width: 1.5,
-                    style: BorderStyle.solid
-                )
-            ),
-            prefixIcon: Icon(
-              Icons.edit,
-              color: Colors.black54,
-            )
-
-        ),
-      ),
-    );
-  }
 
   Widget _buildAddButton() {
     return  Container(
@@ -476,8 +388,8 @@ class _PackageProductAddState extends State<SaleAddScreen> {
   }
 
   _save() {
-    var categoryModel = new CategoryModel(nameValueController.text, remarkValueController.text);
-    print(categoryModel.toString());
+    // var categoryModel = new CategoryModel(nameValueController.text, remarkValueController.text);
+    // print(categoryModel.toString());
   }
 
   Widget buildSingleCountry() {

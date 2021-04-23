@@ -15,34 +15,41 @@ class SaleAddConfirm extends StatefulWidget {
 class _SaleAddConfirmState extends State<SaleAddConfirm> {
   Size size;
   Color _iconColor = Colors.purple[900];
+  var styleInput = TextStyle(color: Colors.black, fontSize: 17, fontWeight: FontWeight.w500, fontFamily: fontFamilyDefault);
+
+  var remarkValueController = new TextEditingController();
+  var nameValueController = new TextEditingController();
   var i = 0;
 
   @override
   Widget build(BuildContext context) {
-    print('${widget.vData}');
     size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Colors.red,
       appBar: _buildAppBar(),
-      body: Column(
-        children: <Widget>[
-          // _container(),
-          Container(
-            color: Colors.white,
-            height: size.height - 170,
-            child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: Container(
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: _buildDataTable(),
-                ),
-              ),
-            ),
+      body: Container(
+          height: size.height,
+          child: Column(
+            children: <Widget>[
+              _container(),
+              _body(),
+              Stack(
+                children: <Widget>[
+                  InkWell(
+                    onTap: () {
+
+                    },
+                    child: Container(
+                      width: size.width,
+                      height: 45,
+                      color: Colors.red,
+                      child: Center(child: Text('Confirm', style: TextStyle(fontWeight: FontWeight.w700, color: Colors.white, fontFamily: 'roboto', fontSize: 18))),
+                    ),
+                  ),
+                ],
+              )
+            ],
           ),
-          _buildConfirmButton()
-        ],
-      ),
+        )
     );
   }
 
@@ -63,7 +70,7 @@ class _SaleAddConfirmState extends State<SaleAddConfirm> {
           child: Container(
             width: size.width,
             height: 45,
-            color: Colors.red,
+            color: Colors.deepPurple,
             child: Center(child: Text('Next', style: TextStyle(fontWeight: FontWeight.w700, color: Colors.white, fontFamily: 'roboto', fontSize: 18))),
           ),
         ),
@@ -71,24 +78,25 @@ class _SaleAddConfirmState extends State<SaleAddConfirm> {
     );
   }
 
-  Container _container() {
-    return Container(
-      color: Color(0xFF939BA9),
-      padding: EdgeInsets.only(
-          left: 10,
-          top: 10,
-          right: 20,
-          bottom: 10
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Text(
-              'Sale Conform',
-              style: containStyle
-          ),
-        ],
-      ),
+  Widget _container() {
+    return  Container(
+        color: Color(0xFF939BA9).withOpacity(0.5),
+        height: 40,
+        padding: EdgeInsets.only(
+            left: 10,
+            top: 10,
+            right: 20,
+            bottom: 10
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Text(
+                'Sale Conform',
+                style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.w500, fontFamily: fontFamilyDefault)
+            ),
+          ],
+        ),
     );
   }
 
@@ -183,6 +191,162 @@ class _SaleAddConfirmState extends State<SaleAddConfirm> {
           },
           icon: FaIcon(FontAwesomeIcons.minusCircle,size: 20 , color: Colors.white,),
           label: Text('Remove',style: TextStyle(fontFamily: fontFamilyDefault, fontWeight: FontWeight.w700, fontSize: 15, color: Colors.white))
+      ),
+    );
+  }
+
+
+  Padding _remarkField() {
+    return Padding(
+      padding: EdgeInsets.all(10),
+      child: TextField(
+        controller: remarkValueController,
+        style: styleInput,
+        decoration: InputDecoration(
+            hintText: 'Enter remark',
+            labelText: 'Remark',
+            // helperText: 'Remark',
+            labelStyle: labelStyle,
+            hintStyle: hintStyle,
+            // helperStyle: TextStyle(
+            //     color: Colors.blueGrey,
+            //     fontWeight: FontWeight.bold
+            // ),
+            // border: OutlineInputBorder(),
+            enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                    color: borderColorsTextField,
+                    width: 1.5,
+                    style: BorderStyle.solid
+                ),
+                borderRadius: BorderRadius.all(Radius.circular(5.0))
+            ),
+            focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                    color: Colors.indigo,
+                    width: 1.5,
+                    style: BorderStyle.solid
+                )
+            ),
+            prefixIcon: Icon(
+              Icons.edit,
+              color: Colors.black54,
+            )
+
+        ),
+      ),
+    );
+  }
+
+  Padding _nameField() {
+    return Padding(
+      padding: EdgeInsets.only(
+          right: 10,
+          left: 10,
+          top: 10
+      ),
+      child: TextField(
+        controller: nameValueController,
+        style: styleInput,
+        decoration: InputDecoration(
+            hintText: 'Enter category name',
+            labelText: 'Name',
+            // helperText: 'Category Name',
+            labelStyle: labelStyle,
+            hintStyle: hintStyle,
+            // helperStyle: TextStyle(
+            //     color: Colors.blueGrey,
+            //     fontWeight: FontWeight.bold,
+            //     fontFamily: 'roboto'
+            // ),
+            // border: OutlineInputBorder(),
+            enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                    color: borderColorsTextField,
+                    width: 1.5,
+                    style: BorderStyle.solid
+                ),
+                borderRadius: BorderRadius.all(Radius.circular(5.0))
+            ),
+            focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                    color: Colors.indigo,
+                    width: 1.5,
+                    style: BorderStyle.solid
+                )
+            ),
+            prefixIcon: Icon(
+              Icons.info_outline,
+              color: Colors.black54,
+            )
+
+        ),
+      ),
+    );
+  }
+
+  Expanded _body() {
+    return Expanded(
+        child: SingleChildScrollView(
+            physics: ClampingScrollPhysics(),
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                    height: size.height - ( 85 + 55),
+                    child: Column(
+                      children: <Widget>[
+                        _buildDataTable(),
+                        _remarkField(),
+                      ],
+                    ),
+                  ),
+                ])
+        )
+    );
+  }
+
+  Widget _test() {
+    return Stack(
+      children: <Widget>[
+        InkWell(
+          onTap: () {
+
+          },
+          child: Container(
+            width: size.width,
+            height: 45,
+            color: Colors.red,
+            child: Center(child: Text('Next', style: TextStyle(fontWeight: FontWeight.w700, color: Colors.white, fontFamily: 'roboto', fontSize: 18))),
+          ),
+        ),
+      ],
+    );
+  }
+  Widget _buildAddButton() {
+    return  Container(
+      height: 50,
+      width: 110,
+      margin: EdgeInsets.only(right: 10),
+      child: RaisedButton(
+        color: Colors.red,
+        textColor: Colors.white,
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(50.0),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            FaIcon(FontAwesomeIcons.plusCircle,size: 25 , color: Colors.white,),
+            Center(child: Text("Add", style: TextStyle(fontFamily: fontFamilyDefault, fontWeight: FontWeight.w700, fontSize: 20, color: Colors.white),)),
+          ],
+        ),
+        onPressed: () {
+          // setState(() {
+          // });
+        },
       ),
     );
   }
