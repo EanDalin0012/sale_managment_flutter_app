@@ -14,9 +14,7 @@ class SaleAddConfirm extends StatefulWidget {
 
 class _SaleAddConfirmState extends State<SaleAddConfirm> {
   Size size;
-  Color _iconColor = Colors.purple[900];
   var styleInput = TextStyle(color: Colors.black, fontSize: 17, fontWeight: FontWeight.w500, fontFamily: fontFamilyDefault);
-
   var remarkValueController = new TextEditingController();
   var nameValueController = new TextEditingController();
   var i = 0;
@@ -24,6 +22,7 @@ class _SaleAddConfirmState extends State<SaleAddConfirm> {
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
+    this.i = 0;
     return Scaffold(
       appBar: _buildAppBar(),
       body: Container(
@@ -31,6 +30,11 @@ class _SaleAddConfirmState extends State<SaleAddConfirm> {
           child: Column(
             children: <Widget>[
               _container(),
+              _remarkField(),
+              _remarkField(),
+              Divider(
+                color: Colors.purple[900].withOpacity(0.5),
+              ),
               _body(),
               Stack(
                 children: <Widget>[
@@ -288,66 +292,24 @@ class _SaleAddConfirmState extends State<SaleAddConfirm> {
   Expanded _body() {
     return Expanded(
         child: SingleChildScrollView(
-            physics: ClampingScrollPhysics(),
+            scrollDirection: Axis.vertical,
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Container(
-                    height: size.height - ( 85 + 55),
-                    child: Column(
-                      children: <Widget>[
-                        _buildDataTable(),
-                        _remarkField(),
-                      ],
+                    height: size.height - 100,
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Column(
+                        children: <Widget>[
+                          _buildDataTable(),
+                        ],
+                      ),
                     ),
                   ),
                 ])
         )
-    );
-  }
-
-  Widget _test() {
-    return Stack(
-      children: <Widget>[
-        InkWell(
-          onTap: () {
-
-          },
-          child: Container(
-            width: size.width,
-            height: 45,
-            color: Colors.red,
-            child: Center(child: Text('Next', style: TextStyle(fontWeight: FontWeight.w700, color: Colors.white, fontFamily: 'roboto', fontSize: 18))),
-          ),
-        ),
-      ],
-    );
-  }
-  Widget _buildAddButton() {
-    return  Container(
-      height: 50,
-      width: 110,
-      margin: EdgeInsets.only(right: 10),
-      child: RaisedButton(
-        color: Colors.red,
-        textColor: Colors.white,
-        elevation: 0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(50.0),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            FaIcon(FontAwesomeIcons.plusCircle,size: 25 , color: Colors.white,),
-            Center(child: Text("Add", style: TextStyle(fontFamily: fontFamilyDefault, fontWeight: FontWeight.w700, fontSize: 20, color: Colors.white),)),
-          ],
-        ),
-        onPressed: () {
-          // setState(() {
-          // });
-        },
-      ),
     );
   }
 
