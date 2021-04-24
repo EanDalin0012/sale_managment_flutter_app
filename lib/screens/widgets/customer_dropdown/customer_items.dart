@@ -26,32 +26,39 @@ class _CustomerItemsState extends State<CustomerItems> {
   List<dynamic> vData = [];
   int itemLength = 0;
   var isNative = false;
+  var _controller = ScrollController();
 
   @override
   void initState() {
-    super.initState();
+    _controller = ScrollController();
+    _controller.addListener(_scrollListener);//the listener for up and down.
     this._fetchItems();
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: _buildAppBar(),
-      body: Column(
-        children: <Widget>[
-          _container(),
-          this.vData.length > 0 ? _buildBody(): Container(),
-          SizedBox(height: 70,)
-        ],
-      ),
+        appBar: _buildAppBar(),
+        body: Column(
+          children: <Widget>[
+            _container(),
+            if(this.vData.length > 0 )
+              SingleChildScrollView(
+                  child: Container(
+                      height: size.height - 200,
+                      child: _buildBody())
+              ),
+          ],
+        ),
     );
   }
 
   Widget _buildAppBar() {
     return AppBar(
       backgroundColor: Colors.purple[900],
-      title: Text('Package of Product'),
+      title: Text('Customer'),
       actions: [
         IconButton(
           icon: Icon(isNative ? Icons.close : Icons.search),
@@ -93,68 +100,56 @@ class _CustomerItemsState extends State<CustomerItems> {
           right: 20,
           bottom: 10
       ),
-      child:  Text(
-        'Package of Product List',
-        style: containStyle,
+      child:  Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Text(
+              'Customer',
+              style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.w500, fontFamily: fontFamilyDefault)
+          ),
+          Text(this.itemLength.toString(), style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.w700, fontFamily: fontFamilyDefault),)
+        ],
       ),
     );
   }
 
   Widget _buildBody () {
-    return Expanded(
-        child: new FutureBuilder(
-            future: _fetchItems(),
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-                return Center(child: CircularProgressIndicator());
-              } else {
-                return ListView.separated(
-                  itemCount: vData.length,
-                  separatorBuilder: (context, index) => Divider(
-                    color: Colors.purple[900].withOpacity(0.5),
-                  ),
-                  itemBuilder: (context, index) {
-                    return _buildListTile(
-                        customer: vData[index]
-                    );
-                  },
-                );
-                // return ListView(
-                //   children: items.map((e) => _buildListTile1(dataItem: e)).toList(),
-                // );
-              }
-            }
-        )
-    );
+    print('${this.vData}');
+    return ListView.separated(
+          itemCount: vData.length,
+          separatorBuilder: (context, index) => Divider(
+            color: Colors.purple[900].withOpacity(0.5),
+          ),
+        itemBuilder: (context, index) => _buildListTile(customer: vData[index])
+        //     ListTile(
+        //      onTap: () => selectedItem(vCustomer: vData[index]),
+        //       title: Text(
+        //      vData[index][CustomerKey.customerName].toString(),
+        //       style: TextStyle( color: Colors.black87, fontSize: 20, fontWeight: FontWeight.w700,fontFamily: fontFamilyDefault),),
+        //     subtitle: Text(
+        //     'Phone: '+vData[index][CustomerKey.phone].toString(),
+        //     style: TextStyle(fontSize: 12,fontWeight: FontWeight.w700, fontFamily: fontFamilyDefault, color: primaryColor),
+        //     ),
+        //       trailing: widget.vCustomer != null && vData[index][CustomerKey.id] == widget.vCustomer[CustomerKey.id] ? FaIcon(FontAwesomeIcons.checkCircle, size: 25 , color: Colors.deepPurple): null,
+        // ),
+
+        );
   }
 
   Widget _buildListTile({
     @required Map customer
   }) {
+    print('customer ${customer}');
     return ListTile(
-      // onTap: () => selectPackageProduct(dataItem),
-      title: Text( customer[CustomerKey.customerName],
+      onTap: () => selectedItem(vCustomer: customer),
+      title: Text( customer[CustomerKey.customerName].toString(),
         style: TextStyle( color: Colors.black87, fontSize: 20, fontWeight: FontWeight.w700,fontFamily: fontFamilyDefault),
       ),
-      leading: _buildLeading(url: 'url'),
       subtitle: Text(
-        customer[CustomerKey.phone],
+        'Phone: '+customer[CustomerKey.phone].toString(),
         style: TextStyle(fontSize: 12,fontWeight: FontWeight.w700, fontFamily: fontFamilyDefault, color: primaryColor),
       ),
-      trailing: Container(
-        width: 130,
-        child: _buildCheckIcon()
-      ),
-    );
-  }
-
-  Widget _buildCheckIcon() {
-    return Container(
-      margin: EdgeInsets.only(
-          top: 15,
-          left: 10
-      ),
-      child: Center(child: FaIcon(FontAwesomeIcons.checkCircle, size: 25 , color: Colors.deepPurple)),
+      trailing: widget.vCustomer != null && customer[CustomerKey.id] == widget.vCustomer[CustomerKey.id] ? FaIcon(FontAwesomeIcons.checkCircle, size: 25 , color: Colors.deepPurple): null,
     );
   }
 
@@ -196,6 +191,7 @@ class _CustomerItemsState extends State<CustomerItems> {
         ),
         style: styleInput,
         onChanged: (value) {
+          print('value : ${value}');
           // if(value != null || value.trim() != '') {
           //   this.isItemChanged = true;
           //   if(value != null || value.trim() != '') {
@@ -209,24 +205,19 @@ class _CustomerItemsState extends State<CustomerItems> {
     );
   }
 
-  Widget _buildLeading({
-  @required String url
-  }) {
-    var url = 'https://icons-for-free.com/iconfiles/png/512/part+1+p-1320568343314317876.png';
-    return Container(
-      width: 50,
-      height: 50,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(60)),
-        border: Border.all(color: Colors.grey, width: 2),
-      ),
-      child: CircleAvatar(
-        radius: 30.0,
-        backgroundImage:NetworkImage(url),
-        backgroundColor: Colors.transparent,
-      ),
-    );
+  _scrollListener() {
+    if (_controller.offset >= _controller.position.maxScrollExtent &&
+        !_controller.position.outOfRange) {
+      setState(() {//you can do anything here
+      });
+    }
+    if (_controller.offset <= _controller.position.minScrollExtent &&
+        !_controller.position.outOfRange) {
+      setState(() {//you can do anything here
+      });
+    }
   }
+
 
   _fetchItems() async {
     final data = await rootBundle.loadString('assets/json_data/customer_list.json');
@@ -235,8 +226,13 @@ class _CustomerItemsState extends State<CustomerItems> {
       this.vData = mapItems['customers'];
       this.itemLength = this.vData.length;
     });
-    print('${this.vData}');
     return this.vData;
+  }
+
+  void selectedItem({
+    @required Map vCustomer
+  }) {
+    Navigator.pop(context, vCustomer);
   }
 
 }

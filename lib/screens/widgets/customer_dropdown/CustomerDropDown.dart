@@ -43,12 +43,12 @@ class _CustomerDropDownState extends State<CustomerDropDown> {
           vCustomer: this.customer,
         )),
       );
-
       if (feedBackCustomerData == null) return;
       setState(() {
         this.customer = feedBackCustomerData;
+        widget.onChanged(this.customer);
       });
-      widget.onChanged(feedBackCustomerData);
+
     };
 
     return buildCountryPicker(
@@ -75,7 +75,7 @@ class _CustomerDropDownState extends State<CustomerDropDown> {
   }) {
     return ListTile(
       onTap: onTap,
-      leading: leading,
+      // leading: leading,
       title: Text(
         title,
         maxLines: 1,

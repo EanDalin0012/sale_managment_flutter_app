@@ -56,11 +56,9 @@ class _SaleAddConfirmState extends State<SaleAddConfirm> {
                   color: colorValue,
                   vCustomer: this.vCustomer,
                   onChanged: (value) {
-
-                    // setState(() {
-                    //   this.product = value;
-                    //   this.packageProductModel = null;
-                    // });
+                    setState(() {
+                      this.vCustomer = value;
+                    });
                   },
                 ),
               ),
