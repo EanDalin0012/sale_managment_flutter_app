@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sale_managment/share/constant/text_style.dart';
-import 'package:sale_managment/share/model/key/transactionKey.dart';
+import 'package:sale_managment/share/model/key/m_key.dart';
 
 class SaleItems extends StatefulWidget {
   final List<dynamic> vData;
@@ -131,15 +131,15 @@ class _SaleItemsState extends State<SaleItems> {
                 DataCell(
                     Row(
                         children: <Widget>[
-                          _buildLeading(e[SaleAddItem.productUrl].toString()),
+                          _buildLeading(e[SaleAddItemKey.productUrl].toString()),
                           SizedBox(width: 10),
-                          Text(e[SaleAddItem.productName].toString())
+                          Text(e[SaleAddItemKey.productName].toString())
                         ]
                     )
                 ),
-                DataCell(Text(e[SaleAddItem.packageProductName].toString())),
-                DataCell(Text(e[SaleAddItem.quantity].toString())),
-                DataCell(Text(e[SaleAddItem.total].toString() + ' \$')),
+                DataCell(Text(e[SaleAddItemKey.packageProductName].toString())),
+                DataCell(Text(e[SaleAddItemKey.quantity].toString())),
+                DataCell(Text(e[SaleAddItemKey.total].toString() + ' \$')),
                 DataCell(_buildRemoveButton(e))
               ]
           );

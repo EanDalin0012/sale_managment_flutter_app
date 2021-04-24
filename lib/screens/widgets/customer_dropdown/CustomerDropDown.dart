@@ -1,75 +1,68 @@
 import 'package:flutter/material.dart';
-import 'package:sale_managment/screens/widgets/product_dropdown/product_page.dart';
-import 'package:sale_managment/share/model/product.dart';
-import 'package:sale_managment/screens/widgets/product_dropdown/FlagImageWidget.dart';
+import 'package:sale_managment/screens/widgets/customer_dropdown/customer_items.dart';
+import 'package:sale_managment/share/model/key/m_key.dart';
 
-class ProductDropdown extends StatefulWidget {
-  final ProductModel product;
-  final ValueChanged<ProductModel> onChanged;
+class CustomerDropDown extends StatefulWidget {
+  final ValueChanged<Map<dynamic, dynamic>> onChanged;
+  final Map<dynamic, dynamic> vCustomer;
   final Color color;
 
-  ProductDropdown({
+  CustomerDropDown({
+    @required this.vCustomer,
     this.color,
-    this.product,
     this.onChanged
   });
+
   @override
-  _ProductDropdownState createState() => _ProductDropdownState();
+  _CustomerDropDownState createState() => _CustomerDropDownState();
 }
 
-class _ProductDropdownState extends State<ProductDropdown> {
-  ProductModel product;
+class _CustomerDropDownState extends State<CustomerDropDown> {
+
+  Map customer;
 
   @override
   Widget build(BuildContext context) {
+    this.customer = widget.vCustomer;
 
-    // if(widget.product !=null) {
-    //   this.product = widget.product;
-    // }
-    this.product = widget.product;
-
-    Size size = MediaQuery.of(context).size;
     return  Container(
-        child: buildSingleProduct(),
-      );
+      child: buildSingleProduct(),
+    );
+  }
+
+  @override
+  void initState() {
+
   }
 
   Widget buildSingleProduct() {
     final onTap = () async {
-      final product = await Navigator.push(
+      final feedBackCustomerData = await Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => ProductPage(
-          productModel: this.product,
+        MaterialPageRoute(builder: (context) => CustomerItems(
+          vCustomer: this.customer,
         )),
       );
 
-      if (product == null) return;
+      if (feedBackCustomerData == null) return;
       setState(() {
-        this.product = product;
+        this.customer = feedBackCustomerData;
       });
-      widget.onChanged(product);
+      widget.onChanged(feedBackCustomerData);
     };
 
     return buildCountryPicker(
       title: 'Select Country',
-      child: product == null ? buildListTile(
-          title: 'Select Product',
+      child: customer == null ? buildListTile(
+          title: 'Select Customer',
           leading: Icon(
             Icons.info_outline,
             color: Colors.black54,
           ),
           onTap: onTap
-        ) : buildListTile(
-        title: product.name,
-        leading: FlagImageWidget(
-          width: 40,
-          height: 40,
-          url: product.url,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(60)),
-            border: Border.all(color: Colors.grey, width: 0),
-          ),
-        ),
+      ) : buildListTile(
+        title: customer[CustomerKey.customerName],
+        leading: buildLeading(customer[CustomerKey.url]),
         onTap: onTap,
       ),
     );

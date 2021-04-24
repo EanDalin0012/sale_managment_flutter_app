@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sale_managment/share/constant/text_style.dart';
-import 'package:sale_managment/share/model/key/transactionKey.dart';
+import 'package:sale_managment/share/model/key/m_key.dart';
 import 'package:sale_managment/share/utils/number_format.dart';
+import 'package:sale_managment/screens/widgets/customer_dropdown/CustomerDropDown.dart';
 
 class SaleAddConfirm extends StatefulWidget {
   final List<dynamic> vData;
@@ -14,6 +15,7 @@ class SaleAddConfirm extends StatefulWidget {
 }
 
 class _SaleAddConfirmState extends State<SaleAddConfirm> {
+  var colorValue = Colors.deepPurple;
   Size size;
   var styleInput = TextStyle(color: Colors.black, fontSize: 17, fontWeight: FontWeight.w500, fontFamily: fontFamilyDefault);
   var remarkValueController = new TextEditingController();
@@ -21,7 +23,7 @@ class _SaleAddConfirmState extends State<SaleAddConfirm> {
   var i = 0;
   double pay = 0.0;
   double vPay = 0.0;
-
+  Map vCustomer;
 
   @override
   void initState() {
@@ -40,7 +42,28 @@ class _SaleAddConfirmState extends State<SaleAddConfirm> {
           child: Column(
             children: <Widget>[
               _container(),
-              _remarkField(),
+              Container(
+                margin: EdgeInsets.only(
+                    left: 10,
+                    right: 10,
+                    top: 10
+                ),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                    border: Border.all(color: colorValue, width: 1.5)
+                ),
+                child: CustomerDropDown(
+                  color: colorValue,
+                  vCustomer: this.vCustomer,
+                  onChanged: (value) {
+
+                    // setState(() {
+                    //   this.product = value;
+                    //   this.packageProductModel = null;
+                    // });
+                  },
+                ),
+              ),
               _remarkField(),
               Divider(
                 color: Colors.purple[900].withOpacity(0.5),
@@ -154,15 +177,15 @@ class _SaleAddConfirmState extends State<SaleAddConfirm> {
                 DataCell(
                     Row(
                         children: <Widget>[
-                          _buildLeading(e[SaleAddItem.productUrl].toString()),
+                          _buildLeading(e[SaleAddItemKey.productUrl].toString()),
                           SizedBox(width: 10),
-                          Text(e[SaleAddItem.productName].toString())
+                          Text(e[SaleAddItemKey.productName].toString())
                         ]
                     )
                 ),
-                DataCell(Text(e[SaleAddItem.packageProductName].toString())),
-                DataCell(Text(e[SaleAddItem.quantity].toString())),
-                DataCell(Text(e[SaleAddItem.total].toString() + ' \$')),
+                DataCell(Text(e[SaleAddItemKey.packageProductName].toString())),
+                DataCell(Text(e[SaleAddItemKey.quantity].toString())),
+                DataCell(Text(e[SaleAddItemKey.total].toString() + ' \$')),
                 DataCell(_buildRemoveButton(e))
               ]
           );
@@ -196,8 +219,8 @@ class _SaleAddConfirmState extends State<SaleAddConfirm> {
           onPressed: () {
             setState(() {
               widget.vData.remove(item);
-              pay = pay - double.parse(item[SaleAddItem.total]);
-              print('${item[SaleAddItem.total]}');
+              pay = pay - double.parse(item[SaleAddItemKey.total]);
+              print('${item[SaleAddItemKey.total]}');
             });
           },
           icon: FaIcon(FontAwesomeIcons.minusCircle,size: 20 , color: Colors.white,),
@@ -323,7 +346,7 @@ class _SaleAddConfirmState extends State<SaleAddConfirm> {
   vPayFunction() {
     widget.vData.map((e)
     {
-      double d = double.parse(e[SaleAddItem.total]);
+      double d = double.parse(e[SaleAddItemKey.total]);
       vPay += d;
     }).toList();
     setState(() {

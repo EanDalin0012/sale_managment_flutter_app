@@ -6,10 +6,9 @@ import 'package:sale_managment/screens/widgets/contry_dropdown/country_page.dart
 import 'package:sale_managment/screens/widgets/contry_dropdown/flag_widget.dart';
 import 'package:sale_managment/screens/widgets/product_dropdown/product_dropdown.dart';
 import 'package:sale_managment/share/constant/text_style.dart';
-import 'package:sale_managment/share/model/catgory.dart';
 import 'package:sale_managment/share/model/country.dart';
 import 'package:sale_managment/screens/widgets/package_product_dropdown/package_product_dropdown.dart';
-import 'package:sale_managment/share/model/key/transactionKey.dart';
+import 'package:sale_managment/share/model/key/m_key.dart';
 import 'package:sale_managment/share/model/package_product.dart';
 import 'package:sale_managment/share/model/product.dart';
 import 'package:sale_managment/share/utils/number_format.dart';
@@ -370,13 +369,13 @@ class _PackageProductAddState extends State<SaleAddScreen> {
               return;
             } else {
               Map data = {
-                SaleAddItem.productId: this.product.id,
-                SaleAddItem.productUrl: this.product.url,
-                SaleAddItem.productName: this.product.name,
-                SaleAddItem.packageProductName: this.packageProductModel.name,
-                SaleAddItem.quantity: quantityValueController.text,
-                SaleAddItem.price: this.packageProductModel.price,
-                SaleAddItem.total: totalValueController.text
+                SaleAddItemKey.productId: this.product.id,
+                SaleAddItemKey.productUrl: this.product.url,
+                SaleAddItemKey.productName: this.product.name,
+                SaleAddItemKey.packageProductName: this.packageProductModel.name,
+                SaleAddItemKey.quantity: quantityValueController.text,
+                SaleAddItemKey.price: this.packageProductModel.price,
+                SaleAddItemKey.total: totalValueController.text
               };
               this.vData.add(data);
               this.cartArrowDownCount = this.vData.length;

@@ -1,13 +1,4 @@
-enum TransactionKey {
-  transactionList,
-  id,
-  transactionId,
-  total,
-  remark,
-  transactionDate
-}
-
-class SaleAddItem {
+class SaleAddItemKey {
   static const total                = "total";
   static const productId            = "productId";
   static const productName          = "productName";
@@ -16,4 +7,12 @@ class SaleAddItem {
   static const quantity             = "quantity";
   static const price                = "price";
   static const remark               = "remark";
+}
+
+class CustomerKey {
+  static const id                   = "id";
+  static const customerName         = "customerName";
+  static const phone                = "phone";
+  static const remark               = "remark";
+  static const url                  = "url";
 }

@@ -10,6 +10,7 @@ class PackageProductDropdown extends StatefulWidget {
   final Color color;
   final ProductModel product;
   final PackageProductModel packageProduct;
+
   PackageProductDropdown({
     this.color,
     @required this.product,
@@ -144,22 +145,6 @@ class _ProductDropdownState extends State<PackageProductDropdown> {
         backgroundColor: Colors.transparent,
       ),
     );
-  }
-
-  _fetchProductItems() {
-    LoadLocalData.fetchProductItems().then((value) {
-      this.productItems = value;
-    });
-  }
-
-  String _searchProductById(int productId) {
-    if(this.productItems.length > 0) {
-      for(ProductModel p in productItems) {
-        if(p.id == productId) {
-          return p.url;
-        }
-      }
-    }
   }
 
 }
