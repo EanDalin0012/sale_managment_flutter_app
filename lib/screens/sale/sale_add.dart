@@ -45,7 +45,6 @@ class _PackageProductAddState extends State<SaleAddScreen> {
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
-    this.cartArrowDownCount = 0;
     return Scaffold(
       appBar: _appBar(),
       body: Column(
@@ -56,11 +55,16 @@ class _PackageProductAddState extends State<SaleAddScreen> {
           Stack(
             children: <Widget>[
               InkWell(
-                onTap: () {
-                  Navigator.push(
+                onTap: () async {
+                  final feedBackData = await Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => SaleAddConfirm(vData: this.vData)),
                   );
+                  print('feedBackData: ${feedBackData}');
+                  setState(() {
+                    this.vData = feedBackData;
+                    this.cartArrowDownCount = this.vData.length;
+                  });
                 },
                 child: Container(
                   width: size.width,

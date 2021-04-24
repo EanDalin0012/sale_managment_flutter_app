@@ -56,6 +56,14 @@ class _SaleAddConfirmState extends State<SaleAddConfirm> {
   AppBar _buildAppBar() {
     return AppBar(
         title: Text('Conform', style: TextStyle(fontFamily: fontFamilyDefault, fontWeight: FontWeight.w700)),
+        leading: InkWell(
+          onTap: () {
+            Navigator.pop(context, widget.vData);
+          },
+          child: Icon(
+            Icons.arrow_back
+          ),
+        ),
         backgroundColor: Colors.purple[900],
     );
   }
