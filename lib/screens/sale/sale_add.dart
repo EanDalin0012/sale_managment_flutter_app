@@ -45,6 +45,7 @@ class _PackageProductAddState extends State<SaleAddScreen> {
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
+    this.cartArrowDownCount = 0;
     return Scaffold(
       appBar: _appBar(),
       body: Column(
@@ -205,7 +206,7 @@ class _PackageProductAddState extends State<SaleAddScreen> {
   Widget _buildPrice() {
     var pr = '00.00';
     if(this.price != null) {
-     pr =  FormatNumber.usdFormat2Digit(this.price);
+     pr =  FormatNumber.usdFormat2Digit(this.price.toString());
     }
     return Container(
         margin: EdgeInsets.only(
@@ -457,7 +458,7 @@ class _PackageProductAddState extends State<SaleAddScreen> {
 
   String _calTotal(double price, double quantity) {
     if(price> 0 && quantity > 0) {
-        return FormatNumber.usdFormat2Digit((price * quantity));
+        return FormatNumber.usdFormat2Digit((price * quantity).toString());
     } else {
       return '0';
     }

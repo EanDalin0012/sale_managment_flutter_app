@@ -260,7 +260,7 @@ class _PackageProductScreenState extends State<PackageProductScreen> {
         ),
         leading: _buildLeading(dataItem.productId),
       subtitle: Text(
-        FormatNumber.usdFormat2Digit(dataItem.price).toString()+' \$,'+dataItem.remark,
+        FormatNumber.usdFormat2Digit(dataItem.price.toString()).toString()+' \$,'+dataItem.remark,
         style: TextStyle(fontSize: 12,fontWeight: FontWeight.w700, fontFamily: fontFamilyDefault, color: primaryColor),
       ),
       trailing: Container(

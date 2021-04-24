@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sale_managment/share/constant/text_style.dart';
 import 'package:sale_managment/share/model/key/transactionKey.dart';
+import 'package:sale_managment/share/utils/number_format.dart';
 
 class SaleAddConfirm extends StatefulWidget {
   final List<dynamic> vData;
@@ -18,6 +19,15 @@ class _SaleAddConfirmState extends State<SaleAddConfirm> {
   var remarkValueController = new TextEditingController();
   var nameValueController = new TextEditingController();
   var i = 0;
+  double pay = 0.0;
+  double vPay = 0.0;
+
+
+  @override
+  void initState() {
+    super.initState();
+    vPayFunction();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,21 +46,7 @@ class _SaleAddConfirmState extends State<SaleAddConfirm> {
                 color: Colors.purple[900].withOpacity(0.5),
               ),
               _body(),
-              Stack(
-                children: <Widget>[
-                  InkWell(
-                    onTap: () {
-
-                    },
-                    child: Container(
-                      width: size.width,
-                      height: 45,
-                      color: Colors.red,
-                      child: Center(child: Text('Confirm', style: TextStyle(fontWeight: FontWeight.w700, color: Colors.white, fontFamily: 'roboto', fontSize: 18))),
-                    ),
-                  ),
-                ],
-              )
+              _buildConfirmButton ()
             ],
           ),
         )
@@ -65,17 +61,20 @@ class _SaleAddConfirmState extends State<SaleAddConfirm> {
   }
 
   Widget _buildConfirmButton () {
+    setState(() {
+      pay = vPay;
+    });
     return Stack(
       children: <Widget>[
         InkWell(
           onTap: () {
-            print('click');
+
           },
           child: Container(
             width: size.width,
             height: 45,
-            color: Colors.deepPurple,
-            child: Center(child: Text('Next', style: TextStyle(fontWeight: FontWeight.w700, color: Colors.white, fontFamily: 'roboto', fontSize: 18))),
+            color: Colors.red,
+            child: Center(child: Text('Confirm', style: TextStyle(fontWeight: FontWeight.w700, color: Colors.white, fontFamily: 'roboto', fontSize: 18))),
           ),
         ),
       ],
@@ -99,6 +98,7 @@ class _SaleAddConfirmState extends State<SaleAddConfirm> {
                 'Sale Conform',
                 style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.w500, fontFamily: fontFamilyDefault)
             ),
+            Text(FormatNumber.usdFormat2Digit(pay.toString()) + ' USD', style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.w700, fontFamily: fontFamilyDefault),)
           ],
         ),
     );
@@ -158,9 +158,7 @@ class _SaleAddConfirmState extends State<SaleAddConfirm> {
                 DataCell(_buildRemoveButton(e))
               ]
           );
-        }
-
-        ).toList()
+        }).toList()
     );
   }
 
@@ -190,7 +188,8 @@ class _SaleAddConfirmState extends State<SaleAddConfirm> {
           onPressed: () {
             setState(() {
               widget.vData.remove(item);
-              print('remove: ${widget.vData}');
+              pay = pay - double.parse(item[SaleAddItem.total]);
+              print('${item[SaleAddItem.total]}');
             });
           },
           icon: FaIcon(FontAwesomeIcons.minusCircle,size: 20 , color: Colors.white,),
@@ -311,6 +310,17 @@ class _SaleAddConfirmState extends State<SaleAddConfirm> {
                 ])
         )
     );
+  }
+
+  vPayFunction() {
+    widget.vData.map((e)
+    {
+      double d = double.parse(e[SaleAddItem.total]);
+      vPay += d;
+    }).toList();
+    setState(() {
+      pay = vPay;
+    });
   }
 
 }

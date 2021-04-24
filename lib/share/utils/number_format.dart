@@ -1,5 +1,5 @@
 class FormatNumber {
-  static usdFormat2Digit(var vNumber) {
+  static usdFormat2Digit(String vNumber) {
     var pData = (vNumber.toString()).split('.');
     var pData0 = pData[0];
     var pData1 = '00';
@@ -11,7 +11,7 @@ class FormatNumber {
         pData1 = pData1.toString() + '0';
       }
     }
-    var vData = pData0.toString() + '.'+pData1.toString();
+    String vData = pData0.toString() + '.'+pData1.toString();
     return vData;
   }
 }

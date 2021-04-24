@@ -154,6 +154,7 @@ class _SaleScreenState extends State<SaleScreen> {
 
   Widget _buildAppBar() {
     return AppBar(
+      leading: Container(),
       backgroundColor: Colors.purple[900],
       title: Text('Sale of Products'),
       actions: [
