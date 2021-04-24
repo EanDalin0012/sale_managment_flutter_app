@@ -2,7 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:sale_managment/share/constant/constantcolor.dart';
 import 'package:sale_managment/share/constant/text_style.dart';
+import 'package:sale_managment/share/model/key/m_key.dart';
 
 class CustomerItems extends StatefulWidget {
   final Color color;
@@ -35,6 +38,13 @@ class _CustomerItemsState extends State<CustomerItems> {
     size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: _buildAppBar(),
+      body: Column(
+        children: <Widget>[
+          _container(),
+          this.vData.length > 0 ? _buildBody(): Container(),
+          SizedBox(height: 70,)
+        ],
+      ),
     );
   }
 
@@ -70,6 +80,81 @@ class _CustomerItemsState extends State<CustomerItems> {
           ],
         ),
       ): null,
+    );
+  }
+
+  Container _container() {
+    return Container(
+      color: Color(0xffd9dbdb).withOpacity(0.4),
+      width: size.width,
+      padding: EdgeInsets.only(
+          left: 20,
+          top: 10,
+          right: 20,
+          bottom: 10
+      ),
+      child:  Text(
+        'Package of Product List',
+        style: containStyle,
+      ),
+    );
+  }
+
+  Widget _buildBody () {
+    return Expanded(
+        child: new FutureBuilder(
+            future: _fetchItems(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return Center(child: CircularProgressIndicator());
+              } else {
+                return ListView.separated(
+                  itemCount: vData.length,
+                  separatorBuilder: (context, index) => Divider(
+                    color: Colors.purple[900].withOpacity(0.5),
+                  ),
+                  itemBuilder: (context, index) {
+                    return _buildListTile(
+                        customer: vData[index]
+                    );
+                  },
+                );
+                // return ListView(
+                //   children: items.map((e) => _buildListTile1(dataItem: e)).toList(),
+                // );
+              }
+            }
+        )
+    );
+  }
+
+  Widget _buildListTile({
+    @required Map customer
+  }) {
+    return ListTile(
+      // onTap: () => selectPackageProduct(dataItem),
+      title: Text( customer[CustomerKey.customerName],
+        style: TextStyle( color: Colors.black87, fontSize: 20, fontWeight: FontWeight.w700,fontFamily: fontFamilyDefault),
+      ),
+      leading: _buildLeading(url: 'url'),
+      subtitle: Text(
+        customer[CustomerKey.phone],
+        style: TextStyle(fontSize: 12,fontWeight: FontWeight.w700, fontFamily: fontFamilyDefault, color: primaryColor),
+      ),
+      trailing: Container(
+        width: 130,
+        child: _buildCheckIcon()
+      ),
+    );
+  }
+
+  Widget _buildCheckIcon() {
+    return Container(
+      margin: EdgeInsets.only(
+          top: 15,
+          left: 10
+      ),
+      child: Center(child: FaIcon(FontAwesomeIcons.checkCircle, size: 25 , color: Colors.deepPurple)),
     );
   }
 
@@ -120,6 +205,25 @@ class _CustomerItemsState extends State<CustomerItems> {
           //   }
           // }
         },
+      ),
+    );
+  }
+
+  Widget _buildLeading({
+  @required String url
+  }) {
+    var url = 'https://icons-for-free.com/iconfiles/png/512/part+1+p-1320568343314317876.png';
+    return Container(
+      width: 50,
+      height: 50,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(60)),
+        border: Border.all(color: Colors.grey, width: 2),
+      ),
+      child: CircleAvatar(
+        radius: 30.0,
+        backgroundImage:NetworkImage(url),
+        backgroundColor: Colors.transparent,
       ),
     );
   }
