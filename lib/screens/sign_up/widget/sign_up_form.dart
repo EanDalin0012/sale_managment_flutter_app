@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sale_managment/screens/constants.dart';
+import 'package:sale_managment/screens/sign_in/sign_in_screen.dart';
 import 'package:sale_managment/screens/size_config.dart';
 import 'package:sale_managment/screens/widgets/custom_surfix_icon/custom_surfix_icon.dart';
 import 'package:sale_managment/screens/widgets/default_button/default_button.dart';
@@ -53,7 +54,10 @@ class _SignUpFormState extends State<SignUpForm> {
                 if (_formKey.currentState.validate()) {
                   _formKey.currentState.save();
                   // if all are valid then go to success screen
-
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SignInScreen()),
+                  );
                 }
                 KeyboardUtil.hideKeyboard(context);
               },
