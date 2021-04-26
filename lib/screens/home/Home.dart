@@ -22,11 +22,6 @@ class _HomeState extends State<Home> {
   String _titleBar = 'Home';
   var isShowAppBar = true;
 
-  List<GlobalKey<NavigatorState>> _navigatorKeys = [
-    GlobalKey<NavigatorState>(),
-    GlobalKey<NavigatorState>(),
-    GlobalKey<NavigatorState>()
-  ];
   List<Widget> _widgetOptions = <Widget>[
     HomeScreen(),
     SaleScreen(),

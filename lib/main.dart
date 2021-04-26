@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sale_managment/screens/home/Home.dart';
 import 'package:flutter/services.dart';
+import 'package:sale_managment/screens/sign_in/sign_in_screen.dart';
 import 'package:sale_managment/screens/widgets/contry_dropdown/provider/country_provider.dart';
+import 'file:///E:/projects/sopheary/sale_managment/lib/screens/theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,24 +23,11 @@ class MyApp extends StatelessWidget {
     child: MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      theme: theme(),
+      home: SignInScreen(),
     )
   );
 
-  // @override
-  // Widget build1(BuildContext context) {
-  //   return MaterialApp(
-  //     debugShowCheckedModeBanner: false,
-  //     title: 'Flutter Demo',
-  //     theme: ThemeData(
-  //       primarySwatch: Colors.blue,
-  //     ),
-  //     home: MyHomePage(title: 'Flutter Demo Home Page'),
-  //   );
-  // }
 }
 
 class MyHomePage extends StatefulWidget {

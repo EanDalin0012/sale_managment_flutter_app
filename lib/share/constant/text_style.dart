@@ -6,4 +6,4 @@ var labelStyle = TextStyle(fontSize: 20, color: Colors.deepPurple, fontFamily: '
 var hintStyle = TextStyle(fontFamily: 'roboto');
 var containStyle = TextStyle(color: primaryColor, fontSize: 18, fontWeight: FontWeight.w500, fontFamily: 'roboto,khmer siemreap');
 var appBarStyle = TextStyle(fontFamily: 'roboto, khmer siemreap', fontWeight: FontWeight.w700);
-var fontFamilyDefault = 'roboto,khmer siemreap';
+var fontFamilyDefault = 'Muli,khmer siemreap';
