@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sale_managment/screens/size_config.dart';
+import 'package:sale_managment/share/constant/text_style.dart';
 
 const kPrimaryColor = Color(0xFFFF7643);
 const kPrimaryLightColor = Color(0xFFFFECDF);
@@ -18,6 +19,7 @@ final headingStyle = TextStyle(
   fontWeight: FontWeight.bold,
   color: Colors.black,
   height: 1.5,
+  fontFamily: fontFamilyDefault
 );
 
 const defaultDuration = Duration(milliseconds: 250);

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sale_managment/screens/constants.dart';
+import 'package:sale_managment/screens/sign_up/sign_up_screen.dart';
 import 'package:sale_managment/screens/size_config.dart';
 
 class NoAccountText extends StatelessWidget {
@@ -19,7 +20,7 @@ class NoAccountText extends StatelessWidget {
           style: TextStyle(fontSize: getProportionateScreenWidth(16)),
         ),
         GestureDetector(
-          onTap: () => onTabToSignUp(),
+          onTap: () => onTabToSignUp(context),
           child: Text(
             "Sign Up",
             style: TextStyle(
@@ -31,7 +32,11 @@ class NoAccountText extends StatelessWidget {
     );
   }
 
-  onTabToSignUp () {
+  onTabToSignUp (BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => SignUpScreen()),
+    );
     print('Sign Up Click');
   }
 }
