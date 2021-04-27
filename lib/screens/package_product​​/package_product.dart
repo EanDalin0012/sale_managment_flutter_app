@@ -10,6 +10,7 @@ import 'package:sale_managment/screens/widgets/product_dropdown/product_page.dar
 import 'package:sale_managment/share/components/show_dialog/show_dialog.dart';
 import 'package:sale_managment/share/constant/constantcolor.dart';
 import 'package:sale_managment/share/constant/text_style.dart';
+import 'package:sale_managment/share/helper/keyboard.dart';
 import 'package:sale_managment/share/model/product.dart';
 import 'package:sale_managment/share/model/package_product.dart';
 import 'package:sale_managment/share/services/load_data_local.dart';
@@ -50,11 +51,16 @@ class _PackageProductScreenState extends State<PackageProductScreen> {
     size = MediaQuery.of(context).size;
     return Scaffold(
         appBar: _buildAppBar(),
-        body: Column(
-          children: <Widget>[
-            _container(),
-            if (items.length > 0 ) _buildBody() else _buildLoadingScreen()
-          ],
+        body: InkWell(
+          onTap: () {
+            KeyboardUtil.hideKeyboard(context);
+          },
+          child: Column(
+            children: <Widget>[
+              _container(),
+              if (items.length > 0 ) _buildBody() else _buildLoadingScreen()
+            ],
+          ),
         ),
         floatingActionButton: _floatingActionButton()
     );
