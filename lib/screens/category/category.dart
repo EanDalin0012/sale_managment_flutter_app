@@ -36,8 +36,7 @@ class _CategoryState extends State<CategoryScreen> {
 
   AppBar _appBar() {
     return AppBar(
-      title: Text('Category', style: appBarStyle,),
-      backgroundColor: Colors.purple[900],
+      title: Text('Category', style: appBarStyle,)
     );
   }
 

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:sale_managment/share/constant/constantcolor.dart';
+import 'package:sale_managment/share/constant/text_style.dart';
 
 ThemeData theme() {
   return ThemeData(
     scaffoldBackgroundColor: Colors.white,
-    fontFamily: "Muli",
+    fontFamily: fontFamilyDefault,
     appBarTheme: appBarTheme(),
     textTheme: textTheme(),
     inputDecorationTheme: inputDecorationTheme(),
@@ -39,12 +40,12 @@ TextTheme textTheme() {
 
 AppBarTheme appBarTheme() {
   return AppBarTheme(
-    color: Colors.white,
-    elevation: 0,
+    color: Colors.purple[900],
+    elevation: 2,
     brightness: Brightness.light,
-    iconTheme: IconThemeData(color: Colors.black),
+    iconTheme: IconThemeData(color: Colors.white),
     textTheme: TextTheme(
-      headline6: TextStyle(color: Color(0XFF8B8B8B), fontSize: 18),
+      headline6: TextStyle(color: Colors.white, fontSize: 18),
     ),
   );
 }

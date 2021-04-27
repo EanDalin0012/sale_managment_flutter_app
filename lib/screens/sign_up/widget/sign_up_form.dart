@@ -42,12 +42,12 @@ class _SignUpFormState extends State<SignUpForm> {
         child: Column(
           children: <Widget>[
             buildEmailFormField(),
-            SizedBox(height: getProportionateScreenHeight(30)),
+            SizedBox(height: 30),
             buildPasswordFormField(),
-            SizedBox(height: getProportionateScreenHeight(30)),
+            SizedBox(height: 30),
             buildConformPassFormField(),
-            FormError(errors: errors),
-            SizedBox(height: getProportionateScreenHeight(40)),
+            // FormError(errors: errors),
+            SizedBox(height: 30),
             DefaultButton(
               text: "Continue",
               press: () {
@@ -102,7 +102,7 @@ class _SignUpFormState extends State<SignUpForm> {
 
   TextFormField buildPasswordFormField() {
     return TextFormField(
-      obscureText: true,
+      // obscureText: true,
       onSaved: (newValue) => password = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
@@ -161,7 +161,7 @@ class _SignUpFormState extends State<SignUpForm> {
         // If  you are using latest version of flutter then lable text and hint text shown like this
         // if you r using flutter less then 1.20.* then maybe this is not working properly
         floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon: CustomSurfFixIcon(svgIcon: "assets/icons/Mail.svg"),
+        suffixIcon: CustomSurfFixIcon( svgPaddingLeft: 15,svgIcon: "assets/icons/Mail.svg"),
       ),
     );
   }

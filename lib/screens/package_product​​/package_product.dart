@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sale_managment/screens/package_product%E2%80%8B%E2%80%8B/package_product_add.dart';
 import 'package:sale_managment/screens/package_product%E2%80%8B%E2%80%8B/package_product_edit.dart';
+import 'package:sale_managment/screens/size_config.dart';
 import 'package:sale_managment/screens/widgets/product_dropdown/product_page.dart';
 import 'package:sale_managment/share/components/show_dialog/show_dialog.dart';
 import 'package:sale_managment/share/constant/constantcolor.dart';
@@ -27,8 +29,6 @@ class _PackageProductScreenState extends State<PackageProductScreen> {
   var text = '';
   Size size ;
   var styleInput = TextStyle(color: Colors.black, fontSize: 17, fontWeight: FontWeight.w500, fontFamily: fontFamilyDefault);
-
-  TextEditingController _controller;
   // List<CategoryModel> categories = categoriesData;
   var menuStyle = TextStyle( color: Colors.purple[900], fontWeight: FontWeight.w500, fontFamily: fontFamilyDefault);
 
@@ -38,6 +38,13 @@ class _PackageProductScreenState extends State<PackageProductScreen> {
   ProductModel product;
   int itemLength = 0;
 
+
+  @override
+  void initState() {
+    this._fetchItems();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
@@ -46,7 +53,7 @@ class _PackageProductScreenState extends State<PackageProductScreen> {
         body: Column(
           children: <Widget>[
             _container(),
-            _buildBody()
+            if (items.length > 0 ) _buildBody()
           ],
         ),
         floatingActionButton: _floatingActionButton()
@@ -55,7 +62,6 @@ class _PackageProductScreenState extends State<PackageProductScreen> {
 
   Widget _buildAppBar() {
     return AppBar(
-      backgroundColor: Colors.purple[900],
       title: Text('Package of Product'),
       actions: [
         IconButton(
@@ -74,12 +80,11 @@ class _PackageProductScreenState extends State<PackageProductScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Container(
-              width: size.width - 60,
-              child: _buildSearchWidget(
-                text: controller.text,
-                // onChanged: (text) => setState(() => this.text = text),
-                hintText: 'Search by name', onTap: () {  },
-              ),
+                width: size.width - 60,
+                height: 65,
+                margin: EdgeInsets.only(left: 10),
+                padding: EdgeInsets.only(bottom: 10, top: 10),
+                child: _buildSearchField()
             ),
             _buildFilterByProduct()
           ],
@@ -90,27 +95,15 @@ class _PackageProductScreenState extends State<PackageProductScreen> {
 
   Widget _buildBody () {
     return Expanded(
-        child: new FutureBuilder(
-            future: _fetchItems(),
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-                return Center(child: CircularProgressIndicator());
-              } else {
-                return ListView.separated(
-                     itemCount: items.length,
-                      separatorBuilder: (context, index) => Divider(
-                        color: Colors.purple[900].withOpacity(0.5),
-                      ),
-                      itemBuilder: (context, index) {
-                       return _buildListTile(
-                        dataItem: items[index]
-                       );},
-                );
-                // return ListView(
-                //   children: items.map((e) => _buildListTile1(dataItem: e)).toList(),
-                // );
-              }
-            }
+        child: ListView.separated(
+          itemCount: items.length,
+          separatorBuilder: (context, index) => Divider(
+            color: Colors.purple[900].withOpacity(0.5),
+          ),
+          itemBuilder: (context, index) {
+            return _buildListTile(
+                dataItem: items[index]
+            );},
         )
     );
   }
@@ -118,9 +111,7 @@ class _PackageProductScreenState extends State<PackageProductScreen> {
   Widget _buildFilterByProduct() {
     return Container(
       height: 40,
-      // padding: EdgeInsets.only(
-      //   right: 3
-      // ),
+      margin: EdgeInsets.only(top: 12),
       child: IconButton(
         icon: FaIcon(FontAwesomeIcons.filter,size: 25 , color: Colors.white,),
         tooltip: 'Increase volume by 10',
@@ -137,61 +128,49 @@ class _PackageProductScreenState extends State<PackageProductScreen> {
           this.isFilterByProduct = true;
           setState(() {
             this.product = product;
+            this.items = this._doFilterByProduct(this.product);
           });
         },
       ),
     );
   }
 
-  Widget _buildSearchWidget({
-    @required String text,
-    @required String hintText,
-    @required VoidCallback onTap,
-    Widget leading,
-  }) {
-    final styleActive = TextStyle(color: Colors.black, fontSize: 15);
-    final styleHint = TextStyle(color: Colors.black54);
-    final style = text.isEmpty ? styleHint : styleActive;
-    return Container(
-      height: 40,
-      margin: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        color: Colors.white,
-      ),
-      padding: const EdgeInsets.symmetric(horizontal: 8),
-      child: TextField(
-        controller: controller,
-
-        decoration: InputDecoration(
-          icon: InkWell(
-              onTap: () {
-                print('data search');
-              },
-              child: Icon(Icons.search, color: style.color)),
-          suffixIcon: text.isNotEmpty ? GestureDetector(
-            child: Icon(Icons.close, color: style.color),
-            onTap: () {
-              controller.clear();
-              FocusScope.of(context).requestFocus(FocusNode());
-            },
-          ) : null,
-          hintText: hintText,
-          hintStyle: style,
-          border: InputBorder.none,
-        ),
-        style: styleInput,
-        onChanged: (value) {
+  TextFormField _buildSearchField() {
+    return TextFormField(
+      keyboardType: TextInputType.emailAddress,
+      style: TextStyle(color: Colors.white, fontSize: 20),
+      // onSaved: (newValue) => email = newValue,
+      onChanged: (value) {
+        print('${value}');
+        this.isItemChanged = true;
+        if(value != null || value.trim() != '') {
           this.isItemChanged = true;
           if(value != null || value.trim() != '') {
-            this.isItemChanged = true;
-            if(value != null || value.trim() != '') {
-              setState(() {
-                items = onItemChanged(value);
-              });
-            }
+            setState(() {
+              items = onItemChanged(value);
+            });
           }
-        },
+        }
+      },
+      decoration: InputDecoration(
+        labelStyle: TextStyle(color: Colors.white, fontSize: 20),
+        hintText: "Enter your email",
+        hintStyle: TextStyle(color: Colors.white),
+          contentPadding: EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
+        fillColor: Colors.white,
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(25.0),
+            borderSide: BorderSide(
+              color: Colors.white54,
+            ),
+          ),
+        enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(25.0),
+            borderSide: BorderSide(
+              color: Colors.white54,
+            ),
+        ),
+        prefixIcon: _buildSvgSurfFixIcon(svgPaddingLeft: 15, svgIcon: "assets/icons/Search Icon.svg")
       ),
     );
   }
@@ -360,10 +339,6 @@ class _PackageProductScreenState extends State<PackageProductScreen> {
           right: 20,
           bottom: 10
       ),
-      // child:  Text(
-      //   'Package of Product List',
-      //   style: containStyle,
-      // ),
       child:  Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -377,27 +352,33 @@ class _PackageProductScreenState extends State<PackageProductScreen> {
     );
   }
 
+  Widget _buildSvgSurfFixIcon( {
+    double svgPaddingLeft,
+    String svgIcon
+  }) {
+    double left = 0;
+    if(svgPaddingLeft != null) {
+      left = svgPaddingLeft;
+    }
+    return Padding(
+      padding: EdgeInsets.fromLTRB( left,10,10,10),
+      child: SvgPicture.asset(
+        svgIcon,
+        color: Colors.white,
+        height: getProportionateScreenWidth(19)
+      ),
+    );
+  }
+
+
   onItemChanged(String value) {
+    print('value ${value}');
     var dataItems = itemsTmp.where((e) => e.name.toLowerCase().contains(value.toLowerCase())).toList();
+    print('value ${dataItems}');
     return dataItems;
   }
 
   _fetchItems() async {
-    if(isItemChanged == true) {
-      if(controller.text != null) {
-        setState(() {
-          isItemChanged = true;
-          items = onItemChanged(controller.text);
-        });
-      }
-      return items;
-    } else if(isFilterByProduct == true) {
-      this.items = this._doFilterByProduct(this.product);
-      return items;
-    } else if(this.isNative == false && this.itemsTmp.length > 0) {
-      this.items = itemsTmp;
-      return this.items;
-    } else {
       final data = await rootBundle.loadString(
           'assets/json_data/package_of_product_list.json');
       Map valueMap = jsonDecode(data);
@@ -405,13 +386,13 @@ class _PackageProductScreenState extends State<PackageProductScreen> {
       var arrObjs = dataItems.map<PackageProductModel>((json) {
         return PackageProductModel.fromJson(json);
       }).toList();
-
-
-      this.items = arrObjs;
-      this.itemsTmp = this.items;
+      setState(() {
+        this.items = arrObjs;
+        this.itemsTmp = this.items;
+      });
       _fetchProductItems();
       return this.items;
-    }
+
   }
 
   _fetchProductItems() {

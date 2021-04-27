@@ -42,7 +42,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Colors.white60,
       body: CustomScrollView(
           slivers: <Widget>[
             SliverToBoxAdapter(

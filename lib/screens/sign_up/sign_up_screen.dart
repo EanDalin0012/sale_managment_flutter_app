@@ -6,6 +6,8 @@ class SignUpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.purple[900],
+        foregroundColor: Colors.purple[900],
         title: Text("Sign Up"),
       ),
       body: SignUpBody(),

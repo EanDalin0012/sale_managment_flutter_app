@@ -225,7 +225,6 @@ class _HomeState extends State<Home> {
     return Scaffold(
         appBar: isShowAppBar ? _appBar(): null,
         drawer: SideNave(),
-        backgroundColor: Colors.black12.withOpacity(0.1),
         bottomNavigationBar: _bottomNavigationBar(),
         body: WillPopScope(
             onWillPop: _onBackPressed,
