@@ -53,7 +53,7 @@ class _PackageProductScreenState extends State<PackageProductScreen> {
         body: Column(
           children: <Widget>[
             _container(),
-            if (items.length > 0 ) _buildBody()
+            if (items.length > 0 ) _buildBody() else _buildLoadingScreen()
           ],
         ),
         floatingActionButton: _floatingActionButton()
@@ -366,6 +366,16 @@ class _PackageProductScreenState extends State<PackageProductScreen> {
         svgIcon,
         color: Colors.white,
         height: getProportionateScreenWidth(19)
+      ),
+    );
+  }
+
+  Widget _buildLoadingScreen() {
+    return Center(
+      child: Container(
+        width: 50,
+        height: 50,
+        child: CircularProgressIndicator(),
       ),
     );
   }
