@@ -47,34 +47,17 @@ class _SignFormState extends State<SignForm> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Container(
-                  width: 200,
-                  child: CheckboxListTile(
-                    controlAffinity: ListTileControlAffinity.leading,
-                    title: Text('Remember me'),
-                    autofocus: true,
-                    activeColor: Colors.green,
-                    checkColor: Colors.white,
-                    selected: _checked,
-                    value: _checked,
-                    onChanged: (bool value) {
-                      setState(() {
-                        _checked = value;
-                      });
-                    },
-                  ),
+                Checkbox(
+                  value: remember,
+                  activeColor: kPrimaryColor,
+                  onChanged: (value) {
+                    setState(() {
+                      remember = value;
+                    });
+                  },
                 ),
-                // Checkbox(
-                //   value: remember,
-                //   activeColor: kPrimaryColor,
-                //   onChanged: (value) {
-                //     setState(() {
-                //       remember = value;
-                //     });
-                //   },
-                // ),
-                // Text("Remember me"),
-                // Spacer(),
+                Text("Remember me"),
+                Spacer(),
                 GestureDetector(
                   onTap: () => onTapForgotPassword(),
                   child: Text(

@@ -3,7 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sale_managment/screens/category/category.dart';
 import 'package:sale_managment/screens/customer/Customer.dart';
 import 'package:sale_managment/screens/package_product%E2%80%8B%E2%80%8B/package_product.dart';
-import 'package:sale_managment/screens/product/Product.dart';
+import 'package:sale_managment/screens/product/product.dart';
 import 'package:sale_managment/share/constant/text_style.dart';
 
 class SheetContainer extends StatefulWidget {
@@ -130,7 +130,7 @@ class _SheetContainerState extends State<SheetContainer> {
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => Product()),
+              MaterialPageRoute(builder: (context) => ProductScreen()),
             );
           },
           child: Container(
@@ -229,7 +229,7 @@ class _SheetContainerState extends State<SheetContainer> {
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => Product()),
+              MaterialPageRoute(builder: (context) => ProductScreen()),
             );
           },
           child: Container(
