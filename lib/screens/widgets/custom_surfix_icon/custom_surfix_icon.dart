@@ -17,7 +17,6 @@ class CustomSurfFixIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     SizeConfig.init(context);
     double left = 0;
-    print('pp ${this.svgPaddingLeft}');
     if(this.svgPaddingLeft != null) {
       left = this.svgPaddingLeft;
     }

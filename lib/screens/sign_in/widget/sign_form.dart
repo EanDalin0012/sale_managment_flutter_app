@@ -6,6 +6,7 @@ import 'package:sale_managment/screens/widgets/custom_surfix_icon/custom_surfix_
 import 'package:sale_managment/screens/widgets/default_button/default_button.dart';
 import 'package:sale_managment/screens/widgets/form_error/form_error.dart';
 import 'package:sale_managment/share/helper/keyboard.dart';
+import 'package:sale_managment/screens/forgot_password/forgot_password_screen.dart';
 
 class SignForm extends StatefulWidget {
   @override
@@ -18,7 +19,7 @@ class _SignFormState extends State<SignForm> {
   String password;
   bool remember = false;
   final List<String> errors = [];
-
+  var _checked = false;
   void addError({String error}) {
     if (!errors.contains(error))
       setState(() {
@@ -44,18 +45,36 @@ class _SignFormState extends State<SignForm> {
             buildPasswordFormField(),
             SizedBox(height: getProportionateScreenHeight(30)),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Checkbox(
-                  value: remember,
-                  activeColor: kPrimaryColor,
-                  onChanged: (value) {
-                    setState(() {
-                      remember = value;
-                    });
-                  },
+                Container(
+                  width: 200,
+                  child: CheckboxListTile(
+                    controlAffinity: ListTileControlAffinity.leading,
+                    title: Text('Remember me'),
+                    autofocus: true,
+                    activeColor: Colors.green,
+                    checkColor: Colors.white,
+                    selected: _checked,
+                    value: _checked,
+                    onChanged: (bool value) {
+                      setState(() {
+                        _checked = value;
+                      });
+                    },
+                  ),
                 ),
-                Text("Remember me"),
-                Spacer(),
+                // Checkbox(
+                //   value: remember,
+                //   activeColor: kPrimaryColor,
+                //   onChanged: (value) {
+                //     setState(() {
+                //       remember = value;
+                //     });
+                //   },
+                // ),
+                // Text("Remember me"),
+                // Spacer(),
                 GestureDetector(
                   onTap: () => onTapForgotPassword(),
                   child: Text(
@@ -154,6 +173,11 @@ class _SignFormState extends State<SignForm> {
   }
 
   onTapForgotPassword() {
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => ForgotPasswordScreen()),
+    );
     print('Forgot Password Click');
   }
 
