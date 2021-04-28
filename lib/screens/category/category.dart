@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sale_managment/screens/category/add_category.dart';
 import 'package:sale_managment/screens/category/edit_category.dart';
+import 'package:sale_managment/screens/home/Home.dart';
 import 'package:sale_managment/share/components/show_dialog/show_dialog.dart';
 import 'package:sale_managment/share/constant/constantcolor.dart';
 import 'package:sale_managment/share/constant/text_style.dart';
@@ -22,20 +23,37 @@ class _CategoryState extends State<CategoryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: _appBar(),
-        body: Column(
-          children: <Widget>[
-            isSearch ? _containerSearch() : _container(),
-            _mainTransactionBody()
-          ],
-        ),
-      floatingActionButton: _floatingActionButton()
+    return WillPopScope(
+      onWillPop:  () async {
+        return Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => Home()),
+        );
+      },
+      child: Scaffold(
+          appBar: _appBar(),
+          body: Column(
+            children: <Widget>[
+              isSearch ? _containerSearch() : _container(),
+              _mainTransactionBody()
+            ],
+          ),
+        floatingActionButton: _floatingActionButton()
+      ),
     );
   }
 
   AppBar _appBar() {
     return AppBar(
+      leading: IconButton(
+        icon: Icon(Icons.arrow_back),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Home()),
+          );
+        },
+      ),
       title: Text('Category', style: appBarStyle,)
     );
   }
