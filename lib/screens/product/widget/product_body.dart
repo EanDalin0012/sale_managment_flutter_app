@@ -1,38 +1,55 @@
 import 'package:flutter/material.dart';
-import 'package:sale_managment/screens/constants.dart';
-import 'package:sale_managment/screens/size_config.dart';
-import 'package:sale_managment/screens/product/widget/product_form_add.dart';
+import 'package:sale_managment/share/constant/text_style.dart';
 
 class ProductBody extends StatelessWidget {
+  int vDataLength = 0;
+  Size size;
+  List<dynamic> vData = [];
   @override
   Widget build(BuildContext context) {
+    size =  MediaQuery.of(context).size;
     return SafeArea(
-      child: Container(
-        height: MediaQuery.of(context).size.height,
-        child: SizedBox(
-          width: double.infinity,
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
-            child: SingleChildScrollView(
-              child: Container(
-                child: Column(
-                  children: <Widget>[
-                    SizedBox(height: SizeConfig.screenHeight * 0.04), // 4%
-                    Text("Register Product", style: headingStyle),
-                    Text(
-                      "Complete your details",
-                      textAlign: TextAlign.center,
-                    ),
-                    SizedBox(height: SizeConfig.screenHeight * 0.04),
-                    ProductFormAdd(),
-                  ],
-                ),
-              ),
-            ),
-
-          ),
+        child: Column(
+          children: <Widget>[
+            _container(),
+            // if (vDataLength > 0 ) _buildBody() else _buildLoadingScreen()
+          ],
         ),
+    );
+  }
+
+  Container _container() {
+    this.vDataLength = this.vData.length;
+    return Container(
+      color: Color(0xffd9dbdb).withOpacity(0.4),
+      width: size.width,
+      padding: EdgeInsets.only(
+          left: 20,
+          top: 10,
+          right: 20,
+          bottom: 10
+      ),
+      child:  Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Text(
+            'Package of Product List',
+            style: containStyle,
+          ),
+          Text(this.vDataLength.toString(), style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.w700, fontFamily: fontFamilyDefault),)
+        ],
       ),
     );
   }
+
+  Widget _buildLoadingScreen() {
+    return Center(
+      child: Container(
+        width: 50,
+        height: 50,
+        child: CircularProgressIndicator(),
+      ),
+    );
+  }
+
 }
