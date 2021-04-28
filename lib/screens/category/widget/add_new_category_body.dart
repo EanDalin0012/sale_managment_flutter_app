@@ -26,27 +26,6 @@ class AddNewCategoryBody extends StatelessWidget {
               ),
             )
           ),
-          // child: Column(
-          //   children: <Widget>[
-          //     Padding(
-          //       padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
-          //       child: SingleChildScrollView(
-          //         child: Column(
-          //           children: <Widget>[
-          //             SizedBox(height: SizeConfig.screenHeight * 0.04), // 4%
-          //             Text("Register Category", style: headingStyle),
-          //             Text(
-          //               "Complete your details",
-          //               textAlign: TextAlign.center,
-          //             ),
-          //             SizedBox(height: SizeConfig.screenHeight * 0.08),
-          //             AddNewCategoryForm()
-          //           ],
-          //         ),
-          //       ),
-          //     ),
-          //   ],
-          // ),
       ),
     );
   }
