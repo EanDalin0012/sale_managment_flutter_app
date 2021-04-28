@@ -27,7 +27,6 @@ class _SheetContainerState extends State<SheetContainer> {
     Size size = MediaQuery.of(context).size;
     double w = (size.width / 3) - 25;
     double h = w - 20;
-    print('w:$w,h:$h');
     return Container(
       color: Color(0xFF737373),
       child: Container(
@@ -193,7 +192,7 @@ class _SheetContainerState extends State<SheetContainer> {
       children: <Widget>[
         InkWell(
           onTap: () {
-            Navigator.pop(widget.context);
+            pop();
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) =>
@@ -227,6 +226,7 @@ class _SheetContainerState extends State<SheetContainer> {
         ),
         InkWell(
           onTap: () {
+            pop();
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => ProductScreen()),
@@ -377,6 +377,10 @@ class _SheetContainerState extends State<SheetContainer> {
         ),
       ],
     );
+  }
+
+  pop() {
+    Navigator.pop(widget.context);
   }
 
 }
