@@ -10,6 +10,7 @@ import 'package:sale_managment/share/constant/text_style.dart';
 import 'package:sale_managment/share/helper/keyboard.dart';
 import 'package:sale_managment/share/model/key/m_key.dart';
 import 'package:sale_managment/screens/product/new_product.dart';
+import 'package:sale_managment/screens/product/edit_product.dart';
 
 class ProductScreen extends StatefulWidget {
   @override
@@ -250,12 +251,10 @@ class _ProductScreenState extends State<ProductScreen> {
     onSelected: (value) {
       print('index ${value}');
       if(value == 0) {
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(builder: (context) =>
-        //       PackageProductEdit(packageProduct: item)
-        //   ),
-        // );
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => EditProduct(productItem: item)),
+        );
       } else if (value == 1) {
         _showDialog(item);
       }

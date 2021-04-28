@@ -4,13 +4,18 @@ import 'package:sale_managment/screens/size_config.dart';
 import 'package:sale_managment/screens/widgets/custom_surfix_icon/custom_surfix_icon.dart';
 import 'package:sale_managment/screens/widgets/default_button/default_button.dart';
 import 'package:sale_managment/share/helper/keyboard.dart';
+import 'package:sale_managment/share/model/key/m_key.dart';
 
-class ProductFormAdd extends StatefulWidget {
+class ProductFormEdit extends StatefulWidget {
+  final Map productItem;
+  ProductFormEdit({this.productItem});
+
   @override
-  _ProductFormAddState createState() => _ProductFormAddState();
+  _ProductFormEditState createState() => _ProductFormEditState();
 }
 
-class _ProductFormAddState extends State<ProductFormAdd> {
+class _ProductFormEditState extends State<ProductFormEdit> {
+
   final _formKey = GlobalKey<FormState>();
   String email;
   String password;
@@ -18,6 +23,12 @@ class _ProductFormAddState extends State<ProductFormAdd> {
   bool remember = false;
   final List<String> errors = [];
   Size size;
+
+  var nameController = new TextEditingController();
+  var categoryController = new TextEditingController();
+  var browController = new TextEditingController();
+  var remarkController = new TextEditingController();
+
   void addError({String error}) {
     if (!errors.contains(error))
       setState(() {
@@ -35,43 +46,48 @@ class _ProductFormAddState extends State<ProductFormAdd> {
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
+    nameController.text = widget.productItem[ProductKey.name];
+    categoryController.text = widget.productItem[ProductKey.category];
+    remarkController.text = widget.productItem[ProductKey.remark];
+
     return Form(
         key: _formKey,
         child: Column(
-            children: <Widget>[
-              _buildNameField(),
-              SizedBox(height: SizeConfig.screenHeight * 0.02),
-              _buildCategoryField(),
-              SizedBox(height: SizeConfig.screenHeight * 0.02),
-              _buildBrowsField(),
-              SizedBox(height: SizeConfig.screenHeight * 0.02),
-              _buildRemarkField(),
-              SizedBox(height: SizeConfig.screenHeight * 0.04),
-              DefaultButton(
-                text: "Save",
-                color: Colors.red,
-                borderRadiusCircular: 25,
-                press: () {
-                  if (_formKey.currentState.validate()) {
-                    _formKey.currentState.save();
-                    // if all are valid then go to success screen
+          children: <Widget>[
+            _buildNameField(),
+            SizedBox(height: SizeConfig.screenHeight * 0.02),
+            _buildCategoryField(),
+            SizedBox(height: SizeConfig.screenHeight * 0.02),
+            _buildBrowsField(),
+            SizedBox(height: SizeConfig.screenHeight * 0.02),
+            _buildRemarkField(),
+            SizedBox(height: SizeConfig.screenHeight * 0.04),
+            DefaultButton(
+              text: "Update",
+              color: Colors.red,
+              borderRadiusCircular: 25,
+              press: () {
+                if (_formKey.currentState.validate()) {
+                  _formKey.currentState.save();
+                  // if all are valid then go to success screen
 
-                  }
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) => Home()),
-                  // );
-                  KeyboardUtil.hideKeyboard(context);
-                },
-              )
-            ]
+                }
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => Home()),
+                // );
+                KeyboardUtil.hideKeyboard(context);
+              },
+            )
+          ],
         )
     );
   }
 
   TextFormField _buildNameField() {
     return TextFormField(
-      keyboardType: TextInputType.emailAddress,
+      keyboardType: TextInputType.text,
+      controller: nameController,
       onSaved: (newValue) => email = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
@@ -97,14 +113,15 @@ class _ProductFormAddState extends State<ProductFormAdd> {
         // If  you are using latest version of flutter then lable text and hint text shown like this
         // if you r using flutter less then 1.20.* then maybe this is not working properly
         floatingLabelBehavior: FloatingLabelBehavior.always,
-          suffixIcon: CustomSurfFixIcon( svgPaddingLeft: 15,svgIcon: "assets/icons/help_outline_black_24dp.svg"),
+        suffixIcon: CustomSurfFixIcon( svgPaddingLeft: 15,svgIcon: "assets/icons/help_outline_black_24dp.svg"),
       ),
     );
   }
 
   TextFormField _buildRemarkField() {
     return TextFormField(
-      keyboardType: TextInputType.emailAddress,
+      keyboardType: TextInputType.text,
+      controller: remarkController,
       onSaved: (newValue) => email = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
@@ -138,6 +155,7 @@ class _ProductFormAddState extends State<ProductFormAdd> {
   TextFormField _buildCategoryField() {
     return TextFormField(
       keyboardType: TextInputType.emailAddress,
+      controller: categoryController,
       onSaved: (newValue) => email = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
@@ -170,7 +188,7 @@ class _ProductFormAddState extends State<ProductFormAdd> {
 
   TextFormField _buildBrowsField() {
     return TextFormField(
-      keyboardType: TextInputType.emailAddress,
+      keyboardType: TextInputType.text,
       onSaved: (newValue) => email = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
