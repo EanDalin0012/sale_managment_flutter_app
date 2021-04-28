@@ -25,25 +25,6 @@ class ProductBody extends StatelessWidget {
                     ),
                     SizedBox(height: SizeConfig.screenHeight * 0.04),
                     ProductFormAdd(),
-                    Stack(
-                      children: <Widget>[
-                        InkWell(
-                          onTap: () {
-
-                          },
-                          child: Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: 45,
-                            color: Colors.red,
-                            // margin: EdgeInsets.only(
-                            //   left: 5,
-                            //   right: 5
-                            // ),
-                            child: Center(child: Text('SAVE', style: TextStyle(fontWeight: FontWeight.w700, color: Colors.white, fontFamily: 'roboto', fontSize: 18))),
-                          ),
-                        ),
-                      ],
-                    )
                   ],
                 ),
               ),

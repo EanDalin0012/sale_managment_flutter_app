@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:sale_managment/screens/constants.dart';
 import 'package:sale_managment/screens/size_config.dart';
 import 'package:sale_managment/screens/widgets/custom_surfix_icon/custom_surfix_icon.dart';
+import 'package:sale_managment/screens/widgets/default_button/default_button.dart';
+import 'package:sale_managment/share/helper/keyboard.dart';
 
 class ProductFormAdd extends StatefulWidget {
   @override
@@ -42,7 +44,24 @@ class _ProductFormAddState extends State<ProductFormAdd> {
               _buildCategoryField(),
               SizedBox(height: SizeConfig.screenHeight * 0.02),
               _buildRemarkField(),
-              SizedBox(height: SizeConfig.screenHeight * 0.02),
+              SizedBox(height: SizeConfig.screenHeight * 0.04),
+              DefaultButton(
+                text: "Save",
+                color: Colors.red,
+                borderRadiusCircular: 25,
+                press: () {
+                  if (_formKey.currentState.validate()) {
+                    _formKey.currentState.save();
+                    // if all are valid then go to success screen
+
+                  }
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(builder: (context) => Home()),
+                  // );
+                  KeyboardUtil.hideKeyboard(context);
+                },
+              )
             ]
         )
     );
